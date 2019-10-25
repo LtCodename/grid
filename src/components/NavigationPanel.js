@@ -51,7 +51,7 @@ class NavigationPanel extends React.Component {
                             <NavLink to="/drivers-standings"><Tab className="btn navigationButton">Drivers Standings</Tab></NavLink>
                         </li>
                         <li>
-                            <NavLink to="/constructor-standings"><Tab className="btn navigationButton">Constructor Standings</Tab></NavLink>
+                            <NavLink to="/constructors-standings"><Tab className="btn navigationButton">Constructor Standings</Tab></NavLink>
                         </li>
                         <li>
                             <NavLink to="/drivers"><Tab className="btn navigationButton">Drivers</Tab></NavLink>

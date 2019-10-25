@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
 
-class DriverStandings extends React.Component {
+class DriversStandings extends React.Component {
     constructor(props) {
         super(props);
 
@@ -19,4 +19,4 @@ class DriverStandings extends React.Component {
     }
 }
 
-export default DriverStandings;
+export default DriversStandings;
