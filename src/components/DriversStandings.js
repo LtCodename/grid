@@ -1,5 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
+import {ComponentRestricted} from "../sharedStyles";
 
 class DriversStandings extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class DriversStandings extends React.Component {
         return (
             <>
                 <NavigationPanel />
-                <p>DriverStandings</p>
+                <ComponentRestricted>
+                    <p>Driver Standings</p>
+                </ComponentRestricted>
             </>
         )
     }

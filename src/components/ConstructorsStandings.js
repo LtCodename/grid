@@ -1,5 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
+import {ComponentRestricted} from "../sharedStyles";
 
 class ConstructorsStandings extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class ConstructorsStandings extends React.Component {
         return (
             <>
                 <NavigationPanel />
-                <p>ConstructorsStandings</p>
+                <ComponentRestricted>
+                    <p>Constructors Standings</p>
+                </ComponentRestricted>
             </>
         )
     }

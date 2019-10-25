@@ -22,10 +22,6 @@ const Tab = styled.button`
     padding: 10px;
     cursor: pointer;
     margin: 0 5px;
-    
-    /*:hover {
-        background: white;
-    }*/
 `;
 
 class NavigationPanel extends React.Component {
@@ -45,7 +41,7 @@ class NavigationPanel extends React.Component {
                             <NavLink to="/dashboard"><Tab className="btn navigationButton">Dashboard</Tab></NavLink>
                         </li>
                         <li>
-                            <NavLink to="/season2019"><Tab className="btn navigationButton">2019 Season</Tab></NavLink>
+                            <NavLink to="/season-2019"><Tab className="btn navigationButton">2019 Season</Tab></NavLink>
                         </li>
                         <li>
                             <NavLink to="/drivers-standings"><Tab className="btn navigationButton">Drivers Standings</Tab></NavLink>

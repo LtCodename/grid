@@ -1,5 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
+import {ComponentRestricted} from "../sharedStyles";
 /*import styled from "styled-components";
 
 const NavBar = styled.nav`
@@ -18,7 +19,9 @@ class Dashboard extends React.Component {
         return (
             <>
                <NavigationPanel />
-                <p>Dashboard</p>
+                <ComponentRestricted>
+                    <p>Dashboard</p>
+                </ComponentRestricted>
             </>
         )
     }

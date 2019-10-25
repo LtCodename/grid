@@ -3,10 +3,13 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Dashboard from "./components/Dashboard";
 import Season2019 from "./components/Season2019";
-import DriversStandings from "./components/DriversStandings";
 import ConstructorsStandings from "./components/ConstructorsStandings";
 import Teams from "./components/Teams";
 import Drivers from "./components/Drivers";
+import teamsReducerActions from './redux/reducers/teamsReducer';
+import { connect } from 'react-redux'
+import TeamPage from "./components/TeamPage";
+import DriversStandings from "./components/DriversStandings";
 
 declare var firebase;
 
@@ -35,14 +38,12 @@ class App extends React.Component {
     }
 
     fetchEverything = () => {
-        this.fetchSeason2019();
+        this.fetchTeams();
     };
 
-    fetchSeason2019() {
-        firebase.firestore().collection('season-2019').orderBy("name").onSnapshot(snapshot => {
-            snapshot.forEach(doc => {
-                console.log(doc.data());
-            });
+    fetchTeams() {
+        firebase.firestore().collection('teams').orderBy("name").onSnapshot(snapshot => {
+            this.props.fetchTeams(snapshot);
         }, error => {
             console.log(error.message);
         });
@@ -53,11 +54,12 @@ class App extends React.Component {
             <>
                 <Switch>
                     <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/season2019" component={Season2019} />
+                    <Route exact path="/teams" component={Teams} />
                     <Route path="/drivers-standings" component={DriversStandings} />
+                    <Route path="/season-2019" component={Season2019} />
                     <Route path="/constructors-standings" component={ConstructorsStandings} />
-                    <Route path="/teams" component={Teams} />
                     <Route path="/drivers" component={Drivers} />
+                    <Route path="/teams/:team_id" component={TeamPage} />
                     <Redirect to="/dashboard" />
                 </Switch>
                 <GlobalStyles />
@@ -66,4 +68,14 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchTeams: (snapshot) => {
+            dispatch({ type: teamsReducerActions.actions.TEAMS_FETCH, snapshot: snapshot });
+        }
+    }
+};
+
+const AppConnected = connect(null, mapDispatchToProps)(App);
+
+export default AppConnected;
