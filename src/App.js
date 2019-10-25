@@ -1,25 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
+import Dashboard from "./components/Dashboard";
+import Season2019 from "./components/Season2019";
+import DriverStandings from "./components/DriverStandings";
+import ConstructorsStandings from "./components/ConstructorsStandings";
+import Teams from "./components/Teams";
+import Drivers from "./components/Drivers";
+
+const GlobalStyles = createGlobalStyle`
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #fff9de;
+  }
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+          <Switch>
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/season2019" component={Season2019} />
+              <Route path="/driver-standings" component={DriverStandings} />
+              <Route path="/constructors-standings" component={ConstructorsStandings} />
+              <Route path="/teams" component={Teams} />
+              <Route path="/drivers" component={Drivers} />
+              <Redirect to="/dashboard" />
+          </Switch>
+          <GlobalStyles />
+      </>
   );
 }
 
