@@ -15,13 +15,14 @@ const TabsWrapper = styled.ul`
     justify-content: center;
     list-style: none;
     margin-bottom: 0;
+    flex-wrap: wrap;
 `;
 
 const Tab = styled.button`
     margin: 0;
     padding: 10px;
     cursor: pointer;
-    margin: 0 5px;
+    margin: 5px;
 `;
 
 class NavigationPanel extends React.Component {
