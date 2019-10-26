@@ -30,6 +30,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
+            teamsDataLoaded: false
         };
     }
 
@@ -44,13 +45,16 @@ class App extends React.Component {
     fetchTeams() {
         firebase.firestore().collection('teams').orderBy("name").onSnapshot(snapshot => {
             this.props.fetchTeams(snapshot);
+            this.setState({
+                teamsDataLoaded: true
+            })
         }, error => {
             console.log(error.message);
         });
     }
 
     render() {
-        return (
+        const allContent = (
             <>
                 <Switch>
                     <Route path="/dashboard" component={Dashboard} />
@@ -62,6 +66,12 @@ class App extends React.Component {
                     <Route path="/teams/:team_id" component={TeamPage} />
                     <Redirect to="/dashboard" />
                 </Switch>
+            </>
+        );
+
+        return (
+            <>
+                {this.state.teamsDataLoaded ? allContent : ""}
                 <GlobalStyles />
             </>
         );

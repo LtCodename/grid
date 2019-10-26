@@ -2,6 +2,12 @@ import React from 'react';
 import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted} from "../sharedStyles";
 import {connect} from "react-redux";
+import styled from "styled-components";
+
+const TeamInformationTable = styled.table`
+    margin: 0 auto;
+    width: 50%;
+`;
 
 class TeamPage extends React.Component {
     constructor(props) {
@@ -17,34 +23,65 @@ class TeamPage extends React.Component {
     }
 
     getTeamData = (teamId) => {
-        console.log(this.props.teams)
-        const teamData = this.props.teams.filter(team => {
+        const teamData = this.props.teams.find(team => {
             return team.id === teamId;
         });
 
         this.setState(
             {
                 teamData
-            }, () => {
-                //console.log(this.state.teamData)
             }
         );
     };
 
     render() {
         const teamDataToDisplay = (
-            this.state.teamData.map((elem, index) => {
-                return (
-                    <p key={index}>Bla</p>
-                )
-            })
+            <TeamInformationTable className="table teamInformationTable">
+                <tbody>
+                <tr>
+                    <th scope="row">Team name</th>
+                    <td className="makeItFlex">{this.state.teamData['name-full']}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Country</th>
+                    <td className="makeItFlex">{this.state.teamData.country}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Debut year</th>
+                    <td className="makeItFlex">{this.state.teamData['debut-year']}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Engine manufacturer</th>
+                    <td className="makeItFlex">{this.state.teamData.engine}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Team principal</th>
+                    <td className="makeItFlex">{this.state.teamData['team-principal']}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Constructors championships</th>
+                    <td className="makeItFlex">{this.state.teamData['constructors-championships']}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Drivers championships</th>
+                    <td className="makeItFlex">{this.state.teamData['drivers-championships']}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Wins</th>
+                    <td className="makeItFlex">{this.state.teamData.wins}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Pole positions</th>
+                    <td className="makeItFlex">{this.state.teamData.poles}</td>
+                </tr>
+                </tbody>
+            </TeamInformationTable>
         );
 
         return (
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <p>{`Team Name: ${this.props.match.params.team_id}`}</p>
                     {teamDataToDisplay}
                 </ComponentRestricted>
             </>
