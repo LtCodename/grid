@@ -3,10 +3,18 @@ import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted} from "../sharedStyles";
 import {connect} from "react-redux";
 import styled from "styled-components";
+import EditTeamForm from "./EditTeamForm";
 
 const TeamInformationTable = styled.table`
     margin: 0 auto;
     width: 50%;
+`;
+
+const EditTeamButton = styled.button`
+    margin: 0;
+    padding: 5px;
+    cursor: pointer;
+    margin: 0 5px 5px 0;
 `;
 
 class TeamPage extends React.Component {
@@ -14,25 +22,22 @@ class TeamPage extends React.Component {
         super(props);
 
         this.state = {
-            teamData: []
+            teamData: [],
+            editTeamMode: false
         };
     }
 
-    componentDidMount() {
-        this.getTeamData(this.props.match.params.team_id);
+    onEditTeam = () => {
+        if (!this.state.editTeamMode) {
+            this.setState({
+                editTeamMode: true
+            })
+        }else {
+            this.setState({
+                editTeamMode: false
+            })
+        }
     }
-
-    getTeamData = (teamId) => {
-        const teamData = this.props.teams.find(team => {
-            return team.id === teamId;
-        });
-
-        this.setState(
-            {
-                teamData
-            }
-        );
-    };
 
     render() {
         const teamDataToDisplay = (
@@ -40,39 +45,39 @@ class TeamPage extends React.Component {
                 <tbody>
                 <tr>
                     <th scope="row">Team name</th>
-                    <td className="makeItFlex">{this.state.teamData['name-full']}</td>
+                    <td className="makeItFlex">{this.props.team['name-full']}</td>
                 </tr>
                 <tr>
                     <th scope="row">Country</th>
-                    <td className="makeItFlex">{this.state.teamData.country}</td>
+                    <td className="makeItFlex">{this.props.team.country}</td>
                 </tr>
                 <tr>
                     <th scope="row">Debut year</th>
-                    <td className="makeItFlex">{this.state.teamData['debut-year']}</td>
+                    <td className="makeItFlex">{this.props.team['debut-year']}</td>
                 </tr>
                 <tr>
                     <th scope="row">Engine manufacturer</th>
-                    <td className="makeItFlex">{this.state.teamData.engine}</td>
+                    <td className="makeItFlex">{this.props.team.engine}</td>
                 </tr>
                 <tr>
                     <th scope="row">Team principal</th>
-                    <td className="makeItFlex">{this.state.teamData['team-principal']}</td>
+                    <td className="makeItFlex">{this.props.team['team-principal']}</td>
                 </tr>
                 <tr>
                     <th scope="row">Constructors championships</th>
-                    <td className="makeItFlex">{this.state.teamData['constructors-championships']}</td>
+                    <td className="makeItFlex">{this.props.team['constructors-championships']}</td>
                 </tr>
                 <tr>
                     <th scope="row">Drivers championships</th>
-                    <td className="makeItFlex">{this.state.teamData['drivers-championships']}</td>
+                    <td className="makeItFlex">{this.props.team['drivers-championships']}</td>
                 </tr>
                 <tr>
                     <th scope="row">Wins</th>
-                    <td className="makeItFlex">{this.state.teamData.wins}</td>
+                    <td className="makeItFlex">{this.props.team.wins}</td>
                 </tr>
                 <tr>
                     <th scope="row">Pole positions</th>
-                    <td className="makeItFlex">{this.state.teamData.poles}</td>
+                    <td className="makeItFlex">{this.props.team.poles}</td>
                 </tr>
                 </tbody>
             </TeamInformationTable>
@@ -82,16 +87,21 @@ class TeamPage extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    {teamDataToDisplay}
+                    <EditTeamButton
+                        className="btn btn-warning"
+                        onClick={this.onEditTeam}>
+                        {!this.state.editTeamMode ? "Edit Team" : "Hide"}
+                    </EditTeamButton>
+                    {this.state.editTeamMode ? <EditTeamForm teamId={this.props.match.params.team_id}/> : teamDataToDisplay}
                 </ComponentRestricted>
             </>
         )
     }
 }
 
-const mapStateToProps = (state = {}) => {
+const mapStateToProps = (state = {}, props) => {
     return {
-        teams: state.teams
+        team: state.teams.find(team => { return team.id === props.match.params.team_id })
     }
 };
 
