@@ -3,7 +3,7 @@ import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted} from "../sharedStyles";
 import {connect} from "react-redux";
 import styled from "styled-components";
-import EditTeamForm from "./EditTeamForm";
+import ManageTeamForm from "./ManageTeamForm";
 
 const TeamInformationTable = styled.table`
     margin: 0 auto;
@@ -92,7 +92,7 @@ class TeamPage extends React.Component {
                         onClick={this.onEditTeam}>
                         {!this.state.editTeamMode ? "Edit Team" : "Hide"}
                     </EditTeamButton>
-                    {this.state.editTeamMode ? <EditTeamForm teamId={this.props.match.params.team_id}/> : teamDataToDisplay}
+                    {this.state.editTeamMode ? <ManageTeamForm teamId={this.props.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
                 </ComponentRestricted>
             </>
         )

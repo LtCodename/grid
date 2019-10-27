@@ -4,7 +4,7 @@ import {ComponentRestricted} from "../sharedStyles";
 import styled from "styled-components";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
-import AddTeamForm from "./AddTeamForm";
+import ManageTeamForm from "./ManageTeamForm";
 
 const TeamButton = styled.button`
     margin: 0;
@@ -70,7 +70,7 @@ class Teams extends React.Component {
                         </AddTeamButton>
                     </AddTeamButtonWrapper>
 
-                    {this.state.addTeamMode ? <AddTeamForm/> : ""}
+                    {this.state.addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
                     {teamsToDisplay}
                 </ComponentRestricted>
             </>
