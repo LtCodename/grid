@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { NavLink } from 'react-router-dom';
 
 const NavigationWrapper = styled.div`
@@ -19,11 +19,26 @@ const TabsWrapper = styled.ul`
 `;
 
 const Tab = styled.button`
+    border: 2px solid ${props => props.theme.fg};
+    background: ${props => props.theme.bg};
+    color: ${props => props.theme.fg};
+  
     margin: 0;
     padding: 10px;
     cursor: pointer;
     margin: 5px;
 `;
+
+// Define our `fg` and `bg` on the theme
+const theme = {
+    fg: "#784d2b",
+    bg: "#fff9de"
+};
+// This theme swaps `fg` and `bg`
+const invertTheme = ({ fg, bg }) => ({
+    fg: bg,
+    bg: fg
+});
 
 class NavigationPanel extends React.Component {
     constructor(props) {
@@ -35,14 +50,20 @@ class NavigationPanel extends React.Component {
 
     render() {
         return (
-            <>
+            <ThemeProvider theme={theme}>
                 <NavigationWrapper className="navigationWrapper">
                     <TabsWrapper className="navigationTabs">
                         <li>
-                            <NavLink to="/dashboard"><Tab className="btn navigationButton">Dashboard</Tab></NavLink>
+                            <ThemeProvider theme={invertTheme}>
+                                <NavLink to="/season-2019">
+                                    <Tab className="btn navigationButton">2019 Season</Tab>
+                                </NavLink>
+                            </ThemeProvider>
                         </li>
                         <li>
-                            <NavLink to="/season-2019"><Tab className="btn navigationButton">2019 Season</Tab></NavLink>
+                            <NavLink to="/dashboard">
+                                <Tab className="btn navigationButton">Dashboard</Tab>
+                            </NavLink>
                         </li>
                         <li>
                             <NavLink to="/drivers-standings"><Tab className="btn navigationButton">Drivers Standings</Tab></NavLink>
@@ -58,7 +79,7 @@ class NavigationPanel extends React.Component {
                         </li>
                     </TabsWrapper>
                 </NavigationWrapper>
-            </>
+            </ThemeProvider>
         )
     }
 }

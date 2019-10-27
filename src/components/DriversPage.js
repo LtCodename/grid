@@ -2,7 +2,7 @@ import React from 'react';
 import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted} from "../sharedStyles";
 
-class Drivers extends React.Component {
+class DriversPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -22,4 +22,4 @@ class Drivers extends React.Component {
     }
 }
 
-export default Drivers;
+export default DriversPage;

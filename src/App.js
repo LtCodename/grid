@@ -5,7 +5,7 @@ import Dashboard from "./components/Dashboard";
 import Season2019 from "./components/Season2019";
 import ConstructorsStandings from "./components/ConstructorsStandings";
 import Teams from "./components/Teams";
-import Drivers from "./components/Drivers";
+import DriversPage from "./components/DriversPage";
 import teamsReducerActions from './redux/reducers/teamsReducer';
 import { connect } from 'react-redux'
 import TeamPage from "./components/TeamPage";
@@ -62,7 +62,7 @@ class App extends React.Component {
                     <Route path="/drivers-standings" component={DriversStandings} />
                     <Route path="/season-2019" component={Season2019} />
                     <Route path="/constructors-standings" component={ConstructorsStandings} />
-                    <Route path="/drivers" component={Drivers} />
+                    <Route path="/drivers" component={DriversPage} />
                     <Route path="/teams/:team_id" component={TeamPage} />
                     <Redirect to="/dashboard" />
                 </Switch>

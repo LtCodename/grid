@@ -44,7 +44,6 @@ class ManageTeamForm extends React.Component {
         const newTeamData = this.state;
 
         if (this.props.mode === 'add') {
-            console.log('add mode');
             firebase.firestore().collection('teams').add({
                 ...newTeamData
             }).then(() => {
@@ -64,7 +63,6 @@ class ManageTeamForm extends React.Component {
                 "wins": ""
             })
         }else {
-            console.log('edit mode');
             firebase.firestore().collection('teams').doc(this.props.teamId).update({
                 ...newTeamData
             }).then((data) => {
