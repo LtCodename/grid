@@ -2,14 +2,16 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Dashboard from "./components/Dashboard";
-import Season2019 from "./components/Season2019";
+import Seasons from "./components/Seasons";
 import ConstructorsStandings from "./components/ConstructorsStandings";
 import Teams from "./components/Teams";
-import DriversPage from "./components/DriversPage";
-import teamsReducerActions from './redux/reducers/teamsReducer';
+import Drivers from "./components/Drivers";
+import teamsReducer from './redux/reducers/TeamsReducer';
+import driversReducer from "./redux/reducers/DriversReducer";
 import { connect } from 'react-redux'
 import TeamPage from "./components/TeamPage";
 import DriversStandings from "./components/DriversStandings";
+import DriverPage from "./components/DriverPage";
 
 declare var firebase;
 
@@ -30,7 +32,8 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            teamsDataLoaded: false
+            teamsDataLoaded: false,
+            driversDataLoaded: false
         };
     }
 
@@ -40,6 +43,7 @@ class App extends React.Component {
 
     fetchEverything = () => {
         this.fetchTeams();
+        this.fetchDrivers();
     };
 
     fetchTeams() {
@@ -53,17 +57,29 @@ class App extends React.Component {
         });
     }
 
+    fetchDrivers() {
+        firebase.firestore().collection('drivers').orderBy("wins").onSnapshot(snapshot => {
+            this.props.fetchDrivers(snapshot);
+            this.setState({
+                driversDataLoaded: true
+            })
+        }, error => {
+            console.log(error.message);
+        });
+    }
+
     render() {
         const allContent = (
             <>
                 <Switch>
                     <Route path="/dashboard" component={Dashboard} />
                     <Route exact path="/teams" component={Teams} />
-                    <Route path="/drivers-standings" component={DriversStandings} />
-                    <Route path="/season-2019" component={Season2019} />
-                    <Route path="/constructors-standings" component={ConstructorsStandings} />
-                    <Route path="/drivers" component={DriversPage} />
                     <Route path="/teams/:team_id" component={TeamPage} />
+                    <Route exact path="/drivers" component={Drivers} />
+                    <Route path="/drivers/:driver_id" component={DriverPage} />
+                    <Route path="/drivers-standings" component={DriversStandings} />
+                    <Route path="/seasons" component={Seasons} />
+                    <Route path="/constructors-standings" component={ConstructorsStandings} />
                     <Redirect to="/dashboard" />
                 </Switch>
             </>
@@ -81,7 +97,10 @@ class App extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchTeams: (snapshot) => {
-            dispatch({ type: teamsReducerActions.actions.TEAMS_FETCH, snapshot: snapshot });
+            dispatch({ type: teamsReducer.actions.TEAMS_FETCH, snapshot: snapshot });
+        },
+        fetchDrivers: (snapshot) => {
+            dispatch({ type: driversReducer.actions.DRIVERS_FETCH, snapshot: snapshot });
         }
     }
 };

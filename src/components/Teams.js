@@ -47,7 +47,6 @@ class Teams extends React.Component {
     };
 
     render() {
-        //console.log(this.props.teams);
         const teamsToDisplay = (
             this.props.teams.map((team, index) => {
                 return (

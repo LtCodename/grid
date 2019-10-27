@@ -19,7 +19,8 @@ const TabsWrapper = styled.ul`
 `;
 
 const Tab = styled.button`
-    border: 2px solid ${props => props.theme.fg};
+    //border: 2px solid ${props => props.theme.fg};
+    border: none;
     background: ${props => props.theme.bg};
     color: ${props => props.theme.fg};
   
@@ -29,16 +30,15 @@ const Tab = styled.button`
     margin: 5px;
 `;
 
-// Define our `fg` and `bg` on the theme
 const theme = {
     fg: "#784d2b",
     bg: "#fff9de"
 };
-// This theme swaps `fg` and `bg`
-const invertTheme = ({ fg, bg }) => ({
+
+/*const invertTheme = ({ fg, bg }) => ({
     fg: bg,
     bg: fg
-});
+});*/
 
 class NavigationPanel extends React.Component {
     constructor(props) {
@@ -54,13 +54,13 @@ class NavigationPanel extends React.Component {
                 <NavigationWrapper className="navigationWrapper">
                     <TabsWrapper className="navigationTabs">
                         <li>
-                            <ThemeProvider theme={invertTheme}>
-                                <NavLink to="/season-2019">
-                                    <Tab className="btn navigationButton">2019 Season</Tab>
+                            <ThemeProvider theme={theme}>
+                                <NavLink to="/seasons">
+                                    <Tab className="btn navigationButton">Seasons</Tab>
                                 </NavLink>
                             </ThemeProvider>
                         </li>
-                        <li>
+                        {/*<li>
                             <NavLink to="/dashboard">
                                 <Tab className="btn navigationButton">Dashboard</Tab>
                             </NavLink>
@@ -70,7 +70,7 @@ class NavigationPanel extends React.Component {
                         </li>
                         <li>
                             <NavLink to="/constructors-standings"><Tab className="btn navigationButton">Constructor Standings</Tab></NavLink>
-                        </li>
+                        </li>*/}
                         <li>
                             <NavLink to="/drivers"><Tab className="btn navigationButton">Drivers</Tab></NavLink>
                         </li>

@@ -2,7 +2,7 @@ const initState = [];
 
 const TEAMS_FETCH = 'TEAMS_FETCH';
 
-const teamsReducer = (state = initState, action) => {
+const TeamsReducer = (state = initState, action) => {
     const copy = [];
     switch(action.type) {
         case TEAMS_FETCH:
@@ -19,4 +19,4 @@ const teamsReducer = (state = initState, action) => {
     }
 };
 
-export default {reducer: teamsReducer,  actions: { TEAMS_FETCH }};
+export default {reducer: TeamsReducer,  actions: { TEAMS_FETCH }};

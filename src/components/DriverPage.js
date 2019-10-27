@@ -2,7 +2,7 @@ import React from 'react';
 import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted} from "../sharedStyles";
 
-class Season2019 extends React.Component {
+class DriverPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,11 +15,12 @@ class Season2019 extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <p>Season 2019</p>
+                    <p>Driver Page</p>
+                    <p>{this.props.match.params.driver_id}</p>
                 </ComponentRestricted>
             </>
         )
     }
 }
 
-export default Season2019;
+export default DriverPage;
