@@ -1,9 +1,10 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles";
+import {ComponentRestricted, EditButton, InformationTable, Item} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import SeasonBlueprint from "../blueprints/SeasonBlueprint";
+import {NavLink} from "react-router-dom";
 
 class SeasonPage extends React.Component {
     constructor(props) {
@@ -44,6 +45,21 @@ class SeasonPage extends React.Component {
             </InformationTable>
         );
 
+        const racesToDisplay = (
+
+            this.props.races.filter(r => {
+                return (
+                    r['season-id'] === this.props.match.params.season_id
+                )
+            }).map((race, index) => {
+                return (
+                    <NavLink key={index} to={`/races/${race.id}`}>
+                        <Item className="btn">{race.name}</Item>
+                    </NavLink>
+                )
+            })
+        );
+
         return (
             <>
                 <NavigationPanel />
@@ -54,6 +70,7 @@ class SeasonPage extends React.Component {
                         {!this.state.editSeasonMode ? "Edit Season" : "Hide"}
                     </EditButton>
                     {this.state.editSeasonMode ? <ManageSeasonForm seasonId={this.props.match.params.season_id} mode={'edit'}/> : seasonDataToDisplay}
+                    {racesToDisplay}
                 </ComponentRestricted>
             </>
         )
@@ -64,7 +81,8 @@ const mapStateToProps = (state = {}, props) => {
     return {
         season: state.seasons.find(season => {
             return season.id === props.match.params.season_id
-        })
+        }),
+        races: state.races
     }
 };
 

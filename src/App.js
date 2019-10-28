@@ -7,10 +7,12 @@ import Drivers from "./components/Drivers";
 import teamsReducer from './redux/reducers/TeamsReducer';
 import driversReducer from "./redux/reducers/DriversReducer";
 import seasonsReducer from "./redux/reducers/SeasonsReducer";
+import racesReducer from "./redux/reducers/RacesReducer";
 import { connect } from 'react-redux'
 import TeamPage from "./components/TeamPage";
 import DriverPage from "./components/DriverPage";
 import SeasonPage from "./components/SeasonPage";
+import RacePage from "./components/RacePage";
 
 declare var firebase;
 
@@ -33,6 +35,7 @@ class App extends React.Component {
         this.state = {
             teamsDataLoaded: false,
             driversDataLoaded: false,
+            racesDataLoaded: false,
             seasonsDataLoaded: false
         };
     }
@@ -45,6 +48,7 @@ class App extends React.Component {
         this.fetchTeams();
         this.fetchDrivers();
         this.fetchSeasons();
+        this.fetchRaces();
     };
 
     fetchTeams() {
@@ -80,6 +84,17 @@ class App extends React.Component {
         });
     }
 
+    fetchRaces() {
+        firebase.firestore().collection('races').orderBy("date").onSnapshot(snapshot => {
+            this.props.fetchRaces(snapshot);
+            this.setState({
+                racesDataLoaded: true
+            })
+        }, error => {
+            console.log(error.message);
+        });
+    }
+
     render() {
         const allContent = (
             <>
@@ -90,6 +105,7 @@ class App extends React.Component {
                     <Route path="/drivers/:driver_id" component={DriverPage} />
                     <Route exact path="/seasons" component={Seasons} />
                     <Route path="/seasons/:season_id" component={SeasonPage} />
+                    <Route path="/races/:race_id" component={RacePage} />
                     <Redirect to="/seasons" />
                 </Switch>
             </>
@@ -97,7 +113,10 @@ class App extends React.Component {
 
         return (
             <>
-                {(this.state.teamsDataLoaded && this.state.driversDataLoaded && this.state.seasonsDataLoaded) ? allContent : ""}
+                {(this.state.teamsDataLoaded &&
+                    this.state.driversDataLoaded &&
+                    this.state.seasonsDataLoaded &&
+                    this.state.racesDataLoaded) ? allContent : ""}
                 <GlobalStyles />
             </>
         );
@@ -114,6 +133,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchSeasons: (snapshot) => {
             dispatch({ type: seasonsReducer.actions.SEASONS_FETCH, snapshot: snapshot });
+        },
+        fetchRaces: (snapshot) => {
+            dispatch({ type: racesReducer.actions.RACES_FETCH, snapshot: snapshot });
         }
     }
 };

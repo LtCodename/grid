@@ -16,7 +16,7 @@ export const EditButton = styled.button`
 `;
 
 export const InformationTable = styled.table`
-    margin: 0 auto;
+    margin: 10px auto;
     width: 50%;
     color: #784d2b;
 `;
