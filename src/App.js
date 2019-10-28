@@ -1,9 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import Dashboard from "./components/Dashboard";
 import Seasons from "./components/Seasons";
-import ConstructorsStandings from "./components/ConstructorsStandings";
 import Teams from "./components/Teams";
 import Drivers from "./components/Drivers";
 import teamsReducer from './redux/reducers/TeamsReducer';
@@ -11,7 +9,6 @@ import driversReducer from "./redux/reducers/DriversReducer";
 import seasonsReducer from "./redux/reducers/SeasonsReducer";
 import { connect } from 'react-redux'
 import TeamPage from "./components/TeamPage";
-import DriversStandings from "./components/DriversStandings";
 import DriverPage from "./components/DriverPage";
 import SeasonPage from "./components/SeasonPage";
 
@@ -87,16 +84,13 @@ class App extends React.Component {
         const allContent = (
             <>
                 <Switch>
-                    <Route path="/dashboard" component={Dashboard} />
                     <Route exact path="/teams" component={Teams} />
                     <Route path="/teams/:team_id" component={TeamPage} />
                     <Route exact path="/drivers" component={Drivers} />
                     <Route path="/drivers/:driver_id" component={DriverPage} />
                     <Route exact path="/seasons" component={Seasons} />
                     <Route path="/seasons/:season_id" component={SeasonPage} />
-                    <Route path="/drivers-standings" component={DriversStandings} />
-                    <Route path="/constructors-standings" component={ConstructorsStandings} />
-                    <Redirect to="/dashboard" />
+                    <Redirect to="/seasons" />
                 </Switch>
             </>
         );
