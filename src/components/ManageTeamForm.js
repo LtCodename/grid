@@ -52,149 +52,61 @@ class ManageTeamForm extends React.Component {
     };
 
     render() {
+        const blueprint = [
+            {
+                name: "Full name", dbName: "name-full"
+            },
+            {
+                name: "Short name", dbName: "name"
+            },
+            {
+                name: "Country", dbName: "country"
+            },
+            {
+                name: "Debut year", dbName: "debut-year"
+            },
+            {
+                name: "Engine manufacturer", dbName: "engine"
+            },
+            {
+                name: "Team principal", dbName: "team-principal"
+            },
+            {
+                name: "Constructors championships", dbName: "constructors-championships"
+            },
+            {
+                name: "Drivers championships", dbName: "drivers-championships"
+            },
+            {
+                name: "Grand Prix wins", dbName: "wins"
+            },
+            {
+                name: "Pole positions", dbName: "poles"
+            }
+        ];
+
+        const properties = blueprint.map((elem, index) => {
+            return (
+                <Property>
+                    <Label htmlFor={elem.dbName}>{elem.name}</Label>
+                    <Textarea
+                        className="form-control"
+                        placeholder={elem.name}
+                        type="text"
+                        rows="1"
+                        id={elem.dbName}
+                        value={this.state[elem.dbName]}
+                        onChange={this.inputValuesChange}
+                        required>
+                    </Textarea>
+                </Property>
+            )
+        });
+
         return (
             <Form onSubmit={this.submitTeam}>
                 <Properties>
-                    {/*Full Name*/}
-                    <Property>
-                        <Label htmlFor="name-full">Full Name</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Full Name"
-                            type="text"
-                            rows="1"
-                            id="name-full"
-                            value={this.state['name-full']}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Short Name*/}
-                    <Property>
-                        <Label htmlFor="name">Short Name</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Short Name"
-                            type="text"
-                            rows="1"
-                            id="name"
-                            value={this.state.name}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Country*/}
-                    <Property>
-                        <Label htmlFor="country">Country</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Country"
-                            type="text"
-                            rows="1"
-                            id="country"
-                            value={this.state.country}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Debut Year*/}
-                    <Property>
-                        <Label htmlFor="debut-year">Debut Year</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Debut Year"
-                            type="text"
-                            rows="1"
-                            id="debut-year"
-                            value={this.state['debut-year']}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Engine Manufacturer*/}
-                    <Property>
-                        <Label htmlFor="engine">Engine Manufacturer</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Engine Manufacturer"
-                            type="text"
-                            rows="1"
-                            id="engine"
-                            value={this.state.engine}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Team Principal*/}
-                    <Property>
-                        <Label htmlFor="team-principal">Team Principal</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Team Principal"
-                            type="text"
-                            rows="1"
-                            id="team-principal"
-                            value={this.state['team-principal']}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Constructors Championships*/}
-                    <Property>
-                        <Label htmlFor="constructors-championships">Constructors Championships</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Constructors Championships"
-                            type="text"
-                            rows="1"
-                            id="constructors-championships"
-                            value={this.state['constructors-championships']}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Drivers Championships*/}
-                    <Property>
-                        <Label htmlFor="drivers-championships">Drivers Championships</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Drivers Championships"
-                            type="text"
-                            rows="1"
-                            id="drivers-championships"
-                            value={this.state['drivers-championships']}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Wins*/}
-                    <Property>
-                        <Label htmlFor="wins">Wins</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Wins"
-                            type="text"
-                            rows="1"
-                            id="wins"
-                            value={this.state.wins}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
-                    {/*Pole Positions*/}
-                    <Property>
-                        <Label htmlFor="poles">Pole Positions</Label>
-                        <Textarea
-                            className="form-control"
-                            placeholder="Pole Positions"
-                            type="text"
-                            rows="1"
-                            id="poles"
-                            value={this.state.poles}
-                            onChange={this.inputValuesChange}
-                            required>
-                        </Textarea>
-                    </Property>
+                    {properties}
                 </Properties>
                 <SubmitButton className="btn btn-warning">Submit</SubmitButton>
             </Form>

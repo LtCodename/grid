@@ -27,45 +27,49 @@ class TeamPage extends React.Component {
     };
 
     render() {
+        const blueprint = [
+            {
+                name: "Team name", dbName: "name-full"
+            },
+            {
+                name: "Country", dbName: "country"
+            },
+            {
+                name: "Debut year", dbName: "debut-year"
+            },
+            {
+                name: "Engine manufacturer", dbName: "engine"
+            },
+            {
+                name: "Team principal", dbName: "team-principal"
+            },
+            {
+                name: "Constructors championships", dbName: "constructors-championships"
+            },
+            {
+                name: "Drivers championships", dbName: "drivers-championships"
+            },
+            {
+                name: "Grand Prix wins", dbName: "wins"
+            },
+            {
+                name: "Pole positions", dbName: "poles"
+            }
+        ];
+
+        const tableRows = blueprint.map((elem, index) => {
+            return (
+                <tr key={index}>
+                    <th scope="row">{elem.name}</th>
+                    <td>{this.props.team[elem.dbName]}</td>
+                </tr>
+            )
+        });
+
         const teamDataToDisplay = (
             <InformationTable className="table">
                 <tbody>
-                    <tr>
-                        <th scope="row">Team name</th>
-                        <td>{this.props.team['name-full']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Country</th>
-                        <td>{this.props.team.country}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Debut year</th>
-                        <td>{this.props.team['debut-year']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Engine manufacturer</th>
-                        <td>{this.props.team.engine}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Team principal</th>
-                        <td>{this.props.team['team-principal']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Constructors championships</th>
-                        <td>{this.props.team['constructors-championships']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Drivers championships</th>
-                        <td>{this.props.team['drivers-championships']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Wins</th>
-                        <td>{this.props.team.wins}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Pole positions</th>
-                        <td>{this.props.team.poles}</td>
-                    </tr>
+                    {tableRows}
                 </tbody>
             </InformationTable>
         );
