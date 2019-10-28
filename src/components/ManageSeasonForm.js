@@ -23,9 +23,12 @@ class ManageSeasonForm extends React.Component {
 
             });
 
-            this.setState({
-                "name": "",
-            })
+            const cleanState = {};
+            SeasonBlueprint.forEach(season => {
+                cleanState[season.db] = "";
+            });
+
+            this.setState(cleanState);
         }else {
             firebase.firestore().collection('seasons').doc(this.props.seasonId).update({
                 ...newSeasonData

@@ -28,18 +28,12 @@ class ManageDriverForm extends React.Component {
 
             });
 
-            this.setState({
-                "name": "",
-                "team-id": "",
-                "date-of-birth": "",
-                "debut": "",
-                "nationality": "",
-                "number": "",
-                "wins": "",
-                "poles": "",
-                "podiums": "",
-                "championships": ""
-            })
+            const cleanState = {"team-id": ""};
+            DriverEditBlueprint.forEach(driver => {
+                cleanState[driver.db] = "";
+            });
+
+            this.setState(cleanState);
         }else {
             firebase.firestore().collection('drivers').doc(this.props.driverId).update({
                 ...newDriverData

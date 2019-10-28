@@ -23,18 +23,12 @@ class ManageTeamForm extends React.Component {
 
             });
 
-            this.setState({
-                "constructors-championships": "",
-                "country": "",
-                "debut-year": "",
-                "drivers-championships": "",
-                "engine": "",
-                "name": "",
-                "name-full": "",
-                "poles": "",
-                "team-principal": "",
-                "wins": ""
-            })
+            const cleanState = {};
+            TeamEditBlueprint.forEach(team => {
+                cleanState[team.db] = "";
+            });
+
+            this.setState(cleanState);
         }else {
             firebase.firestore().collection('teams').doc(this.props.teamId).update({
                 ...newTeamData

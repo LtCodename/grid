@@ -27,14 +27,6 @@ class DriverPage extends React.Component {
     };
 
     render() {
-        const date = new Date();
-        const year = date.getFullYear();
-
-        let teamsObject = {};
-        for (let i = 0; i < this.props.teams.length; i++) {
-            teamsObject[this.props.teams[i].id] = this.props.teams[i].name;
-        }
-
         const tableRows = DriverBlueprint.map((elem, index) => {
             return (
                 <tr key={index}>
@@ -44,28 +36,10 @@ class DriverPage extends React.Component {
             )
         });
 
-        const manualRows = (
-            <>
-                <tr>
-                    <th scope="row">Team</th>
-                    <td>{this.props.driver['team-id'] ? teamsObject[this.props.driver['team-id']] : "Not selected"}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Age</th>
-                    <td>{year - this.props.driver['date-of-birth']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">In F1</th>
-                    <td>{year - this.props.driver['debut']}</td>
-                </tr>
-            </>
-        )
-
         const driverDataToDisplay = (
             <InformationTable className="table">
                 <tbody>
                     {tableRows}
-                    {manualRows}
                 </tbody>
             </InformationTable>
         );
@@ -88,9 +62,21 @@ class DriverPage extends React.Component {
 
 const mapStateToProps = (state = {}, props) => {
     return {
-        driver: state.drivers.find(driver => {
-            return driver.id === props.match.params.driver_id
-        }),
+        driver: (() => {
+            const driverFromStore = state.drivers.find(driver => driver.id === props.match.params.driver_id);
+            const team = state.teams.find((team) => team.id === driverFromStore['team-id']);
+            const date = new Date();
+            const year = date.getFullYear();
+            const age = year - driverFromStore['date-of-birth'];
+            const inF1 = year - driverFromStore['debut'];
+
+            return {
+                ...driverFromStore,
+                'team-name': team ? team.name : 'Not selected',
+                age,
+                inF1
+            };
+        })(),
         teams: state.teams
     }
 };

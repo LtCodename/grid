@@ -1,17 +1,17 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles";
-import {connect} from "react-redux";
-import ManageDriverForm from "./ManageDriverForm";
-import DriverBlueprint from "../blueprints/DriverBlueprint";
+import {ComponentRestricted/*, EditButton, InformationTable*/} from "../SharedStyles";
+//import {connect} from "react-redux";
+//import ManageDriverForm from "./ManageDriverForm";
+//import DriverBlueprint from "../blueprints/DriverBlueprint";
 
 class RacePage extends React.Component {
     constructor(props) {
         super(props);
 
-        /*this.state = {
-            editDriverMode: false
-        };*/
+        this.state = {
+            //editDriverMode: false
+        };
     }
 
     /*onEditDriver = () => {
