@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../sharedStyles";
 import {connect} from "react-redux";
+import TeamEditBlueprint from "../blueprints/TeamEditBlueprint";
 
 declare var firebase;
 
@@ -52,50 +53,17 @@ class ManageTeamForm extends React.Component {
     };
 
     render() {
-        const blueprint = [
-            {
-                name: "Full name", dbName: "name-full"
-            },
-            {
-                name: "Short name", dbName: "name"
-            },
-            {
-                name: "Country", dbName: "country"
-            },
-            {
-                name: "Debut year", dbName: "debut-year"
-            },
-            {
-                name: "Engine manufacturer", dbName: "engine"
-            },
-            {
-                name: "Team principal", dbName: "team-principal"
-            },
-            {
-                name: "Constructors championships", dbName: "constructors-championships"
-            },
-            {
-                name: "Drivers championships", dbName: "drivers-championships"
-            },
-            {
-                name: "Grand Prix wins", dbName: "wins"
-            },
-            {
-                name: "Pole positions", dbName: "poles"
-            }
-        ];
-
-        const properties = blueprint.map((elem, index) => {
+        const properties = TeamEditBlueprint.map((elem, index) => {
             return (
-                <Property>
-                    <Label htmlFor={elem.dbName}>{elem.name}</Label>
+                <Property key={index}>
+                    <Label htmlFor={elem.db}>{elem.name}</Label>
                     <Textarea
                         className="form-control"
                         placeholder={elem.name}
                         type="text"
                         rows="1"
-                        id={elem.dbName}
-                        value={this.state[elem.dbName]}
+                        id={elem.db}
+                        value={this.state[elem.db]}
                         onChange={this.inputValuesChange}
                         required>
                     </Textarea>

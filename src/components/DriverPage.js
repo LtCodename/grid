@@ -3,6 +3,7 @@ import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted, EditButton, InformationTable} from "../sharedStyles";
 import {connect} from "react-redux";
 import ManageDriverForm from "./ManageDriverForm";
+import DriverBlueprint from "../blueprints/DriverBlueprint";
 
 class DriverPage extends React.Component {
     constructor(props) {
@@ -34,49 +35,37 @@ class DriverPage extends React.Component {
             teamsObject[this.props.teams[i].id] = this.props.teams[i].name;
         }
 
+        const tableRows = DriverBlueprint.map((elem, index) => {
+            return (
+                <tr key={index}>
+                    <th scope="row">{elem.name}</th>
+                    <td>{this.props.driver[elem.db]}</td>
+                </tr>
+            )
+        });
+
+        const manualRows = (
+            <>
+                <tr>
+                    <th scope="row">Team</th>
+                    <td>{this.props.driver['team-id'] ? teamsObject[this.props.driver['team-id']] : "Not selected"}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Age</th>
+                    <td>{year - this.props.driver['date-of-birth']}</td>
+                </tr>
+                <tr>
+                    <th scope="row">In F1</th>
+                    <td>{year - this.props.driver['debut']}</td>
+                </tr>
+            </>
+        )
+
         const driverDataToDisplay = (
             <InformationTable className="table">
                 <tbody>
-                    <tr>
-                        <th scope="row">Name</th>
-                        <td>{this.props.driver['name']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Team</th>
-                        <td>{this.props.driver['team-id'] ? teamsObject[this.props.driver['team-id']] : "Not selected"}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Age</th>
-                        <td>{year - this.props.driver['date-of-birth']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">In F1</th>
-                        <td>{year - this.props.driver['debut']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Nationality</th>
-                        <td>{this.props.driver['nationality']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Car number</th>
-                        <td>{this.props.driver['number']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Grand Prix wins</th>
-                        <td>{this.props.driver['wins']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Pole positions</th>
-                        <td>{this.props.driver['poles']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Podium places</th>
-                        <td>{this.props.driver['podiums']}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Championships</th>
-                        <td>{this.props.driver['championships']}</td>
-                    </tr>
+                    {tableRows}
+                    {manualRows}
                 </tbody>
             </InformationTable>
         );

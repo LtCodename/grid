@@ -3,6 +3,7 @@ import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted, EditButton, InformationTable} from "../sharedStyles";
 import {connect} from "react-redux";
 import ManageTeamForm from "./ManageTeamForm";
+import TeamBlueprint from "../blueprints/TeamBlueprint";
 
 class TeamPage extends React.Component {
     constructor(props) {
@@ -27,41 +28,11 @@ class TeamPage extends React.Component {
     };
 
     render() {
-        const blueprint = [
-            {
-                name: "Team name", dbName: "name-full"
-            },
-            {
-                name: "Country", dbName: "country"
-            },
-            {
-                name: "Debut year", dbName: "debut-year"
-            },
-            {
-                name: "Engine manufacturer", dbName: "engine"
-            },
-            {
-                name: "Team principal", dbName: "team-principal"
-            },
-            {
-                name: "Constructors championships", dbName: "constructors-championships"
-            },
-            {
-                name: "Drivers championships", dbName: "drivers-championships"
-            },
-            {
-                name: "Grand Prix wins", dbName: "wins"
-            },
-            {
-                name: "Pole positions", dbName: "poles"
-            }
-        ];
-
-        const tableRows = blueprint.map((elem, index) => {
+        const tableRows = TeamBlueprint.map((elem, index) => {
             return (
                 <tr key={index}>
                     <th scope="row">{elem.name}</th>
-                    <td>{this.props.team[elem.dbName]}</td>
+                    <td>{this.props.team[elem.db]}</td>
                 </tr>
             )
         });
