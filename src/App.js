@@ -87,7 +87,7 @@ class App extends React.Component {
 
         return (
             <>
-                {this.state.teamsDataLoaded ? allContent : ""}
+                {(this.state.teamsDataLoaded && this.state.driversDataLoaded) ? allContent : ""}
                 <GlobalStyles />
             </>
         );

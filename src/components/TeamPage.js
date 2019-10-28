@@ -1,21 +1,8 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted} from "../sharedStyles";
+import {ComponentRestricted, EditButton, InformationTable} from "../sharedStyles";
 import {connect} from "react-redux";
-import styled from "styled-components";
 import ManageTeamForm from "./ManageTeamForm";
-
-const TeamInformationTable = styled.table`
-    margin: 0 auto;
-    width: 50%;
-`;
-
-const EditTeamButton = styled.button`
-    margin: 0;
-    padding: 5px;
-    cursor: pointer;
-    margin: 0 5px 5px 0;
-`;
 
 class TeamPage extends React.Component {
     constructor(props) {
@@ -41,7 +28,7 @@ class TeamPage extends React.Component {
 
     render() {
         const teamDataToDisplay = (
-            <TeamInformationTable className="table teamInformationTable">
+            <InformationTable className="table">
                 <tbody>
                 <tr>
                     <th scope="row">Team name</th>
@@ -80,18 +67,18 @@ class TeamPage extends React.Component {
                     <td className="makeItFlex">{this.props.team.poles}</td>
                 </tr>
                 </tbody>
-            </TeamInformationTable>
+            </InformationTable>
         );
 
         return (
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <EditTeamButton
+                    <EditButton
                         className="btn btn-warning"
                         onClick={this.onEditTeam}>
                         {!this.state.editTeamMode ? "Edit Team" : "Hide"}
-                    </EditTeamButton>
+                    </EditButton>
                     {this.state.editTeamMode ? <ManageTeamForm teamId={this.props.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
                 </ComponentRestricted>
             </>

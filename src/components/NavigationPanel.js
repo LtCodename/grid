@@ -1,6 +1,8 @@
 import React from 'react';
 import styled, { ThemeProvider } from "styled-components";
 import { NavLink } from 'react-router-dom';
+import {connect} from "react-redux";
+import pageIndexReducer from "../redux/reducers/PageIndexReducer";
 
 const NavigationWrapper = styled.div`
     background-color: #fde3a7;
@@ -19,10 +21,14 @@ const TabsWrapper = styled.ul`
 `;
 
 const Tab = styled.button`
-    //border: 2px solid ${props => props.theme.fg};
+    border: 2px solid ${props => {
+        //console.log(props);
+        return ((props.id === props.pageIndex) ? props.theme.borderColor : "none")
+    }};
+    
     border: none;
-    background: ${props => props.theme.bg};
-    color: ${props => props.theme.fg};
+    background: ${props => props.theme.backGround};
+    color: ${props => props.theme.foreGround};
   
     margin: 0;
     padding: 10px;
@@ -31,8 +37,9 @@ const Tab = styled.button`
 `;
 
 const theme = {
-    fg: "#784d2b",
-    bg: "#fff9de"
+    foreGround: "#784d2b",
+    backGround: "#fff9de",
+    borderColor: '#FFF'
 };
 
 /*const invertTheme = ({ fg, bg }) => ({
@@ -48,15 +55,19 @@ class NavigationPanel extends React.Component {
         };
     }
 
+    changeIndex = (event) => {
+        this.props.setIndex(event.target.id);
+    }
+
     render() {
         return (
             <ThemeProvider theme={theme}>
                 <NavigationWrapper className="navigationWrapper">
                     <TabsWrapper className="navigationTabs">
                         <li>
-                            <ThemeProvider theme={theme}>
+                            <ThemeProvider theme={theme} pageIndex={this.props.pageIndex} id={"seasons"}>
                                 <NavLink to="/seasons">
-                                    <Tab className="btn navigationButton">Seasons</Tab>
+                                    <Tab className="btn navigationButton" pageIndex={this.props.pageIndex} id={"seasons"} onClick={this.changeIndex}>Seasons</Tab>
                                 </NavLink>
                             </ThemeProvider>
                         </li>
@@ -72,10 +83,10 @@ class NavigationPanel extends React.Component {
                             <NavLink to="/constructors-standings"><Tab className="btn navigationButton">Constructor Standings</Tab></NavLink>
                         </li>*/}
                         <li>
-                            <NavLink to="/drivers"><Tab className="btn navigationButton">Drivers</Tab></NavLink>
+                            <NavLink to="/drivers"><Tab className="btn navigationButton" id={"drivers"} onClick={this.changeIndex}>Drivers</Tab></NavLink>
                         </li>
                         <li>
-                            <NavLink to="/teams"><Tab className="btn navigationButton">Teams</Tab></NavLink>
+                            <NavLink to="/teams"><Tab className="btn navigationButton" id={"teams"} onClick={this.changeIndex}>Teams</Tab></NavLink>
                         </li>
                     </TabsWrapper>
                 </NavigationWrapper>
@@ -84,4 +95,21 @@ class NavigationPanel extends React.Component {
     }
 }
 
-export default NavigationPanel;
+const mapStateToProps = (state = {}) => {
+    return {
+        pageIndex: state.pageIndex
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setIndex: (pageIndex) => {
+            dispatch({ type: pageIndexReducer.actions.PAGE_CHANGE, pageIndex: pageIndex });
+        }
+    }
+};
+
+
+const TeamsNavigationPanel = connect(mapStateToProps, mapDispatchToProps)(NavigationPanel);
+
+export default TeamsNavigationPanel;
