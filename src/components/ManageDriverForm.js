@@ -19,27 +19,26 @@ class ManageDriverForm extends React.Component {
     submitDriver = (event) => {
         event.preventDefault();
         const newDriverData = this.state;
-        //console.log(newDriverData);
 
         if (this.props.mode === 'add') {
-            /*firebase.firestore().collection('teams').add({
-                ...newTeamData
+            firebase.firestore().collection('drivers').add({
+                ...newDriverData
             }).then(() => {
 
             });
 
             this.setState({
-                "constructors-championships": "",
-                "country": "",
-                "debut-year": "",
-                "drivers-championships": "",
-                "engine": "",
                 "name": "",
-                "name-full": "",
+                "team-id": "",
+                "date-of-birth": "",
+                "debut": "",
+                "nationality": "",
+                "number": "",
+                "wins": "",
                 "poles": "",
-                "team-principal": "",
-                "wins": ""
-            })*/
+                "podiums": "",
+                "championships": ""
+            })
         }else {
             firebase.firestore().collection('drivers').doc(this.props.driverId).update({
                 ...newDriverData
@@ -55,7 +54,7 @@ class ManageDriverForm extends React.Component {
         this.setState({
             [event.target.id]: event.target.value
         }, () => {
-            //console.log(this.state);
+            console.log(this.state);
         });
     };
 

@@ -26,7 +26,6 @@ class DriverPage extends React.Component {
     };
 
     render() {
-        //console.log(this.props.driver);
         const date = new Date();
         const year = date.getFullYear();
 
