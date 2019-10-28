@@ -1,16 +1,8 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {AddButton, AddButtonWrapper, ComponentRestricted} from "../sharedStyles";
+import {AddButton, AddButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
-import styled from "styled-components";
-
-const SeasonButton = styled.button`
-    margin: 0;
-    padding: 30px;
-    cursor: pointer;
-    margin: 0 5px 5px 0;
-`;
 
 class Seasons extends React.Component {
     constructor(props) {
@@ -38,7 +30,7 @@ class Seasons extends React.Component {
             this.props.seasons.map((season, index) => {
                 return (
                     <NavLink key={index} to={`/seasons/${season.id}`}>
-                        <SeasonButton className="btn">{season.name}</SeasonButton>
+                        <Item className="btn">{season.name}</Item>
                     </NavLink>
                 )
             })

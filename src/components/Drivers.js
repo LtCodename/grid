@@ -1,17 +1,9 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {AddButton, AddButtonWrapper, ComponentRestricted} from "../sharedStyles";
+import {AddButton, AddButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
-import styled from "styled-components";
 import ManageDriverForm from "./ManageDriverForm";
-
-const DriverButton = styled.button`
-    margin: 0;
-    padding: 30px;
-    cursor: pointer;
-    margin: 0 5px 5px 0;
-`;
 
 class Drivers extends React.Component {
     constructor(props) {
@@ -39,7 +31,7 @@ class Drivers extends React.Component {
             this.props.drivers.map((driver, index) => {
                 return (
                     <NavLink key={index} to={`/drivers/${driver.id}`}>
-                        <DriverButton className="btn">{driver.name}</DriverButton>
+                        <Item className="btn">{driver.name}</Item>
                     </NavLink>
                 )
             })

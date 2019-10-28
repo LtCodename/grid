@@ -1,17 +1,9 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {AddButton, AddButtonWrapper, ComponentRestricted} from "../sharedStyles";
-import styled from "styled-components";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
 import ManageTeamForm from "./ManageTeamForm";
-
-const TeamButton = styled.button`
-    margin: 0;
-    padding: 30px;
-    cursor: pointer;
-    margin: 0 5px 5px 0;
-`;
+import {AddButton, AddButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 
 class Teams extends React.Component {
     constructor(props) {
@@ -39,7 +31,7 @@ class Teams extends React.Component {
             this.props.teams.map((team, index) => {
                 return (
                     <NavLink key={index} to={`/teams/${team.id}`}>
-                        <TeamButton className="btn">{team.name}</TeamButton>
+                        <Item className="btn">{team.name}</Item>
                     </NavLink>
                 )
             })

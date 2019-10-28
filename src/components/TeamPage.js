@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, EditButton, InformationTable} from "../sharedStyles";
+import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageTeamForm from "./ManageTeamForm";
 import TeamBlueprint from "../blueprints/TeamBlueprint";

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../sharedStyles";
+import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../SharedStyles";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import DriverEditBlueprint from "../blueprints/DriverEditBlueprint";

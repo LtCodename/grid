@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, EditButton, InformationTable} from "../sharedStyles";
+import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageDriverForm from "./ManageDriverForm";
 import DriverBlueprint from "../blueprints/DriverBlueprint";

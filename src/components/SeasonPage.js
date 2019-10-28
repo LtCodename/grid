@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted} from "../sharedStyles";
+import {ComponentRestricted} from "../SharedStyles";
 import {connect} from "react-redux";
 
 class SeasonPage extends React.Component {

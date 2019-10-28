@@ -12,11 +12,13 @@ export const EditButton = styled.button`
     padding: 5px;
     cursor: pointer;
     margin: 0 5px 5px 0;
+    color: #784d2b;
 `;
 
 export const InformationTable = styled.table`
     margin: 0 auto;
     width: 50%;
+    color: #784d2b;
 `;
 
 export const AddButtonWrapper = styled.div`
@@ -29,6 +31,7 @@ export const AddButton = styled.button`
     padding: 5px;
     cursor: pointer;
     margin: 0 5px 0 0;
+    color: #784d2b;
 `;
 
 export const Form = styled.form`
@@ -57,4 +60,16 @@ export const Label = styled.label`
 
 export const SubmitButton = styled.button`
     margin: 5px auto;
+    color: #784d2b;
 `;
+
+export const Item = styled.button`
+    margin: 0;
+    padding: 30px;
+    cursor: pointer;
+    margin: 0 5px 5px 0;
+    background-color: #fde3a7;
+    color: #784d2b;
+`;
+
+
