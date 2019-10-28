@@ -3,6 +3,7 @@ import NavigationPanel from "./NavigationPanel";
 import {AddButton, AddButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
+import ManageSeasonForm from "./ManageSeasonForm";
 
 class Seasons extends React.Component {
     constructor(props) {
@@ -47,6 +48,7 @@ class Seasons extends React.Component {
                             {!this.state.addSeasonMode ? "Add Season" : "Hide"}
                         </AddButton>
                     </AddButtonWrapper>
+                    {this.state.addSeasonMode ? <ManageSeasonForm mode={'add'}/> : ""}
                     {seasonsToDisplay}
                 </ComponentRestricted>
             </>
