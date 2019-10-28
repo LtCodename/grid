@@ -26,9 +26,14 @@ class DriverPage extends React.Component {
     };
 
     render() {
-        console.log(this.props.driver);
+        //console.log(this.props.driver);
         const date = new Date();
         const year = date.getFullYear();
+
+        let teamsObject = {};
+        for (let i = 0; i < this.props.teams.length; i++) {
+            teamsObject[this.props.teams[i].id] = this.props.teams[i].name;
+        }
 
         const driverDataToDisplay = (
             <InformationTable className="table">
@@ -39,7 +44,7 @@ class DriverPage extends React.Component {
                     </tr>
                     <tr>
                         <th scope="row">Team</th>
-                        <td>{this.props.driver['team-id'] ? this.props.driver['team-id'] : "Not selected"}</td>
+                        <td>{this.props.driver['team-id'] ? teamsObject[this.props.driver['team-id']] : "Not selected"}</td>
                     </tr>
                     <tr>
                         <th scope="row">Age</th>
@@ -97,7 +102,8 @@ const mapStateToProps = (state = {}, props) => {
     return {
         driver: state.drivers.find(driver => {
             return driver.id === props.match.params.driver_id
-        })
+        }),
+        teams: state.teams
     }
 };
 
