@@ -8,6 +8,7 @@ import Teams from "./components/Teams";
 import Drivers from "./components/Drivers";
 import teamsReducer from './redux/reducers/TeamsReducer';
 import driversReducer from "./redux/reducers/DriversReducer";
+import seasonsReducer from "./redux/reducers/SeasonsReducer";
 import { connect } from 'react-redux'
 import TeamPage from "./components/TeamPage";
 import DriversStandings from "./components/DriversStandings";
@@ -33,7 +34,8 @@ class App extends React.Component {
 
         this.state = {
             teamsDataLoaded: false,
-            driversDataLoaded: false
+            driversDataLoaded: false,
+            seasonsDataLoaded: false
         };
     }
 
@@ -44,6 +46,7 @@ class App extends React.Component {
     fetchEverything = () => {
         this.fetchTeams();
         this.fetchDrivers();
+        this.fetchSeasons();
     };
 
     fetchTeams() {
@@ -62,6 +65,17 @@ class App extends React.Component {
             this.props.fetchDrivers(snapshot);
             this.setState({
                 driversDataLoaded: true
+            })
+        }, error => {
+            console.log(error.message);
+        });
+    }
+
+    fetchSeasons() {
+        firebase.firestore().collection('seasons').orderBy("name").onSnapshot(snapshot => {
+            this.props.fetchSeasons(snapshot);
+            this.setState({
+                seasonsDataLoaded: true
             })
         }, error => {
             console.log(error.message);
@@ -87,7 +101,7 @@ class App extends React.Component {
 
         return (
             <>
-                {(this.state.teamsDataLoaded && this.state.driversDataLoaded) ? allContent : ""}
+                {(this.state.teamsDataLoaded && this.state.driversDataLoaded && this.state.seasonsDataLoaded) ? allContent : ""}
                 <GlobalStyles />
             </>
         );
@@ -101,6 +115,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchDrivers: (snapshot) => {
             dispatch({ type: driversReducer.actions.DRIVERS_FETCH, snapshot: snapshot });
+        },
+        fetchSeasons: (snapshot) => {
+            dispatch({ type: seasonsReducer.actions.SEASONS_FETCH, snapshot: snapshot });
         }
     }
 };
