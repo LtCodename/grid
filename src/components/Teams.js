@@ -70,7 +70,6 @@ const mapStateToProps = (state = {}) => {
     }
 };
 
-
 const TeamsConnected = connect(mapStateToProps, null)(Teams);
 
 export default TeamsConnected;

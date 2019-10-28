@@ -95,7 +95,6 @@ const mapStateToProps = (state = {}, props) => {
     }
 };
 
-
 const DriverPageConnected = connect(mapStateToProps, null)(DriverPage);
 
 export default DriverPageConnected;

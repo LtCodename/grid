@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import TeamPage from "./components/TeamPage";
 import DriversStandings from "./components/DriversStandings";
 import DriverPage from "./components/DriverPage";
+import SeasonPage from "./components/SeasonPage";
 
 declare var firebase;
 
@@ -91,8 +92,9 @@ class App extends React.Component {
                     <Route path="/teams/:team_id" component={TeamPage} />
                     <Route exact path="/drivers" component={Drivers} />
                     <Route path="/drivers/:driver_id" component={DriverPage} />
+                    <Route exact path="/seasons" component={Seasons} />
+                    <Route path="/seasons/:season_id" component={SeasonPage} />
                     <Route path="/drivers-standings" component={DriversStandings} />
-                    <Route path="/seasons" component={Seasons} />
                     <Route path="/constructors-standings" component={ConstructorsStandings} />
                     <Redirect to="/dashboard" />
                 </Switch>
