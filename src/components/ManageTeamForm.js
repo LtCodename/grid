@@ -39,7 +39,7 @@ class ManageTeamForm extends React.Component {
             firebase.firestore().collection('teams').doc(this.props.teamId).update({
                 ...newTeamData
             }).then((data) => {
-                console.log("Team data updated successfully!");
+                console.log("Data updated successfully!");
             }).catch(error => {
                 console.log(error.message);
             });

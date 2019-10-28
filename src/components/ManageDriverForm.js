@@ -44,7 +44,7 @@ class ManageDriverForm extends React.Component {
             firebase.firestore().collection('drivers').doc(this.props.driverId).update({
                 ...newDriverData
             }).then((data) => {
-                console.log("Team data updated successfully!");
+                console.log("Data updated successfully!");
             }).catch(error => {
                 console.log(error.message);
             });

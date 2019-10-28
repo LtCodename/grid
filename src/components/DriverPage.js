@@ -79,7 +79,7 @@ class DriverPage extends React.Component {
                         onClick={this.onEditDriver}>
                         {!this.state.editDriverMode ? "Edit Driver" : "Hide"}
                     </EditButton>
-                    {this.state.editDriverMode ? <ManageDriverForm driverId={this.props.match.params.driver_id} mode={'edit'}/>  : driverDataToDisplay}
+                    {this.state.editDriverMode ? <ManageDriverForm driverId={this.props.match.params.driver_id} mode={'edit'}/> : driverDataToDisplay}
                 </ComponentRestricted>
             </>
         )

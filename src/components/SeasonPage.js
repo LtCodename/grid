@@ -1,22 +1,59 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted} from "../SharedStyles";
+import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles";
 import {connect} from "react-redux";
+import ManageSeasonForm from "./ManageSeasonForm";
+import SeasonBlueprint from "../blueprints/SeasonBlueprint";
 
 class SeasonPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            editSeasonMode: false
         };
     }
 
+    onEditSeason = () => {
+        if (!this.state.editSeasonMode) {
+            this.setState({
+                editSeasonMode: true
+            })
+        }else {
+            this.setState({
+                editSeasonMode: false
+            })
+        }
+    };
+
     render() {
+        const tableRows = SeasonBlueprint.map((elem, index) => {
+            return (
+                <tr key={index}>
+                    <th scope="row">{elem.name}</th>
+                    <td>{this.props.season[elem.db]}</td>
+                </tr>
+            )
+        });
+
+        const seasonDataToDisplay = (
+            <InformationTable className="table">
+                <tbody>
+                {tableRows}
+                </tbody>
+            </InformationTable>
+        );
+
         return (
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <p>{this.props.season.name}</p>
+                    <EditButton
+                        className="btn btn-warning"
+                        onClick={this.onEditSeason}>
+                        {!this.state.editSeasonMode ? "Edit Season" : "Hide"}
+                    </EditButton>
+                    {this.state.editSeasonMode ? <ManageSeasonForm seasonId={this.props.match.params.season_id} mode={'edit'}/> : seasonDataToDisplay}
                 </ComponentRestricted>
             </>
         )

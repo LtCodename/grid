@@ -27,13 +27,13 @@ class ManageSeasonForm extends React.Component {
                 "name": "",
             })
         }else {
-            /*firebase.firestore().collection('teams').doc(this.props.teamId).update({
-                ...newTeamData
+            firebase.firestore().collection('seasons').doc(this.props.seasonId).update({
+                ...newSeasonData
             }).then((data) => {
-                console.log("Team data updated successfully!");
+                console.log("Data updated successfully!");
             }).catch(error => {
                 console.log(error.message);
-            });*/
+            });
         }
     };
 
@@ -80,7 +80,6 @@ const mapStateToProps = (state = {}, props) => {
         })
     }
 };
-
 
 const ManageSeasonFormConnected = connect(mapStateToProps, null)(ManageSeasonForm);
 
