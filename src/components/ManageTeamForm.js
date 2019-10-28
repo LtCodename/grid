@@ -1,36 +1,8 @@
 import React from 'react';
-import styled from "styled-components";
+import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../sharedStyles";
 import {connect} from "react-redux";
 
 declare var firebase;
-
-const Form = styled.form`
-    padding: 10px 0;
-`;
-
-const Textarea = styled.textarea`
-    margin: 5px 0;
-    resize: none;
-`;
-
-const Label = styled.label`
-    margin: 0;
-    padding: 0;
-`;
-
-const Property = styled.div`
-    
-`;
-
-const SubmitButton = styled.button`
-    margin: 5px auto;
-`;
-
-const Properties = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
-`;
 
 class ManageTeamForm extends React.Component {
     constructor(props) {
@@ -81,7 +53,7 @@ class ManageTeamForm extends React.Component {
 
     render() {
         return (
-            <Form id="loginForm" onSubmit={this.submitTeam}>
+            <Form onSubmit={this.submitTeam}>
                 <Properties>
                     {/*Full Name*/}
                     <Property>

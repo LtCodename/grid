@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted} from "../sharedStyles";
+import {AddButton, AddButtonWrapper, ComponentRestricted} from "../sharedStyles";
 import styled from "styled-components";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
@@ -11,18 +11,6 @@ const TeamButton = styled.button`
     padding: 30px;
     cursor: pointer;
     margin: 0 5px 5px 0;
-`;
-
-const AddTeamButtonWrapper = styled.div`
-    width: 100%;
-    margin-bottom: 10px;
-`;
-
-const AddTeamButton = styled.button`
-    margin: 0;
-    padding: 5px;
-    cursor: pointer;
-    margin: 0 5px 0 0;
 `;
 
 class Teams extends React.Component {
@@ -61,14 +49,13 @@ class Teams extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <AddTeamButtonWrapper>
-                        <AddTeamButton
+                    <AddButtonWrapper>
+                        <AddButton
                             className="btn btn-warning"
                             onClick={this.addTeam}>
                             {!this.state.addTeamMode ? "Add Team" : "Hide"}
-                        </AddTeamButton>
-                    </AddTeamButtonWrapper>
-
+                        </AddButton>
+                    </AddButtonWrapper>
                     {this.state.addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
                     {teamsToDisplay}
                 </ComponentRestricted>

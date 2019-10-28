@@ -2,6 +2,7 @@ import React from 'react';
 import NavigationPanel from "./NavigationPanel";
 import {ComponentRestricted, EditButton, InformationTable} from "../sharedStyles";
 import {connect} from "react-redux";
+import ManageDriverForm from "./ManageDriverForm";
 
 class DriverPage extends React.Component {
     constructor(props) {
@@ -12,46 +13,66 @@ class DriverPage extends React.Component {
         };
     }
 
+    onEditDriver = () => {
+        if (!this.state.editDriverMode) {
+            this.setState({
+                editDriverMode: true
+            })
+        }else {
+            this.setState({
+                editDriverMode: false
+            })
+        }
+    };
+
     render() {
+        console.log(this.props.driver);
+        const date = new Date();
+        const year = date.getFullYear();
+
         const driverDataToDisplay = (
             <InformationTable className="table">
                 <tbody>
-                <tr>
-                    <th scope="row">Driver name</th>
-                    <td className="makeItFlex">{this.props.driver['name']}</td>
-                </tr>
-                {/*<tr>
-                    <th scope="row">Country</th>
-                    <td className="makeItFlex">{this.props.team.country}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Debut year</th>
-                    <td className="makeItFlex">{this.props.team['debut-year']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Engine manufacturer</th>
-                    <td className="makeItFlex">{this.props.team.engine}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Team principal</th>
-                    <td className="makeItFlex">{this.props.team['team-principal']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Constructors championships</th>
-                    <td className="makeItFlex">{this.props.team['constructors-championships']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Drivers championships</th>
-                    <td className="makeItFlex">{this.props.team['drivers-championships']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Wins</th>
-                    <td className="makeItFlex">{this.props.team.wins}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Pole positions</th>
-                    <td className="makeItFlex">{this.props.team.poles}</td>
-                </tr>*/}
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>{this.props.driver['name']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Team</th>
+                        <td>{this.props.driver['team-id'] ? this.props.driver['team-id'] : "Not selected"}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Age</th>
+                        <td>{year - this.props.driver['date-of-birth']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">In F1</th>
+                        <td>{year - this.props.driver['debut']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Nationality</th>
+                        <td>{this.props.driver['nationality']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Car number</th>
+                        <td>{this.props.driver['number']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Grand Prix wins</th>
+                        <td>{this.props.driver['wins']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Pole positions</th>
+                        <td>{this.props.driver['poles']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Podium places</th>
+                        <td>{this.props.driver['podiums']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Championships</th>
+                        <td>{this.props.driver['championships']}</td>
+                    </tr>
                 </tbody>
             </InformationTable>
         );
@@ -62,10 +83,10 @@ class DriverPage extends React.Component {
                 <ComponentRestricted>
                     <EditButton
                         className="btn btn-warning"
-                        onClick={this.onEditTeam}>
+                        onClick={this.onEditDriver}>
                         {!this.state.editDriverMode ? "Edit Driver" : "Hide"}
                     </EditButton>
-                    {this.state.editDriverMode ? "" : driverDataToDisplay}
+                    {this.state.editDriverMode ? <ManageDriverForm driverId={this.props.match.params.driver_id} mode={'edit'}/>  : driverDataToDisplay}
                 </ComponentRestricted>
             </>
         )

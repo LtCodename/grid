@@ -24,48 +24,48 @@ class TeamPage extends React.Component {
                 editTeamMode: false
             })
         }
-    }
+    };
 
     render() {
         const teamDataToDisplay = (
             <InformationTable className="table">
                 <tbody>
-                <tr>
-                    <th scope="row">Team name</th>
-                    <td className="makeItFlex">{this.props.team['name-full']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Country</th>
-                    <td className="makeItFlex">{this.props.team.country}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Debut year</th>
-                    <td className="makeItFlex">{this.props.team['debut-year']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Engine manufacturer</th>
-                    <td className="makeItFlex">{this.props.team.engine}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Team principal</th>
-                    <td className="makeItFlex">{this.props.team['team-principal']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Constructors championships</th>
-                    <td className="makeItFlex">{this.props.team['constructors-championships']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Drivers championships</th>
-                    <td className="makeItFlex">{this.props.team['drivers-championships']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Wins</th>
-                    <td className="makeItFlex">{this.props.team.wins}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Pole positions</th>
-                    <td className="makeItFlex">{this.props.team.poles}</td>
-                </tr>
+                    <tr>
+                        <th scope="row">Team name</th>
+                        <td>{this.props.team['name-full']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Country</th>
+                        <td>{this.props.team.country}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Debut year</th>
+                        <td>{this.props.team['debut-year']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Engine manufacturer</th>
+                        <td>{this.props.team.engine}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Team principal</th>
+                        <td>{this.props.team['team-principal']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Constructors championships</th>
+                        <td>{this.props.team['constructors-championships']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Drivers championships</th>
+                        <td>{this.props.team['drivers-championships']}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Wins</th>
+                        <td>{this.props.team.wins}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Pole positions</th>
+                        <td>{this.props.team.poles}</td>
+                    </tr>
                 </tbody>
             </InformationTable>
         );
