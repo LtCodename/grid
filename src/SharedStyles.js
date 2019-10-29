@@ -11,11 +11,11 @@ export const ActionButton = styled.button`
     margin: 0;
     padding: 5px;
     cursor: pointer;
-    margin: 0 5px 5px 0;
+    margin: 0 5px 0 0;
     color: #784d2b;
 `;
 
-export const ButtonWrapper = styled.div`
+export const Wrapper = styled.div`
     width: 100%;
     margin-bottom: 10px;
 `;
@@ -66,9 +66,23 @@ export const Item = styled.button`
     margin: 0;
     padding: 30px;
     cursor: pointer;
+    margin: 0 5px 0 0;
+    background-color: #fde3a7;
+    color: #784d2b;
+`;
+
+export const SmallItem = styled.button`
+    margin: 0;
+    padding: 10px;
     margin: 0 5px 5px 0;
     background-color: #fde3a7;
     color: #784d2b;
+    border-radius: .25rem;
+    cursor: default !important;
+`;
+
+export const Select = styled.select`
+    margin: 5px 0;
 `;
 
 

@@ -1,21 +1,22 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ActionButton, ButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
+import {ActionButton, ComponentRestricted, Item, Wrapper} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import {NavLink} from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
 import styled from "styled-components";
+import AttachDrivers from "./SeasonPageComponents/AttachDrivers";
 
-export const SeasonInformation = styled.div`
+const SeasonInformation = styled.div`
     text-align: center;
 `;
 
-export const InformationBit = styled.div`
-        text-align: center;
-        border: 1px solid #fde3a7;
-        margin: 10px 0;
-        padding: 10px;
+const InformationBit = styled.div`
+    text-align: center;
+    border: 1px solid #fde3a7;
+    margin: 10px 0;
+    padding: 10px;
 `;
 
 class SeasonPage extends React.Component {
@@ -92,16 +93,22 @@ class SeasonPage extends React.Component {
                         </InformationBit>
                     </SeasonInformation>
                     {/*Add Race Button*/}
-                    <ButtonWrapper>
+                    <Wrapper>
                         <ActionButton
                             className="btn btn-warning"
                             onClick={this.addRace}>
                             {!this.state.addRaceMode ? "Add Race" : "Hide"}
                         </ActionButton>
-                    </ButtonWrapper>
+                    </Wrapper>
                     {this.state.addRaceMode ? <ManageRaceForm seasonId={this.props.season.id} mode={'add'}/> : ""}
                     {/*Races*/}
-                    {racesToDisplay}
+                    <Wrapper>
+                        {racesToDisplay}
+                    </Wrapper>
+                    {/*Attach Drivers To Current Season*/}
+                    <Wrapper>
+                        <AttachDrivers seasonId={this.props.match.params.season_id}/>
+                    </Wrapper>
                 </ComponentRestricted>
             </>
         )

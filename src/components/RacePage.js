@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, ActionButton, InformationTable} from "../SharedStyles";
+import {ComponentRestricted, ActionButton, InformationTable, Wrapper} from "../SharedStyles";
 import {connect} from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import {NavLink} from "react-router-dom";
@@ -50,12 +50,13 @@ class RacePage extends React.Component {
                 <NavigationPanel />
                 <ComponentRestricted>
                     <NavLink to={`/seasons/${this.props.match.params.season_id}`}>
-                        <ActionButton
-                            className="btn btn-warning">
-                            {`Back to ${this.props.season.name}`}
-                        </ActionButton>
+                        <Wrapper>
+                            <ActionButton
+                                className="btn btn-warning">
+                                {`Back to ${this.props.season.name}`}
+                            </ActionButton>
+                        </Wrapper>
                     </NavLink>
-                    <br/>
                     <ActionButton
                         className="btn btn-warning"
                         onClick={this.onEditRace}>

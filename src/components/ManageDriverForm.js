@@ -1,14 +1,9 @@
 import React from 'react';
-import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../SharedStyles";
+import {Form, Label, Properties, Property, Select, SubmitButton, Textarea} from "../SharedStyles";
 import {connect} from "react-redux";
-import styled from "styled-components";
 import DriverEditBlueprint from "../blueprints/DriverEditBlueprint";
 
 declare var firebase;
-
-const Select = styled.select`
-    margin: 5px 0;
-`;
 
 class ManageDriverForm extends React.Component {
     constructor(props) {
