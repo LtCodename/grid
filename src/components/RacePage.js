@@ -4,7 +4,7 @@ import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles
 import {connect} from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import {NavLink} from "react-router-dom";
-//import ManageDriverForm from "./ManageDriverForm";
+import ManageRaceForm from "./ManageRaceForm";
 
 class RacePage extends React.Component {
     constructor(props) {
@@ -62,7 +62,7 @@ class RacePage extends React.Component {
                         {!this.state.editRaceMode ? "Edit Race" : "Hide"}
                     </EditButton>
                     <br/>
-                    {this.state.editRaceMode ? {/*<ManageDriverForm raceId={this.props.match.params.race_id} mode={'edit'}/>*/} : raceDataToDisplay}
+                    {this.state.editRaceMode ? <ManageRaceForm raceId={this.props.match.params.race_id} mode={'edit'}/> : raceDataToDisplay}
                 </ComponentRestricted>
             </>
         )
