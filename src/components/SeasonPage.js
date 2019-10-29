@@ -1,17 +1,19 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, EditButton, InformationTable, Item} from "../SharedStyles";
+import {AddButton, AddButtonWrapper, ComponentRestricted, EditButton, InformationTable, Item} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import SeasonBlueprint from "../blueprints/SeasonBlueprint";
 import {NavLink} from "react-router-dom";
+import ManageRaceForm from "./ManageRaceForm";
 
 class SeasonPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            editSeasonMode: false
+            editSeasonMode: false,
+            addRaceMode: false
         };
     }
 
@@ -23,6 +25,18 @@ class SeasonPage extends React.Component {
         }else {
             this.setState({
                 editSeasonMode: false
+            })
+        }
+    };
+
+    addRace = () => {
+        if (!this.state.addRaceMode) {
+            this.setState({
+                addRaceMode: true
+            })
+        }else {
+            this.setState({
+                addRaceMode: false
             })
         }
     };
@@ -69,6 +83,14 @@ class SeasonPage extends React.Component {
                         {!this.state.editSeasonMode ? "Edit Season" : "Hide"}
                     </EditButton>
                     {this.state.editSeasonMode ? <ManageSeasonForm seasonId={this.props.match.params.season_id} mode={'edit'}/> : seasonDataToDisplay}
+                    <AddButtonWrapper>
+                        <AddButton
+                            className="btn btn-warning"
+                            onClick={this.addRace}>
+                            {!this.state.addRaceMode ? "Add Race" : "Hide"}
+                        </AddButton>
+                    </AddButtonWrapper>
+                    {this.state.addRaceMode ? <ManageRaceForm seasonId={this.props.season.id} mode={'add'}/> : ""}
                     {racesToDisplay}
                 </ComponentRestricted>
             </>

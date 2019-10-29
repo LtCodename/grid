@@ -17,6 +17,8 @@ class ManageRaceForm extends React.Component {
         const newRaceData = this.state;
 
         if (this.props.mode === 'add') {
+
+            newRaceData['season-id'] = this.props.seasonId;
             firebase.firestore().collection('races').add({
                 ...newRaceData
             }).then(() => {
