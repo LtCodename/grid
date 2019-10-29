@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles";
+import {ComponentRestricted, ActionButton, InformationTable} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageTeamForm from "./ManageTeamForm";
 import TeamBlueprint from "../blueprints/TeamBlueprint";
@@ -49,11 +49,11 @@ class TeamPage extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <EditButton
+                    <ActionButton
                         className="btn btn-warning"
                         onClick={this.onEditTeam}>
                         {!this.state.editTeamMode ? "Edit Team" : "Hide"}
-                    </EditButton>
+                    </ActionButton>
                     {this.state.editTeamMode ? <ManageTeamForm teamId={this.props.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
                 </ComponentRestricted>
             </>

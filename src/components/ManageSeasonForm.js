@@ -70,7 +70,7 @@ class ManageSeasonForm extends React.Component {
                 <Properties>
                     {properties}
                 </Properties>
-                <SubmitButton className="btn btn-warning">Submit</SubmitButton>
+                <SubmitButton className="btn">Submit</SubmitButton>
             </Form>
         )
     }

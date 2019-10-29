@@ -7,7 +7,7 @@ export const ComponentRestricted = styled.div`
     padding: 15px;
 `;
 
-export const EditButton = styled.button`
+export const ActionButton = styled.button`
     margin: 0;
     padding: 5px;
     cursor: pointer;
@@ -15,22 +15,14 @@ export const EditButton = styled.button`
     color: #784d2b;
 `;
 
-export const InformationTable = styled.table`
-    margin: 10px auto;
-    width: 50%;
-    color: #784d2b;
-`;
-
-export const AddButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
     width: 100%;
     margin-bottom: 10px;
 `;
 
-export const AddButton = styled.button`
-    margin: 0;
-    padding: 5px;
-    cursor: pointer;
-    margin: 0 5px 0 0;
+export const InformationTable = styled.table`
+    margin: 10px auto;
+    width: 50%;
     color: #784d2b;
 `;
 
@@ -56,11 +48,18 @@ export const Textarea = styled.textarea`
 export const Label = styled.label`
     margin: 0;
     padding: 0;
+    color: rgba(120, 77, 43, 1);
 `;
 
 export const SubmitButton = styled.button`
     margin: 5px auto;
-    color: #784d2b;
+    color: #fff9de;
+    background-color: rgba(120, 77, 43, 1);
+    border-color: rgba(120, 77, 43, 1);
+    :hover {
+        background-color: rgba(120, 77, 43, 0.8);
+        border-color: rgba(120, 77, 43, 0.8);
+    }
 `;
 
 export const Item = styled.button`

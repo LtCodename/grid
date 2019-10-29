@@ -3,7 +3,7 @@ import NavigationPanel from "./NavigationPanel";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
 import ManageTeamForm from "./ManageTeamForm";
-import {AddButton, AddButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
+import {ActionButton, ButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 
 class Teams extends React.Component {
     constructor(props) {
@@ -41,13 +41,13 @@ class Teams extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <AddButtonWrapper>
-                        <AddButton
+                    <ButtonWrapper>
+                        <ActionButton
                             className="btn btn-warning"
                             onClick={this.addTeam}>
                             {!this.state.addTeamMode ? "Add Team" : "Hide"}
-                        </AddButton>
-                    </AddButtonWrapper>
+                        </ActionButton>
+                    </ButtonWrapper>
                     {this.state.addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
                     {teamsToDisplay}
                 </ComponentRestricted>

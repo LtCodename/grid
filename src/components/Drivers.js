@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {AddButton, AddButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
+import {ActionButton, ButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
 import ManageDriverForm from "./ManageDriverForm";
@@ -41,13 +41,13 @@ class Drivers extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <AddButtonWrapper>
-                        <AddButton
+                    <ButtonWrapper>
+                        <ActionButton
                             className="btn btn-warning"
                             onClick={this.addDriver}>
                             {!this.state.addDriverMode ? "Add Driver" : "Hide"}
-                        </AddButton>
-                    </AddButtonWrapper>
+                        </ActionButton>
+                    </ButtonWrapper>
                     {this.state.addDriverMode ? <ManageDriverForm mode={'add'}/> : ""}
                     {drivers}
                 </ComponentRestricted>

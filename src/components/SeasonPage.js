@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {AddButton, AddButtonWrapper, ComponentRestricted, EditButton, InformationTable, Item} from "../SharedStyles";
+import {ActionButton, ButtonWrapper, ComponentRestricted, InformationTable, Item} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import SeasonBlueprint from "../blueprints/SeasonBlueprint";
@@ -77,19 +77,19 @@ class SeasonPage extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <EditButton
+                    <ActionButton
                         className="btn btn-warning"
                         onClick={this.onEditSeason}>
                         {!this.state.editSeasonMode ? "Edit Season" : "Hide"}
-                    </EditButton>
+                    </ActionButton>
                     {this.state.editSeasonMode ? <ManageSeasonForm seasonId={this.props.match.params.season_id} mode={'edit'}/> : seasonDataToDisplay}
-                    <AddButtonWrapper>
-                        <AddButton
+                    <ButtonWrapper>
+                        <ActionButton
                             className="btn btn-warning"
                             onClick={this.addRace}>
                             {!this.state.addRaceMode ? "Add Race" : "Hide"}
-                        </AddButton>
-                    </AddButtonWrapper>
+                        </ActionButton>
+                    </ButtonWrapper>
                     {this.state.addRaceMode ? <ManageRaceForm seasonId={this.props.season.id} mode={'add'}/> : ""}
                     {racesToDisplay}
                 </ComponentRestricted>

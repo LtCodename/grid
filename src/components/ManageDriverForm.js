@@ -100,7 +100,7 @@ class ManageDriverForm extends React.Component {
                         {properties}
                         {team}
                     </Properties>
-                    <SubmitButton className="btn btn-warning">Submit</SubmitButton>
+                    <SubmitButton className="btn">Submit</SubmitButton>
                 </Form>
             </>
         )

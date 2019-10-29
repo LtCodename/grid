@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {AddButton, AddButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
+import {ActionButton, ButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
@@ -41,13 +41,13 @@ class Seasons extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <AddButtonWrapper>
-                        <AddButton
+                    <ButtonWrapper>
+                        <ActionButton
                             className="btn btn-warning"
                             onClick={this.addSeason}>
                             {!this.state.addSeasonMode ? "Add Season" : "Hide"}
-                        </AddButton>
-                    </AddButtonWrapper>
+                        </ActionButton>
+                    </ButtonWrapper>
                     {this.state.addSeasonMode ? <ManageSeasonForm mode={'add'}/> : ""}
                     {seasonsToDisplay}
                 </ComponentRestricted>
