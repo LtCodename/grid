@@ -46,14 +46,13 @@ class SeasonPage extends React.Component {
         );
 
         const racesToDisplay = (
-
             this.props.races.filter(r => {
                 return (
                     r['season-id'] === this.props.match.params.season_id
                 )
             }).map((race, index) => {
                 return (
-                    <NavLink key={index} to={`/races/${race.id}`}>
+                    <NavLink key={index} to={`/races/${this.props.match.params.season_id}/${race.id}`}>
                         <Item className="btn">{race.name}</Item>
                     </NavLink>
                 )

@@ -105,7 +105,7 @@ class App extends React.Component {
                     <Route path="/drivers/:driver_id" component={DriverPage} />
                     <Route exact path="/seasons" component={Seasons} />
                     <Route path="/seasons/:season_id" component={SeasonPage} />
-                    <Route path="/races/:race_id" component={RacePage} />
+                    <Route path="/races/:season_id/:race_id" component={RacePage} />
                     <Redirect to="/seasons" />
                 </Switch>
             </>

@@ -1,102 +1,85 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted/*, EditButton, InformationTable*/} from "../SharedStyles";
-//import {connect} from "react-redux";
+import {ComponentRestricted, EditButton, InformationTable} from "../SharedStyles";
+import {connect} from "react-redux";
+import RaceBlueprint from "../blueprints/RaceBlueprint";
+import {NavLink} from "react-router-dom";
 //import ManageDriverForm from "./ManageDriverForm";
-//import DriverBlueprint from "../blueprints/DriverBlueprint";
 
 class RacePage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            //editDriverMode: false
+            editRaceMode: false
         };
     }
 
-    /*onEditDriver = () => {
-        if (!this.state.editDriverMode) {
+    onEditRace = () => {
+        if (!this.state.editRaceMode) {
             this.setState({
-                editDriverMode: true
+                editRaceMode: true
             })
         }else {
             this.setState({
-                editDriverMode: false
+                editRaceMode: false
             })
         }
-    };*/
+    };
 
     render() {
-       /* const date = new Date();
-        const year = date.getFullYear();
-
-        let teamsObject = {};
-        for (let i = 0; i < this.props.teams.length; i++) {
-            teamsObject[this.props.teams[i].id] = this.props.teams[i].name;
-        }
-
-        const tableRows = DriverBlueprint.map((elem, index) => {
+        const tableRows = RaceBlueprint.map((elem, index) => {
             return (
                 <tr key={index}>
                     <th scope="row">{elem.name}</th>
-                    <td>{this.props.driver[elem.db]}</td>
+                    <td>{this.props.race[elem.db]}</td>
                 </tr>
             )
         });
 
-        const manualRows = (
-            <>
-                <tr>
-                    <th scope="row">Team</th>
-                    <td>{this.props.driver['team-id'] ? teamsObject[this.props.driver['team-id']] : "Not selected"}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Age</th>
-                    <td>{year - this.props.driver['date-of-birth']}</td>
-                </tr>
-                <tr>
-                    <th scope="row">In F1</th>
-                    <td>{year - this.props.driver['debut']}</td>
-                </tr>
-            </>
-        )
-
-        const driverDataToDisplay = (
+        const raceDataToDisplay = (
             <InformationTable className="table">
                 <tbody>
                 {tableRows}
-                {manualRows}
                 </tbody>
             </InformationTable>
-        );*/
+        );
 
         return (
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <p>Race Page {this.props.match.params.race_id}</p>
-                    {/*<EditButton
+                    <NavLink to={`/seasons/${this.props.match.params.season_id}`}>
+                        <EditButton
+                            className="btn btn-warning">
+                            {`Back to ${this.props.season.name}`}
+                        </EditButton>
+                    </NavLink>
+                    <br/>
+                    <EditButton
                         className="btn btn-warning"
-                        onClick={this.onEditDriver}>
-                        {!this.state.editDriverMode ? "Edit Driver" : "Hide"}
+                        onClick={this.onEditRace}>
+                        {!this.state.editRaceMode ? "Edit Race" : "Hide"}
                     </EditButton>
-                    {this.state.editDriverMode ? <ManageDriverForm driverId={this.props.match.params.driver_id} mode={'edit'}/> : driverDataToDisplay}*/}
+                    <br/>
+                    {this.state.editRaceMode ? {/*<ManageDriverForm raceId={this.props.match.params.race_id} mode={'edit'}/>*/} : raceDataToDisplay}
                 </ComponentRestricted>
             </>
         )
     }
 }
 
-/*const mapStateToProps = (state = {}, props) => {
+const mapStateToProps = (state = {}, props) => {
     return {
-        driver: state.drivers.find(driver => {
-            return driver.id === props.match.params.driver_id
+        race: state.races.find(race => {
+            return race.id === props.match.params.race_id
         }),
-        teams: state.teams
+        season: state.seasons.find(season => {
+            return season.id === props.match.params.season_id
+        })
     }
 };
 
-const DriverPageConnected = connect(mapStateToProps, null)(DriverPage);
+const RacePageConnected = connect(mapStateToProps, null)(RacePage);
 
-export default DriverPageConnected;*/
-export default RacePage;
+export default RacePageConnected;
