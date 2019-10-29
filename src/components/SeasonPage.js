@@ -1,11 +1,22 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ActionButton, ButtonWrapper, ComponentRestricted, InformationTable, Item} from "../SharedStyles";
+import {ActionButton, ButtonWrapper, ComponentRestricted, Item} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
-import SeasonBlueprint from "../blueprints/SeasonBlueprint";
 import {NavLink} from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
+import styled from "styled-components";
+
+export const SeasonInformation = styled.div`
+    text-align: center;
+`;
+
+export const InformationBit = styled.div`
+        text-align: center;
+        border: 1px solid #fde3a7;
+        margin: 10px 0;
+        padding: 10px;
+`;
 
 class SeasonPage extends React.Component {
     constructor(props) {
@@ -42,23 +53,6 @@ class SeasonPage extends React.Component {
     };
 
     render() {
-        const tableRows = SeasonBlueprint.map((elem, index) => {
-            return (
-                <tr key={index}>
-                    <th scope="row">{elem.name}</th>
-                    <td>{this.props.season[elem.db]}</td>
-                </tr>
-            )
-        });
-
-        const seasonDataToDisplay = (
-            <InformationTable className="table">
-                <tbody>
-                {tableRows}
-                </tbody>
-            </InformationTable>
-        );
-
         const racesToDisplay = (
             this.props.races.filter(r => {
                 return (
@@ -77,12 +71,27 @@ class SeasonPage extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
+                    {/*Edit Season Button*/}
                     <ActionButton
                         className="btn btn-warning"
                         onClick={this.onEditSeason}>
                         {!this.state.editSeasonMode ? "Edit Season" : "Hide"}
                     </ActionButton>
-                    {this.state.editSeasonMode ? <ManageSeasonForm seasonId={this.props.match.params.season_id} mode={'edit'}/> : seasonDataToDisplay}
+                    {this.state.editSeasonMode ? <ManageSeasonForm seasonId={this.props.match.params.season_id} mode={'edit'}/> : ''}
+                    {/*General Information*/}
+                    <SeasonInformation>
+                        <h2>{this.props.season.name}</h2>
+                        <InformationBit>
+                            Statistics
+                        </InformationBit>
+                        <InformationBit>
+                            Drivers Standings
+                        </InformationBit>
+                        <InformationBit>
+                            Constructors Standings
+                        </InformationBit>
+                    </SeasonInformation>
+                    {/*Add Race Button*/}
                     <ButtonWrapper>
                         <ActionButton
                             className="btn btn-warning"
@@ -91,6 +100,7 @@ class SeasonPage extends React.Component {
                         </ActionButton>
                     </ButtonWrapper>
                     {this.state.addRaceMode ? <ManageRaceForm seasonId={this.props.season.id} mode={'add'}/> : ""}
+                    {/*Races*/}
                     {racesToDisplay}
                 </ComponentRestricted>
             </>
