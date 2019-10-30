@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../SharedStyles";
+import {Form, Label, Properties, Property, Select, SubmitButton, Textarea} from "../SharedStyles";
 import {connect} from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 
@@ -45,6 +45,8 @@ class ManageRaceForm extends React.Component {
     inputValuesChange = (event) => {
         this.setState({
             [event.target.id]: event.target.value
+        }, () => {
+            console.log(this.state);
         });
     };
 
@@ -66,11 +68,74 @@ class ManageRaceForm extends React.Component {
                 </Property>
             )
         });
+        /* Pole Position Select */
+        let poleOptions;
+        if (this.props.season.drivers) {
+            poleOptions = ["Not selected", ...this.props.season.drivers].map((driver, index) => {
+                let seasonDriver = {name: "Not selected"};
+                if (driver !== "Not selected") {
+                    seasonDriver = this.props.drivers.find(dr => {
+                        return dr.id === driver;
+                    });
+                }
+                return (
+                    <option key={index} value={driver}>{seasonDriver.name}</option>
+                );
+            });
+        }
+
+        const pole = (
+            <>
+                <Property>
+                    <Label htmlFor="pole">Pole position</Label>
+                    <Select
+                        value={this.state['pole']}
+                        id="pole"
+                        className="custom-select"
+                        onChange={this.inputValuesChange}>
+                        {poleOptions}
+                    </Select>
+                </Property>
+            </>
+        );
+
+        /* Fastest Lap Select */
+        let fastestLapOptions;
+        if (this.props.season.drivers) {
+            fastestLapOptions = ["Not selected", ...this.props.season.drivers].map((driver, index) => {
+                let seasonDriver = {name: "Not selected"};
+                if (driver !== "Not selected") {
+                    seasonDriver = this.props.drivers.find(dr => {
+                        return dr.id === driver;
+                    });
+                }
+                return (
+                    <option key={index} value={driver}>{seasonDriver.name}</option>
+                );
+            });
+        }
+
+        const fastestLap = (
+            <>
+                <Property>
+                    <Label htmlFor="lap">Fastest lap</Label>
+                    <Select
+                        value={this.state['lap']}
+                        id="lap"
+                        className="custom-select"
+                        onChange={this.inputValuesChange}>
+                        {fastestLapOptions}
+                    </Select>
+                </Property>
+            </>
+        );
 
         return (
             <Form onSubmit={this.submitRace}>
                 <Properties>
                     {properties}
+                    {this.props.season.drivers ? pole : ''}
+                    {this.props.season.drivers ? fastestLap : ''}
                 </Properties>
                 <SubmitButton className="btn">Submit</SubmitButton>
             </Form>
@@ -82,7 +147,11 @@ const mapStateToProps = (state = {}, props) => {
     return {
         race: state.races.find(race => {
             return race.id === props.raceId
-        })
+        }),
+        season: state.seasons.find(season => {
+            return season.id === props.seasonId
+        }),
+        drivers: state.drivers
     }
 };
 

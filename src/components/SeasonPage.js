@@ -17,8 +17,11 @@ const SeasonInformation = styled.div`
 
 const InformationBit = styled.div`
     text-align: center;
-    /*margin: 10px 0;
-    padding: 10px;*/
+`;
+
+const SeasonName = styled.h2`
+    width: 100%;
+    text-align: center;
 `;
 
 class SeasonPage extends React.Component {
@@ -74,9 +77,22 @@ class SeasonPage extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
+                    <SeasonName>{this.props.season.name}</SeasonName>
+                    {/*Add Race Button*/}
+                    <Wrapper>
+                        <ActionButton
+                            className="btn btn-warning"
+                            onClick={this.addRace}>
+                            {!this.state.addRaceMode ? "Add Race" : "Hide"}
+                        </ActionButton>
+                    </Wrapper>
+                    {this.state.addRaceMode ? <ManageRaceForm seasonId={this.props.season.id} mode={'add'}/> : ""}
+                    {/*Races*/}
+                    <Wrapper>
+                        {racesToDisplay}
+                    </Wrapper>
                     {/*General Information*/}
                     <SeasonInformation>
-                        <h2>{this.props.season.name}</h2>
                         <InformationBit>
                             <h3>Statistics</h3>
                             {this.props.season.drivers ? <Statistics seasonDrivers={this.props.season.drivers}/> : 'No drivers selected'}
@@ -99,19 +115,6 @@ class SeasonPage extends React.Component {
                         </ActionButton>
                     </Wrapper>
                     {this.state.editSeasonMode ? <ManageSeasonForm seasonId={this.props.match.params.season_id} mode={'edit'}/> : ''}
-                    {/*Add Race Button*/}
-                    <Wrapper>
-                        <ActionButton
-                            className="btn btn-warning"
-                            onClick={this.addRace}>
-                            {!this.state.addRaceMode ? "Add Race" : "Hide"}
-                        </ActionButton>
-                    </Wrapper>
-                    {this.state.addRaceMode ? <ManageRaceForm seasonId={this.props.season.id} mode={'add'}/> : ""}
-                    {/*Races*/}
-                    <Wrapper>
-                        {racesToDisplay}
-                    </Wrapper>
                     {/*Attach Drivers To Current Season*/}
                     <Wrapper>
                         <AttachDrivers seasonId={this.props.match.params.season_id}/>

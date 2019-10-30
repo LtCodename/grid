@@ -37,10 +37,43 @@ class RacePage extends React.Component {
             )
         });
 
+        /* Pole Position */
+        let poleDriver = '';
+        if (this.props.race.pole) {
+            poleDriver = this.props.drivers.find(driver=> {
+                return driver.id === this.props.race.pole;
+            });
+        }
+
+        const polePosition = (
+            <tr>
+                <th scope="row">Pole position</th>
+                <td>{poleDriver.name}</td>
+            </tr>
+        );
+
+        /* Fastest Lap */
+        let lapDriver = '';
+        if (this.props.race.lap) {
+            lapDriver = this.props.drivers.find(driver=> {
+                return driver.id === this.props.race.lap;
+            });
+        }
+
+        const fastestLap = (
+            <tr>
+                <th scope="row">Fastest lap</th>
+                <td>{lapDriver.name}</td>
+            </tr>
+        );
+
+        /* All Race Data */
         const raceDataToDisplay = (
             <InformationTable className="table">
                 <tbody>
                 {tableRows}
+                {this.props.race.pole ? polePosition : null}
+                {this.props.race.lap ? fastestLap : null}
                 </tbody>
             </InformationTable>
         );
@@ -63,7 +96,10 @@ class RacePage extends React.Component {
                         {!this.state.editRaceMode ? "Edit Race" : "Hide"}
                     </ActionButton>
                     <br/>
-                    {this.state.editRaceMode ? <ManageRaceForm raceId={this.props.match.params.race_id} mode={'edit'}/> : raceDataToDisplay}
+                    {this.state.editRaceMode ? <ManageRaceForm
+                        raceId={this.props.match.params.race_id}
+                        seasonId={this.props.match.params.season_id}
+                        mode={'edit'}/> : raceDataToDisplay}
                 </ComponentRestricted>
             </>
         )
@@ -77,7 +113,8 @@ const mapStateToProps = (state = {}, props) => {
         }),
         season: state.seasons.find(season => {
             return season.id === props.match.params.season_id
-        })
+        }),
+        drivers: state.drivers
     }
 };
 
