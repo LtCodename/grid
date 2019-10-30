@@ -78,12 +78,12 @@ class SeasonPage extends React.Component {
                 <NavigationPanel />
                 <ComponentRestricted>
                     <SeasonName>{this.props.season.name}</SeasonName>
-                    {/*Add Race Button*/}
+                    {/*Add Grand Prix Button*/}
                     <Wrapper>
                         <ActionButton
                             className="btn btn-warning"
                             onClick={this.addRace}>
-                            {!this.state.addRaceMode ? "Add Race" : "Hide"}
+                            {!this.state.addRaceMode ? "Add Grand Prix" : "Hide"}
                         </ActionButton>
                     </Wrapper>
                     {this.state.addRaceMode ? <ManageRaceForm seasonId={this.props.season.id} mode={'add'}/> : ""}

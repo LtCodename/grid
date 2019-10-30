@@ -93,7 +93,7 @@ class RacePage extends React.Component {
                     <ActionButton
                         className="btn btn-warning"
                         onClick={this.onEditRace}>
-                        {!this.state.editRaceMode ? "Edit Race" : "Hide"}
+                        {!this.state.editRaceMode ? "Edit Grand Prix" : "Hide"}
                     </ActionButton>
                     <br/>
                     {this.state.editRaceMode ? <ManageRaceForm
