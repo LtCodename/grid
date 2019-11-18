@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ActionButton, ComponentRestricted, Item, Wrapper} from "../SharedStyles";
+import {ActionButton, ComponentRestricted, H3, Item, Wrapper} from "../SharedStyles";
 import {connect} from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import {NavLink} from "react-router-dom";
@@ -19,9 +19,10 @@ const InformationBit = styled.div`
     text-align: center;
 `;
 
-const SeasonName = styled.h2`
+const H2 = styled.h2`
     width: 100%;
     text-align: center;
+    color: #784d2b;
 `;
 
 class SeasonPage extends React.Component {
@@ -77,7 +78,7 @@ class SeasonPage extends React.Component {
             <>
                 <NavigationPanel />
                 <ComponentRestricted>
-                    <SeasonName>{this.props.season.name}</SeasonName>
+                    <H2>{this.props.season.name}</H2>
                     {/*Add Grand Prix Button*/}
                     <Wrapper>
                         <ActionButton
@@ -94,15 +95,15 @@ class SeasonPage extends React.Component {
                     {/*General Information*/}
                     <SeasonInformation>
                         <InformationBit>
-                            <h3>Statistics</h3>
+                            <H3>Statistics</H3>
                             {this.props.season.drivers ? <Statistics seasonDrivers={this.props.season.drivers}/> : 'No drivers selected'}
                         </InformationBit>
                         <InformationBit>
-                            <h3>Drivers Standings</h3>
+                            <H3>Drivers Standings</H3>
                             {this.props.season.drivers ? <DriversStandings seasonDrivers={this.props.season.drivers}/> : 'No drivers selected'}
                         </InformationBit>
                         <InformationBit>
-                            <h3>Constructors Standings</h3>
+                            <H3>Constructors Standings</H3>
                             {this.props.season.drivers ? <ConstructorsStandings seasonDrivers={this.props.season.drivers}/> : 'No drivers selected'}
                         </InformationBit>
                     </SeasonInformation>

@@ -85,4 +85,13 @@ export const Select = styled.select`
     margin: 5px 0;
 `;
 
+export const H3 = styled.h3`
+    color: #784d2b;
+`;
+
+export const H4 = styled.h4`
+    color: #784d2b;
+    text-align: center;
+`;
+
 

@@ -1,10 +1,23 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, ActionButton, InformationTable, Wrapper} from "../SharedStyles";
+import {ComponentRestricted, ActionButton, InformationTable, Wrapper, H4} from "../SharedStyles";
 import {connect} from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import {NavLink} from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
+import styled from "styled-components";
+
+const NotesWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const Notes = styled.span`
+`;
+
+const SummaryElement = styled.p`
+    font-weight: 500;
+`;
 
 class RacePage extends React.Component {
     constructor(props) {
@@ -78,6 +91,65 @@ class RacePage extends React.Component {
             </InformationTable>
         );
 
+        let practiceNotes;
+        if (this.props.race.practiceNotes) {
+            practiceNotes = this.props.race.practiceNotes.map((elem, index) => {
+                return (
+                    <p key={index}>
+                        {elem}
+                    </p>
+                )
+            });
+        }
+
+        let qualiNotes;
+        if (this.props.race.qualiNotes) {
+            qualiNotes = this.props.race.qualiNotes.map((elem, index) => {
+                return (
+                    <p key={index}>
+                        {elem}
+                    </p>
+                )
+            });
+        }
+
+        let raceNotes;
+        if (this.props.race.raceNotes) {
+            raceNotes = this.props.race.raceNotes.map((elem, index) => {
+                return (
+                    <p key={index}>
+                        {elem}
+                    </p>
+                )
+            });
+        }
+
+        let summary;
+        if (this.props.race.summary) {
+            summary = this.props.race.summary.map((elem, index) => {
+                return (
+                    <SummaryElement key={index}>
+                        {elem}
+                    </SummaryElement>
+                )
+            });
+        }
+
+        const notes = (
+            <NotesWrapper>
+                <Notes>
+                    <H4>Practice:</H4>
+                    {practiceNotes}
+                    <H4>Qualification:</H4>
+                    {qualiNotes}
+                    <H4>Race:</H4>
+                    {raceNotes}
+                    <H4>Summary:</H4>
+                    {summary}
+                </Notes>
+            </NotesWrapper>
+        );
+
         return (
             <>
                 <NavigationPanel />
@@ -96,10 +168,13 @@ class RacePage extends React.Component {
                         {!this.state.editRaceMode ? "Edit Grand Prix" : "Hide"}
                     </ActionButton>
                     <br/>
-                    {this.state.editRaceMode ? <ManageRaceForm
-                        raceId={this.props.match.params.race_id}
-                        seasonId={this.props.match.params.season_id}
-                        mode={'edit'}/> : raceDataToDisplay}
+                    {this.state.editRaceMode ?
+                        <ManageRaceForm
+                            raceId={this.props.match.params.race_id}
+                            seasonId={this.props.match.params.season_id}
+                            mode={'edit'}
+                        /> : raceDataToDisplay}
+                    {notes}
                 </ComponentRestricted>
             </>
         )
