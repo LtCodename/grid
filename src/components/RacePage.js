@@ -1,11 +1,13 @@
 import React from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, ActionButton, InformationTable, Wrapper, H4} from "../SharedStyles";
+import {ComponentRestricted, ActionButton, InformationTable, Wrapper, H4, Textarea} from "../SharedStyles";
 import {connect} from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import {NavLink} from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
 import styled from "styled-components";
+
+declare var firebase;
 
 const NotesWrapper = styled.div`
     display: flex;
@@ -13,10 +15,15 @@ const NotesWrapper = styled.div`
 `;
 
 const Notes = styled.span`
+    min-width: 400px;
 `;
 
 const SummaryElement = styled.p`
     font-weight: 500;
+`;
+
+const NoteTextarea = styled(Textarea)`
+    min-width: 400px;
 `;
 
 class RacePage extends React.Component {
@@ -24,7 +31,13 @@ class RacePage extends React.Component {
         super(props);
 
         this.state = {
-            editRaceMode: false
+            editRaceMode: false,
+            addPracticeNoteMode: false,
+            addQualiNoteMode: false,
+            addRaceNoteMode: false,
+            addSummaryMode: false,
+            addNoteInputValue: '',
+            noteType: ''
         };
     }
 
@@ -38,6 +51,120 @@ class RacePage extends React.Component {
                 editRaceMode: false
             })
         }
+    };
+
+    onAddPracticeNote = () => {
+        if (!this.state.addPracticeNoteMode) {
+            this.setState({
+                addPracticeNoteMode: true,
+                noteType: 'practiceNotes',
+                addNoteInputValue: '',
+                addQualiNoteMode: false,
+                addRaceNoteMode: false,
+                addSummaryMode: false,
+            })
+        }else {
+            this.setState({
+                addPracticeNoteMode: false,
+                noteType: '',
+                addNoteInputValue: '',
+            })
+        }
+    };
+
+    onAddQualiNote = () => {
+        if (!this.state.addQualiNoteMode) {
+            this.setState({
+                addQualiNoteMode: true,
+                noteType: 'qualiNotes',
+                addNoteInputValue: '',
+                addPracticeNoteMode: false,
+                addRaceNoteMode: false,
+                addSummaryMode: false,
+            })
+        }else {
+            this.setState({
+                addQualiNoteMode: false,
+                noteType: '',
+                addNoteInputValue: '',
+            })
+        }
+    };
+
+    onAddRaceNote = () => {
+        if (!this.state.addRaceMode) {
+            this.setState({
+                addRaceNoteMode: true,
+                noteType: 'raceNotes',
+                addNoteInputValue: '',
+                addPracticeNoteMode: false,
+                addQualiNoteMode: false,
+                addSummaryMode: false,
+            })
+        }else {
+            this.setState({
+                addRaceNoteMode: false,
+                noteType: '',
+                addNoteInputValue: '',
+            })
+        }
+    };
+
+    onAddSummary = () => {
+        if (!this.state.addSummaryMode) {
+            this.setState({
+                addSummaryMode: true,
+                noteType: 'summary',
+                addNoteInputValue: '',
+                addPracticeNoteMode: false,
+                addQualiNoteMode: false,
+                addRaceNoteMode: false,
+            })
+        }else {
+            this.setState({
+                addSummaryMode: false,
+                noteType: '',
+                addNoteInputValue: '',
+            })
+        }
+    };
+
+    inputValuesChange = (event) => {
+        this.setState({
+            addNoteInputValue: event.target.value
+        }, () => {
+            /*console.log(this.state);*/
+        });
+    };
+
+    onAddNote = () => {
+        if (!this.state.addNoteInputValue) {
+            return;
+        }
+
+        const raceReference = firebase.firestore().collection("races").doc(this.props.race.id);
+        const note = this.state.noteType;
+        const previousNotes = this.props.race[this.state.noteType] || null;
+
+        raceReference.update({
+            [note]: previousNotes ? [...this.props.race[this.state.noteType], this.state.addNoteInputValue] : [this.state.addNoteInputValue]
+        })
+        .then(function() {
+            console.log("Document successfully updated!");
+        })
+        .catch(function(error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
+
+        this.setState({
+            noteType: '',
+            addPracticeNoteMode: false,
+            addQualiNoteMode: false,
+            addRaceNoteMode: false,
+            addSummaryMode: false,
+            addNoteInputValue: '',
+        });
     };
 
     render() {
@@ -135,17 +262,60 @@ class RacePage extends React.Component {
             });
         }
 
+        const addNoteForm = (
+            <>
+                <NoteTextarea
+                    className="form-control"
+                    placeholder={''}
+                    type="text"
+                    rows="3"
+                    value={this.state.addNoteInputValue}
+                    onChange={this.inputValuesChange}
+                    required>
+                </NoteTextarea>
+                <ActionButton
+                    className="btn btn-warning"
+                    onClick={this.onAddNote}>
+                    {"Add note"}
+                </ActionButton>
+            </>
+        );
+
         const notes = (
             <NotesWrapper>
                 <Notes>
                     <H4>Practice:</H4>
                     {practiceNotes}
+                    <ActionButton
+                        className="btn btn-warning"
+                        onClick={this.onAddPracticeNote}>
+                        {!this.state.addPracticeNoteMode ? "Add Practice Note" : "Hide"}
+                    </ActionButton>
+                    {!this.state.addPracticeNoteMode ? "" : addNoteForm}
                     <H4>Qualification:</H4>
                     {qualiNotes}
+                    <ActionButton
+                        className="btn btn-warning"
+                        onClick={this.onAddQualiNote}>
+                        {!this.state.addQualiNoteMode ? "Add Qualification Note" : "Hide"}
+                    </ActionButton>
+                    {!this.state.addQualiNoteMode ? "" : addNoteForm}
                     <H4>Race:</H4>
                     {raceNotes}
+                    <ActionButton
+                        className="btn btn-warning"
+                        onClick={this.onAddRaceNote}>
+                        {!this.state.addRaceNoteMode ? "Add Race Note" : "Hide"}
+                    </ActionButton>
+                    {!this.state.addRaceNoteMode ? "" : addNoteForm}
                     <H4>Summary:</H4>
                     {summary}
+                    <ActionButton
+                        className="btn btn-warning"
+                        onClick={this.onAddSummary}>
+                        {!this.state.addSummaryMode ? "Add Summary" : "Hide"}
+                    </ActionButton>
+                    {!this.state.addSummaryMode ? "" : addNoteForm}
                 </Notes>
             </NotesWrapper>
         );
