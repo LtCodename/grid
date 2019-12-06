@@ -1,59 +1,47 @@
 import React from 'react';
-import {connect} from "react-redux";
-import {InformationTable} from "../../SharedStyles";
+import { useStore } from "react-redux";
+import { InformationTable } from "../../SharedStyles";
 
-class ConstructorsStandings extends React.Component {
-    constructor(props) {
-        super(props);
+const ConstructorsStandings = ({...otherProps}) => {
+  const store = useStore();
+  const storeState = store.getState();
 
-        this.state = {
-        };
-    }
+  const drivers = storeState.drivers;
+  const teams = storeState.teams;
 
-    render() {
-        const tableRows = this.props.seasonDrivers.map((elem, index) => {
-            let seasonDriver = this.props.drivers.find(driver => {
-                return driver.id === elem;
-            });
-            let team = this.props.teams.find(team => {
-                return team.id === seasonDriver['team-id'];
-            });
+  const tableRows = otherProps.seasonDrivers.map((elem, index) => {
+    let seasonDriver = drivers.find(driver => {
+      return driver.id === elem;
+    });
+    let team = teams.find(team => {
+      return team.id === seasonDriver['team-id'];
+    });
 
-            return (
-                <tr key={index}>
-                    <td>{team.name}</td>
-                    <td>{'No data'}</td>
-                </tr>
-            )
-        });
+    return (
+      <tr key={index}>
+        <td>{team.name}</td>
+        <td>{'No data'}</td>
+      </tr>
+    )
+  });
 
-        const statistics = (
-            <InformationTable className="table">
-                <tbody>
-                <tr>
-                    <th>Driver</th>
-                    <th>Points</th>
-                </tr>
-                {tableRows}
-                </tbody>
-            </InformationTable>
-        );
+  const statistics = (
+    <InformationTable className="table">
+      <tbody>
+      <tr>
+        <th>Driver</th>
+        <th>Points</th>
+      </tr>
+      {tableRows}
+      </tbody>
+    </InformationTable>
+  );
 
-        return (
-            <>
-                {statistics}
-            </>
-        )
-    }
-}
-
-const mapStateToProps = (state = {}, props) => {
-    return {
-        drivers: state.drivers,
-        teams: state.teams
-    }
+  return (
+    <>
+      {statistics}
+    </>
+  )
 };
 
-const ConstructorsStandingsConnected = connect(mapStateToProps, null)(ConstructorsStandings);
-
-export default ConstructorsStandingsConnected;
+export default ConstructorsStandings;

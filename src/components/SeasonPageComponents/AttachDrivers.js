@@ -1,128 +1,102 @@
-import React from 'react';
-import {ActionButton, Label, Select, SmallItem, Wrapper} from "../../SharedStyles";
-import {connect} from "react-redux";
+import React, { useState } from 'react';
+import { ActionButton, Label, Select, SmallItem, Wrapper } from "../../SharedStyles";
+import { useStore } from "react-redux";
 import fire from "../../fire";
 
-class AttachDrivers extends React.Component {
-    constructor(props) {
-        super(props);
+const AttachDrivers = ({...otherProps}) => {
+  const [driverSelectMode, changeDriverSelectMode] = useState(false);
+  const [selectedDriver, changeSelectedDriver] = useState('');
 
-        this.state = {
-            driverSelectMode: false,
-            selectedDriver: ""
-        };
+  const store = useStore();
+  const storeState = store.getState();
+
+  const drivers = storeState.drivers;
+  const season = storeState.seasons.find(season => {
+    return season.id === otherProps.seasonId
+  });
+
+  const inputValuesChange = (event) => {
+    changeSelectedDriver(event.target.value);
+  };
+
+  const onAttachDriver = () => {
+    changeDriverSelectMode(!driverSelectMode);
+  };
+
+  const onAttachDriverConfirm = () => {
+    if (!selectedDriver.length) {
+      console.log("Nothing selected!");
+      return;
     }
 
-    inputValuesChange = (event) => {
-        this.setState({
-            selectedDriver: event.target.value
-        }, () => {
-            //console.log(this.state.selectedDriver);
-        });
-    };
+    const seasonDrivers = season.drivers || [];
+    const newDriversData = [...seasonDrivers, selectedDriver];
 
-    onAttachDriver = () => {
-        if (!this.state.driverSelectMode) {
-            this.setState({
-                driverSelectMode: true
-            })
-        }else {
-            this.setState({
-                driverSelectMode: false
-            })
-        }
-    };
+    fire.firestore().collection('seasons').doc(otherProps.seasonId).update({
+      'drivers': newDriversData
+    }).then(() => {
+      console.log("Data updated successfully!");
+    }).catch(error => {
+      console.log(error.message);
+    });
+  };
 
-    onAttachDriverConfirm = () => {
-        if (!this.state.selectedDriver) {
-            console.log("Nothing selected!");
-            return;
-        }
+  const driversForOptions = drivers.filter((driver) => {
+    return !season.drivers || season.drivers.indexOf(driver.id) === -1
+  });
 
-        const seasonDrivers = this.props.season.drivers || [];
-        const driverToAdd = this.state.selectedDriver;
-        const newDriversData = [...seasonDrivers, driverToAdd];
-        //console.log(newDriversData);
+  const driversToAttach = [{name: "Not selected", value: undefined}, ...driversForOptions].map((driver, index) => {
+    return (
+      <option key={index} value={driver.id}>{driver.name}</option>
+    );
+  });
 
-        fire.firestore().collection('seasons').doc(this.props.seasonId).update({
-            'drivers': newDriversData
-        }).then(() => {
-            console.log("Data updated successfully!");
-        }).catch(error => {
-            console.log(error.message);
-        });
-    };
+  const attachForm = (
+    <div>
+      <Label htmlFor="driver">Select driver</Label>
+      <Select
+        value={undefined}
+        id="driver"
+        className="custom-select"
+        onChange={inputValuesChange}>
+        {driversToAttach}
+      </Select>
+      <Wrapper>
+        <ActionButton
+          className="btn btn-warning"
+          onClick={onAttachDriverConfirm}>
+          Attach driver
+        </ActionButton>
+      </Wrapper>
+    </div>
+  );
 
-    render() {
+  let seasonDrivers = "";
+  if (season.drivers) {
+    seasonDrivers = season.drivers.map((driver, index) => {
+      return (
+        <span key={index}>
+                    <SmallItem className="btn">{drivers.find(dr => dr.id === driver).name}</SmallItem>
+                </span>
+      )
+    })
+  }
 
-        const driversForOptions = this.props.drivers.filter((driver) => {
-            return !this.props.season.drivers || this.props.season.drivers.indexOf(driver.id) === -1
-        });
-
-        const drivers = [{name: "Not selected", value: undefined}, ...driversForOptions].map((driver, index) => {
-            return (
-                <option key={index} value={driver.id}>{driver.name}</option>
-            );
-        });
-
-        const attachForm = (
-            <div>
-                <Label htmlFor="driver">Select driver</Label>
-                <Select
-                    value={undefined}
-                    id="driver"
-                    className="custom-select"
-                    onChange={this.inputValuesChange}>
-                    {drivers}
-                </Select>
-                <Wrapper>
-                    <ActionButton
-                        className="btn btn-warning"
-                        onClick={this.onAttachDriverConfirm}>
-                        Attach driver
-                    </ActionButton>
-                </Wrapper>
-            </div>
-        );
-
-        let seasonDrivers = "";
-        if (this.props.season.drivers) {
-            seasonDrivers = this.props.season.drivers.map((driver, index) => {
-                return (
-                    <span key={index}>
-                        <SmallItem className="btn">{this.props.drivers.find(dr => dr.id === driver).name}</SmallItem>
-                    </span>
-                )
-            })
-        }
-
-       return (
-            <>
-                <Wrapper>
-                    <ActionButton
-                        className="btn btn-warning"
-                        onClick={this.onAttachDriver}>
-                        {!this.state.driverSelectMode ? "Select driver" : "Hide"}
-                    </ActionButton>
-                </Wrapper>
-                {this.state.driverSelectMode ? attachForm : ""}
-                <Wrapper>
-                    {seasonDrivers}
-                </Wrapper>
-            </>
-        )
-    }
-}
-
-const mapStateToProps = (state = {}, props) => {
-    return {
-        drivers: state.drivers,
-        season: state.seasons.find(season => {
-            return season.id === props.seasonId
-        })
-    }
+  return (
+    <>
+      <Wrapper>
+        <ActionButton
+          className="btn btn-warning"
+          onClick={onAttachDriver}>
+          {!driverSelectMode ? "Select driver" : "Hide"}
+        </ActionButton>
+      </Wrapper>
+      {driverSelectMode ? attachForm : ""}
+      <Wrapper>
+        {seasonDrivers}
+      </Wrapper>
+    </>
+  )
 };
 
-const AttachDriversConnected = connect(mapStateToProps, null)(AttachDrivers);
-
-export default AttachDriversConnected;
+export default AttachDrivers;

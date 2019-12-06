@@ -1,7 +1,7 @@
 const SeasonBlueprint = [
-    {
-        name: "Name", db: "name"
-    }
+  {
+    name: "Name", db: "name"
+  }
 ];
 
 export default SeasonBlueprint;

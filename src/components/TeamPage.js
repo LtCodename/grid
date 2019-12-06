@@ -1,17 +1,19 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, ActionButton, InformationTable} from "../SharedStyles";
+import { ComponentRestricted, ActionButton, InformationTable } from "../SharedStyles";
 import ManageTeamForm from "./ManageTeamForm";
 import TeamBlueprint from "../blueprints/TeamBlueprint";
-import {useStore} from 'react-redux';
-import {withRouter} from "react-router";
+import { useStore } from 'react-redux';
+import { withRouter } from "react-router";
 
 const TeamPage = ({...otherProps}) => {
   const [editTeamMode, changeEditTeamMode] = useState(false);
+
   const store = useStore();
   const storeState = store.getState();
+
   const team = storeState.teams.find(team => {
-    return team.id === otherProps.match.params.team_id
+    return team.id === otherProps.match.params.team_id;
   });
 
   const onEditTeam = () => {
