@@ -2,8 +2,7 @@ import React from 'react';
 import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../SharedStyles";
 import {connect} from "react-redux";
 import SeasonBlueprint from "../blueprints/SeasonBlueprint";
-
-declare var firebase;
+import fire from "../fire";
 
 class ManageSeasonForm extends React.Component {
     constructor(props) {
@@ -17,7 +16,7 @@ class ManageSeasonForm extends React.Component {
         const newSeasonData = this.state;
 
         if (this.props.mode === 'add') {
-            firebase.firestore().collection('seasons').add({
+            fire.firestore().collection('seasons').add({
                 ...newSeasonData
             }).then(() => {
 
@@ -30,9 +29,9 @@ class ManageSeasonForm extends React.Component {
 
             this.setState(cleanState);
         }else {
-            firebase.firestore().collection('seasons').doc(this.props.seasonId).update({
+            fire.firestore().collection('seasons').doc(this.props.seasonId).update({
                 ...newSeasonData
-            }).then((data) => {
+            }).then(() => {
                 console.log("Data updated successfully!");
             }).catch(error => {
                 console.log(error.message);

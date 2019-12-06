@@ -13,8 +13,7 @@ import TeamPage from "./components/TeamPage";
 import DriverPage from "./components/DriverPage";
 import SeasonPage from "./components/SeasonPage";
 import RacePage from "./components/RacePage";
-
-declare var firebase;
+import fire from "./fire";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -52,7 +51,7 @@ class App extends React.Component {
     };
 
     fetchTeams() {
-        firebase.firestore().collection('teams').orderBy("name").onSnapshot(snapshot => {
+        fire.firestore().collection('teams').orderBy("name").onSnapshot(snapshot => {
             this.props.fetchTeams(snapshot);
             this.setState({
                 teamsDataLoaded: true
@@ -63,7 +62,7 @@ class App extends React.Component {
     }
 
     fetchDrivers() {
-        firebase.firestore().collection('drivers').orderBy("wins").onSnapshot(snapshot => {
+        fire.firestore().collection('drivers').orderBy("wins").onSnapshot(snapshot => {
             this.props.fetchDrivers(snapshot);
             this.setState({
                 driversDataLoaded: true
@@ -74,7 +73,7 @@ class App extends React.Component {
     }
 
     fetchSeasons() {
-        firebase.firestore().collection('seasons').orderBy("name").onSnapshot(snapshot => {
+        fire.firestore().collection('seasons').orderBy("name").onSnapshot(snapshot => {
             this.props.fetchSeasons(snapshot);
             this.setState({
                 seasonsDataLoaded: true
@@ -85,7 +84,7 @@ class App extends React.Component {
     }
 
     fetchRaces() {
-        firebase.firestore().collection('races').orderBy("date").onSnapshot(snapshot => {
+        fire.firestore().collection('races').orderBy("date").onSnapshot(snapshot => {
             this.props.fetchRaces(snapshot);
             this.setState({
                 racesDataLoaded: true

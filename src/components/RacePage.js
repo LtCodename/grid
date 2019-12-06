@@ -6,8 +6,7 @@ import RaceBlueprint from "../blueprints/RaceBlueprint";
 import {NavLink} from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
 import styled from "styled-components";
-
-declare var firebase;
+import fire from "../fire";
 
 const NotesWrapper = styled.div`
     display: flex;
@@ -142,7 +141,7 @@ class RacePage extends React.Component {
             return;
         }
 
-        const raceReference = firebase.firestore().collection("races").doc(this.props.race.id);
+        const raceReference = fire.firestore().collection("races").doc(this.props.race.id);
         const note = this.state.noteType;
         const previousNotes = this.props.race[this.state.noteType] || null;
 

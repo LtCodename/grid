@@ -2,8 +2,7 @@ import React from 'react';
 import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../SharedStyles";
 import {connect} from "react-redux";
 import TeamEditBlueprint from "../blueprints/TeamEditBlueprint";
-
-declare var firebase;
+import fire from "../fire";
 
 class ManageTeamForm extends React.Component {
     constructor(props) {
@@ -17,7 +16,7 @@ class ManageTeamForm extends React.Component {
         const newTeamData = this.state;
 
         if (this.props.mode === 'add') {
-            firebase.firestore().collection('teams').add({
+            fire.firestore().collection('teams').add({
                 ...newTeamData
             }).then(() => {
 
@@ -30,9 +29,9 @@ class ManageTeamForm extends React.Component {
 
             this.setState(cleanState);
         }else {
-            firebase.firestore().collection('teams').doc(this.props.teamId).update({
+            fire.firestore().collection('teams').doc(this.props.teamId).update({
                 ...newTeamData
-            }).then((data) => {
+            }).then(() => {
                 console.log("Data updated successfully!");
             }).catch(error => {
                 console.log(error.message);

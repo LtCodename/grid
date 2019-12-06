@@ -2,8 +2,7 @@ import React from 'react';
 import {Form, Label, Properties, Property, Select, SubmitButton, Textarea} from "../SharedStyles";
 import {connect} from "react-redux";
 import DriverEditBlueprint from "../blueprints/DriverEditBlueprint";
-
-declare var firebase;
+import fire from "../fire";
 
 class ManageDriverForm extends React.Component {
     constructor(props) {
@@ -17,7 +16,7 @@ class ManageDriverForm extends React.Component {
         const newDriverData = this.state;
 
         if (this.props.mode === 'add') {
-            firebase.firestore().collection('drivers').add({
+            fire.firestore().collection('drivers').add({
                 ...newDriverData
             }).then(() => {
 
@@ -30,9 +29,9 @@ class ManageDriverForm extends React.Component {
 
             this.setState(cleanState);
         }else {
-            firebase.firestore().collection('drivers').doc(this.props.driverId).update({
+            fire.firestore().collection('drivers').doc(this.props.driverId).update({
                 ...newDriverData
-            }).then((data) => {
+            }).then(() => {
                 console.log("Data updated successfully!");
             }).catch(error => {
                 console.log(error.message);

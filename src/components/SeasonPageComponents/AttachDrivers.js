@@ -1,8 +1,7 @@
 import React from 'react';
 import {ActionButton, Label, Select, SmallItem, Wrapper} from "../../SharedStyles";
 import {connect} from "react-redux";
-
-declare var firebase;
+import fire from "../../fire";
 
 class AttachDrivers extends React.Component {
     constructor(props) {
@@ -36,7 +35,7 @@ class AttachDrivers extends React.Component {
 
     onAttachDriverConfirm = () => {
         if (!this.state.selectedDriver) {
-            console.log("Nothing selected!")
+            console.log("Nothing selected!");
             return;
         }
 
@@ -45,9 +44,9 @@ class AttachDrivers extends React.Component {
         const newDriversData = [...seasonDrivers, driverToAdd];
         //console.log(newDriversData);
 
-        firebase.firestore().collection('seasons').doc(this.props.seasonId).update({
+        fire.firestore().collection('seasons').doc(this.props.seasonId).update({
             'drivers': newDriversData
-        }).then((data) => {
+        }).then(() => {
             console.log("Data updated successfully!");
         }).catch(error => {
             console.log(error.message);
