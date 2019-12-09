@@ -1,160 +1,155 @@
-import React from 'react';
-import {Form, Label, Properties, Property, Select, SubmitButton, Textarea} from "../SharedStyles";
-import {connect} from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Form, Label, Properties, Property, Select, SubmitButton, Textarea } from "../SharedStyles";
+import { useStore } from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
+import fire from "../fire";
 
-declare var firebase;
+const ManageRaceForm = ({...otherProps}) => {
+	const store = useStore();
+	const storeState = store.getState();
 
-class ManageRaceForm extends React.Component {
-    constructor(props) {
-        super(props);
+	const race = storeState.races.find(race => {
+		return race.id === otherProps.raceId
+	});
 
-        this.state = this.props.race || {};
-    }
+	const season = storeState.seasons.find(season => {
+		return season.id === otherProps.seasonId
+	});
 
-    submitRace = (event) => {
-        event.preventDefault();
-        const newRaceData = this.state;
+	const drivers = storeState.drivers;
 
-        if (this.props.mode === 'add') {
+	const [raceData, changeRaceData] = useState(race);
 
-            newRaceData['season-id'] = this.props.seasonId;
-            firebase.firestore().collection('races').add({
-                ...newRaceData
-            }).then(() => {
+	useEffect(() => {
+		changeRaceData(raceData);
+	}, [raceData]);
 
-            });
+	const submitRace = (event) => {
+		event.preventDefault();
+		const newRaceData = raceData;
 
-            const cleanState = {};
-            RaceBlueprint.forEach(race => {
-                cleanState[race.db] = "";
-            });
+		if (otherProps.mode === 'add') {
+			newRaceData['season-id'] = otherProps.seasonId;
+			fire.firestore().collection('races').add({
+				...newRaceData
+			}).then(() => {
 
-            this.setState(cleanState);
-        }else {
-            firebase.firestore().collection('races').doc(this.props.raceId).update({
-                ...newRaceData
-            }).then((data) => {
-                console.log("Data updated successfully!");
-            }).catch(error => {
-                console.log(error.message);
-            });
-        }
-    };
+			});
 
-    inputValuesChange = (event) => {
-        this.setState({
-            [event.target.id]: event.target.value
-        }, () => {
-            console.log(this.state);
-        });
-    };
+			const cleanState = {};
+			RaceBlueprint.forEach(race => {
+				cleanState[race.db] = "";
+			});
 
-    render() {
-        const properties = RaceBlueprint.map((elem, index) => {
-            return (
-                <Property key={index}>
-                    <Label htmlFor={elem.db}>{elem.name}</Label>
-                    <Textarea
-                        className="form-control"
-                        placeholder={elem.name}
-                        type="text"
-                        rows="1"
-                        id={elem.db}
-                        value={this.state[elem.db]}
-                        onChange={this.inputValuesChange}
-                        required>
-                    </Textarea>
-                </Property>
-            )
-        });
-        /* Pole Position Select */
-        let poleOptions;
-        if (this.props.season.drivers) {
-            poleOptions = ["Not selected", ...this.props.season.drivers].map((driver, index) => {
-                let seasonDriver = {name: "Not selected"};
-                if (driver !== "Not selected") {
-                    seasonDriver = this.props.drivers.find(dr => {
-                        return dr.id === driver;
-                    });
-                }
-                return (
-                    <option key={index} value={driver}>{seasonDriver.name}</option>
-                );
-            });
-        }
+			changeRaceData(cleanState);
+		} else {
+			fire.firestore().collection('races').doc(otherProps.raceId).update({
+				...newRaceData
+			}).then(() => {
+				console.log("Data updated successfully!");
+			}).catch(error => {
+				console.log(error.message);
+			});
+		}
+	};
 
-        const pole = (
-            <>
-                <Property>
-                    <Label htmlFor="pole">Pole position</Label>
-                    <Select
-                        value={this.state['pole']}
-                        id="pole"
-                        className="custom-select"
-                        onChange={this.inputValuesChange}>
-                        {poleOptions}
-                    </Select>
-                </Property>
-            </>
-        );
+	const inputValuesChange = (event) => {
+		changeRaceData({
+			...raceData,
+			[event.target.id]: event.target.value
+		});
+	};
 
-        /* Fastest Lap Select */
-        let fastestLapOptions;
-        if (this.props.season.drivers) {
-            fastestLapOptions = ["Not selected", ...this.props.season.drivers].map((driver, index) => {
-                let seasonDriver = {name: "Not selected"};
-                if (driver !== "Not selected") {
-                    seasonDriver = this.props.drivers.find(dr => {
-                        return dr.id === driver;
-                    });
-                }
-                return (
-                    <option key={index} value={driver}>{seasonDriver.name}</option>
-                );
-            });
-        }
+	const properties = RaceBlueprint.map((elem, index) => {
+		return (
+			<Property key={index}>
+				<Label htmlFor={elem.db}>{elem.name}</Label>
+				<Textarea
+					className="form-control"
+					placeholder={elem.name}
+					type="text"
+					rows="1"
+					id={elem.db}
+					value={raceData[elem.db]}
+					onChange={inputValuesChange}
+					required>
+				</Textarea>
+			</Property>
+		)
+	});
 
-        const fastestLap = (
-            <>
-                <Property>
-                    <Label htmlFor="lap">Fastest lap</Label>
-                    <Select
-                        value={this.state['lap']}
-                        id="lap"
-                        className="custom-select"
-                        onChange={this.inputValuesChange}>
-                        {fastestLapOptions}
-                    </Select>
-                </Property>
-            </>
-        );
+	/* Pole Position Select */
+	let poleOptions;
+	if (season.drivers) {
+		poleOptions = ["Not selected", ...season.drivers].map((driver, index) => {
+			let seasonDriver = {name: "Not selected"};
+			if (driver !== "Not selected") {
+				seasonDriver = drivers.find(dr => {
+					return dr.id === driver;
+				});
+			}
+			return (
+				<option key={index} value={driver}>{seasonDriver.name}</option>
+			);
+		});
+	}
 
-        return (
-            <Form onSubmit={this.submitRace}>
-                <Properties>
-                    {properties}
-                    {this.props.season.drivers ? pole : ''}
-                    {this.props.season.drivers ? fastestLap : ''}
-                </Properties>
-                <SubmitButton className="btn">Submit</SubmitButton>
-            </Form>
-        )
-    }
-}
+	const pole = (
+		<>
+			<Property>
+				<Label htmlFor="pole">Pole position</Label>
+				<Select
+					value={raceData['pole']}
+					id="pole"
+					className="custom-select"
+					onChange={inputValuesChange}>
+					{poleOptions}
+				</Select>
+			</Property>
+		</>
+	);
 
-const mapStateToProps = (state = {}, props) => {
-    return {
-        race: state.races.find(race => {
-            return race.id === props.raceId
-        }),
-        season: state.seasons.find(season => {
-            return season.id === props.seasonId
-        }),
-        drivers: state.drivers
-    }
+	/* Fastest Lap Select */
+	let fastestLapOptions;
+	if (season.drivers) {
+		fastestLapOptions = ["Not selected", ...season.drivers].map((driver, index) => {
+			let seasonDriver = {name: "Not selected"};
+			if (driver !== "Not selected") {
+				seasonDriver = drivers.find(dr => {
+					return dr.id === driver;
+				});
+			}
+			return (
+				<option key={index} value={driver}>{seasonDriver.name}</option>
+			);
+		});
+	}
+
+	const fastestLap = (
+		<>
+			<Property>
+				<Label htmlFor="lap">Fastest lap</Label>
+				<Select
+					value={raceData['lap']}
+					id="lap"
+					className="custom-select"
+					onChange={inputValuesChange}>
+					{fastestLapOptions}
+				</Select>
+			</Property>
+		</>
+	);
+
+	return (
+		<Form onSubmit={submitRace}>
+			<Properties>
+				{properties}
+				{season.drivers ? pole : ''}
+				{season.drivers ? fastestLap : ''}
+			</Properties>
+			<SubmitButton className="btn">Submit</SubmitButton>
+		</Form>
+	)
 };
 
-const ManageRaceFormConnected = connect(mapStateToProps, null)(ManageRaceForm);
-
-export default ManageRaceFormConnected;
+export default ManageRaceForm;

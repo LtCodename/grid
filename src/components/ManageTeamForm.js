@@ -1,87 +1,80 @@
-import React from 'react';
-import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../SharedStyles";
-import {connect} from "react-redux";
+import React, { useState } from 'react';
+import { Form, Label, Properties, Property, SubmitButton, Textarea } from "../SharedStyles";
+import { useStore } from "react-redux";
 import TeamEditBlueprint from "../blueprints/TeamEditBlueprint";
 import fire from "../fire";
 
-class ManageTeamForm extends React.Component {
-    constructor(props) {
-        super(props);
+const ManageTeamForm = ({...otherProps}) => {
+	const store = useStore();
+	const storeState = store.getState();
 
-        this.state = this.props.team || {};
-    }
+	const team = storeState.teams.find(team => {
+		return team.id === otherProps.teamId
+	});
 
-    submitTeam = (event) => {
-        event.preventDefault();
-        const newTeamData = this.state;
+	const [teamData, changeTeamData] = useState(team || {});
 
-        if (this.props.mode === 'add') {
-            fire.firestore().collection('teams').add({
-                ...newTeamData
-            }).then(() => {
+	const submitTeam = (event) => {
+		event.preventDefault();
+		const newTeamData = teamData;
 
-            });
+		if (otherProps.mode === 'add') {
+			fire.firestore().collection('teams').add({
+				...newTeamData
+			}).then(() => {
 
-            const cleanState = {};
-            TeamEditBlueprint.forEach(team => {
-                cleanState[team.db] = "";
-            });
+			});
 
-            this.setState(cleanState);
-        }else {
-            fire.firestore().collection('teams').doc(this.props.teamId).update({
-                ...newTeamData
-            }).then(() => {
-                console.log("Data updated successfully!");
-            }).catch(error => {
-                console.log(error.message);
-            });
-        }
-    };
+			const cleanState = {};
+			TeamEditBlueprint.forEach(team => {
+				cleanState[team.db] = "";
+			});
 
-    inputValuesChange = (event) => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
+			changeTeamData(cleanState);
+		} else {
+			fire.firestore().collection('teams').doc(otherProps.teamId).update({
+				...newTeamData
+			}).then(() => {
+				console.log("Data updated successfully!");
+			}).catch(error => {
+				console.log(error.message);
+			});
+		}
+	};
 
-    render() {
-        const properties = TeamEditBlueprint.map((elem, index) => {
-            return (
-                <Property key={index}>
-                    <Label htmlFor={elem.db}>{elem.name}</Label>
-                    <Textarea
-                        className="form-control"
-                        placeholder={elem.name}
-                        type="text"
-                        rows="1"
-                        id={elem.db}
-                        value={this.state[elem.db]}
-                        onChange={this.inputValuesChange}
-                        required>
-                    </Textarea>
-                </Property>
-            )
-        });
+	const inputValuesChange = (event) => {
+		changeTeamData({
+			...teamData,
+			[event.target.id]: event.target.value
+		});
+	};
 
-        return (
-            <Form onSubmit={this.submitTeam}>
-                <Properties>
-                    {properties}
-                </Properties>
-                <SubmitButton className="btn">Submit</SubmitButton>
-            </Form>
-        )
-    }
-}
+	const properties = TeamEditBlueprint.map((elem, index) => {
+		return (
+			<Property key={index}>
+				<Label htmlFor={elem.db}>{elem.name}</Label>
+				<Textarea
+					className="form-control"
+					placeholder={elem.name}
+					type="text"
+					rows="1"
+					id={elem.db}
+					value={teamData[elem.db]}
+					onChange={inputValuesChange}
+					required>
+				</Textarea>
+			</Property>
+		)
+	});
 
-const mapStateToProps = (state = {}, props) => {
-    return {
-        team: state.teams.find(team => { return team.id === props.teamId })
-    }
+	return (
+		<Form onSubmit={submitTeam}>
+			<Properties>
+				{properties}
+			</Properties>
+			<SubmitButton className="btn">Submit</SubmitButton>
+		</Form>
+	)
 };
 
-
-const ManageTeamFormConnected = connect(mapStateToProps, null)(ManageTeamForm);
-
-export default ManageTeamFormConnected;
+export default ManageTeamForm;

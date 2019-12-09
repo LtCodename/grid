@@ -21,8 +21,8 @@ const TabsWrapper = styled.ul`
 
 const Tab = styled.button`
     border: 2px solid ${props => {
-        return ((props.id === props.pageIndex) ? props.theme.borderColor : "transparent")
-    }};
+	return ((props.id === props.pageIndex) ? props.theme.borderColor : "transparent")
+}};
     
     background: ${props => props.theme.backGround};
     color: ${props => props.theme.foreGround};
@@ -34,47 +34,38 @@ const Tab = styled.button`
 `;
 
 const theme = {
-    foreGround: "#784d2b",
-    backGround: "#fff9de",
-    borderColor: '#784d2b'
+	foreGround: "#784d2b",
+	backGround: "#fff9de",
+	borderColor: '#784d2b'
 };
 
-class NavigationPanel extends React.Component {
-    constructor(props) {
-        super(props);
+const NavigationPanel = ({...otherProps}) => {
+	const pathParts = otherProps.match.path.split('/');
+	const pageIndex = pathParts[1];
 
-        this.state = {
-        };
-    }
-
-    render() {
-        const pathParts = this.props.match.path.split('/');
-        const pageIndex = pathParts[1];
-
-        return (
-            <ThemeProvider theme={theme}>
-                <NavigationWrapper className="navigationWrapper">
-                    <TabsWrapper className="navigationTabs">
-                        <li>
-                            <NavLink to="/seasons">
-                                <Tab className="btn navigationButton" pageIndex={pageIndex} id={"seasons"}>Seasons</Tab>
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/drivers">
-                                <Tab className="btn navigationButton" pageIndex={pageIndex} id={"drivers"}>Drivers</Tab>
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/teams">
-                                <Tab className="btn navigationButton" pageIndex={pageIndex} id={"teams"}>Teams</Tab>
-                            </NavLink>
-                        </li>
-                    </TabsWrapper>
-                </NavigationWrapper>
-            </ThemeProvider>
-        )
-    }
-}
+	return (
+		<ThemeProvider theme={theme}>
+			<NavigationWrapper className="navigationWrapper">
+				<TabsWrapper className="navigationTabs">
+					<li>
+						<NavLink to="/seasons">
+							<Tab className="btn navigationButton" pageIndex={pageIndex} id={"seasons"}>Seasons</Tab>
+						</NavLink>
+					</li>
+					<li>
+						<NavLink to="/drivers">
+							<Tab className="btn navigationButton" pageIndex={pageIndex} id={"drivers"}>Drivers</Tab>
+						</NavLink>
+					</li>
+					<li>
+						<NavLink to="/teams">
+							<Tab className="btn navigationButton" pageIndex={pageIndex} id={"teams"}>Teams</Tab>
+						</NavLink>
+					</li>
+				</TabsWrapper>
+			</NavigationWrapper>
+		</ThemeProvider>
+	)
+};
 
 export default withRouter(NavigationPanel);

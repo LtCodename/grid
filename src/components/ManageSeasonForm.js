@@ -1,88 +1,80 @@
-import React from 'react';
-import {Form, Label, Properties, Property, SubmitButton, Textarea} from "../SharedStyles";
-import {connect} from "react-redux";
+import React, { useState } from 'react';
+import { Form, Label, Properties, Property, SubmitButton, Textarea } from "../SharedStyles";
+import { useStore } from "react-redux";
 import SeasonBlueprint from "../blueprints/SeasonBlueprint";
 import fire from "../fire";
 
-class ManageSeasonForm extends React.Component {
-    constructor(props) {
-        super(props);
+const ManageSeasonForm = ({...otherProps}) => {
+	const store = useStore();
+	const storeState = store.getState();
 
-        this.state = this.props.season || {};
-    }
+	const season = storeState.seasons.find(season => {
+		return season.id === otherProps.seasonId
+	});
 
-    submitSeason = (event) => {
-        event.preventDefault();
-        const newSeasonData = this.state;
+	const [seasonData, changeSeasonData] = useState(season || {});
 
-        if (this.props.mode === 'add') {
-            fire.firestore().collection('seasons').add({
-                ...newSeasonData
-            }).then(() => {
+	const submitSeason = (event) => {
+		event.preventDefault();
+		const newSeasonData = seasonData;
 
-            });
+		if (otherProps.mode === 'add') {
+			fire.firestore().collection('seasons').add({
+				...newSeasonData
+			}).then(() => {
 
-            const cleanState = {};
-            SeasonBlueprint.forEach(season => {
-                cleanState[season.db] = "";
-            });
+			});
 
-            this.setState(cleanState);
-        }else {
-            fire.firestore().collection('seasons').doc(this.props.seasonId).update({
-                ...newSeasonData
-            }).then(() => {
-                console.log("Data updated successfully!");
-            }).catch(error => {
-                console.log(error.message);
-            });
-        }
-    };
+			const cleanState = {};
+			SeasonBlueprint.forEach(season => {
+				cleanState[season.db] = "";
+			});
 
-    inputValuesChange = (event) => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
+			changeSeasonData(cleanState);
+		} else {
+			fire.firestore().collection('seasons').doc(otherProps.seasonId).update({
+				...newSeasonData
+			}).then(() => {
+				console.log("Data updated successfully!");
+			}).catch(error => {
+				console.log(error.message);
+			});
+		}
+	};
 
-    render() {
-        const properties = SeasonBlueprint.map((elem, index) => {
-            return (
-                <Property key={index}>
-                    <Label htmlFor={elem.db}>{elem.name}</Label>
-                    <Textarea
-                        className="form-control"
-                        placeholder={elem.name}
-                        type="text"
-                        rows="1"
-                        id={elem.db}
-                        value={this.state[elem.db]}
-                        onChange={this.inputValuesChange}
-                        required>
-                    </Textarea>
-                </Property>
-            )
-        });
+	const inputValuesChange = (event) => {
+		changeSeasonData({
+			...seasonData,
+			[event.target.id]: event.target.value
+		});
+	};
 
-        return (
-            <Form onSubmit={this.submitSeason}>
-                <Properties>
-                    {properties}
-                </Properties>
-                <SubmitButton className="btn">Submit</SubmitButton>
-            </Form>
-        )
-    }
-}
+	const properties = SeasonBlueprint.map((elem, index) => {
+		return (
+			<Property key={index}>
+				<Label htmlFor={elem.db}>{elem.name}</Label>
+				<Textarea
+					className="form-control"
+					placeholder={elem.name}
+					type="text"
+					rows="1"
+					id={elem.db}
+					value={seasonData[elem.db]}
+					onChange={inputValuesChange}
+					required>
+				</Textarea>
+			</Property>
+		)
+	});
 
-const mapStateToProps = (state = {}, props) => {
-    return {
-        season: state.seasons.find(season => {
-            return season.id === props.seasonId
-        })
-    }
+	return (
+		<Form onSubmit={submitSeason}>
+			<Properties>
+				{properties}
+			</Properties>
+			<SubmitButton className="btn">Submit</SubmitButton>
+		</Form>
+	)
 };
 
-const ManageSeasonFormConnected = connect(mapStateToProps, null)(ManageSeasonForm);
-
-export default ManageSeasonFormConnected;
+export default ManageSeasonForm;
