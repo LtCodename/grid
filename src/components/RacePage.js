@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, ActionButton, InformationTable, Wrapper, H4, Textarea} from "../SharedStyles";
-import {connect} from "react-redux";
+import { ComponentRestricted, ActionButton, InformationTable, Wrapper, H4, Textarea } from "../SharedStyles";
+import { useSelector, useStore } from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
 import styled from "styled-components";
 import fire from "../fire";
@@ -25,343 +25,312 @@ const NoteTextarea = styled(Textarea)`
     min-width: 400px;
 `;
 
-class RacePage extends React.Component {
-    constructor(props) {
-        super(props);
+const RacePage = ({...otherProps}) => {
+	const [editRaceMode, setEditRaceMode] = useState(false);
+	const [addPracticeNoteMode, setAddPracticeNoteMode] = useState(false);
+	const [addQualiNoteMode, setAddQualiNoteMode] = useState(false);
+	const [addRaceNoteMode, setAddRaceNoteMode] = useState(false);
+	const [addSummaryMode, setAddSummaryMode] = useState(false);
+	const [addNoteInputValue, setAddNoteInputValue] = useState('');
+	const [noteType, setNoteType] = useState('');
 
-        this.state = {
-            editRaceMode: false,
-            addPracticeNoteMode: false,
-            addQualiNoteMode: false,
-            addRaceNoteMode: false,
-            addSummaryMode: false,
-            addNoteInputValue: '',
-            noteType: ''
-        };
-    }
+	const store = useStore();
+	const storeState = store.getState();
 
-    onEditRace = () => {
-        if (!this.state.editRaceMode) {
-            this.setState({
-                editRaceMode: true
-            })
-        }else {
-            this.setState({
-                editRaceMode: false
-            })
-        }
-    };
+	const race = useSelector(storeState => {
+		return (
+			storeState.races.find(race => {
+				return race.id === otherProps.match.params.race_id
+			})
+		)
+	});
 
-    onAddPracticeNote = () => {
-        if (!this.state.addPracticeNoteMode) {
-            this.setState({
-                addPracticeNoteMode: true,
-                noteType: 'practiceNotes',
-                addNoteInputValue: '',
-                addQualiNoteMode: false,
-                addRaceNoteMode: false,
-                addSummaryMode: false,
-            })
-        }else {
-            this.setState({
-                addPracticeNoteMode: false,
-                noteType: '',
-                addNoteInputValue: '',
-            })
-        }
-    };
+	const season = storeState.seasons.find(season => {
+		return season.id === otherProps.match.params.season_id
+	});
 
-    onAddQualiNote = () => {
-        if (!this.state.addQualiNoteMode) {
-            this.setState({
-                addQualiNoteMode: true,
-                noteType: 'qualiNotes',
-                addNoteInputValue: '',
-                addPracticeNoteMode: false,
-                addRaceNoteMode: false,
-                addSummaryMode: false,
-            })
-        }else {
-            this.setState({
-                addQualiNoteMode: false,
-                noteType: '',
-                addNoteInputValue: '',
-            })
-        }
-    };
+	const drivers = storeState.drivers;
 
-    onAddRaceNote = () => {
-        if (!this.state.addRaceMode) {
-            this.setState({
-                addRaceNoteMode: true,
-                noteType: 'raceNotes',
-                addNoteInputValue: '',
-                addPracticeNoteMode: false,
-                addQualiNoteMode: false,
-                addSummaryMode: false,
-            })
-        }else {
-            this.setState({
-                addRaceNoteMode: false,
-                noteType: '',
-                addNoteInputValue: '',
-            })
-        }
-    };
+	useEffect(() => {
+	},[store]);
 
-    onAddSummary = () => {
-        if (!this.state.addSummaryMode) {
-            this.setState({
-                addSummaryMode: true,
-                noteType: 'summary',
-                addNoteInputValue: '',
-                addPracticeNoteMode: false,
-                addQualiNoteMode: false,
-                addRaceNoteMode: false,
-            })
-        }else {
-            this.setState({
-                addSummaryMode: false,
-                noteType: '',
-                addNoteInputValue: '',
-            })
-        }
-    };
+	const onEditRace = () => {
+		setEditRaceMode(!editRaceMode);
+	};
 
-    inputValuesChange = (event) => {
-        this.setState({
-            addNoteInputValue: event.target.value
-        }, () => {
-            /*console.log(this.state);*/
-        });
-    };
+	const onAddPracticeNote = () => {
+		if (!addPracticeNoteMode) {
+			setAddPracticeNoteMode(true);
+			setNoteType('practiceNotes');
+			setAddNoteInputValue('');
+			setAddQualiNoteMode(false);
+			setAddRaceNoteMode(false);
+			setAddSummaryMode(false);
+		} else {
+			setAddPracticeNoteMode(false);
+			setNoteType('');
+			setAddNoteInputValue('');
+		}
+	};
 
-    onAddNote = () => {
-        if (!this.state.addNoteInputValue) {
-            return;
-        }
+	const onAddQualiNote = () => {
+		if (!addQualiNoteMode) {
+			setAddQualiNoteMode(true);
+			setNoteType('qualiNotes');
+			setAddNoteInputValue('');
+			setAddPracticeNoteMode(false);
+			setAddRaceNoteMode(false);
+			setAddSummaryMode(false);
+		} else {
+			setAddQualiNoteMode(false);
+			setNoteType('');
+			setAddNoteInputValue('');
+		}
+	};
 
-        const raceReference = fire.firestore().collection("races").doc(this.props.race.id);
-        const note = this.state.noteType;
-        const previousNotes = this.props.race[this.state.noteType] || null;
+	const onAddRaceNote = () => {
+		if (!addRaceNoteMode) {
+			setAddRaceNoteMode(true);
+			setNoteType('raceNotes');
+			setAddNoteInputValue('');
+			setAddPracticeNoteMode(false);
+			setAddQualiNoteMode(false);
+			setAddSummaryMode(false);
+		} else {
+			setAddRaceNoteMode(false);
+			setNoteType('');
+			setAddNoteInputValue('');
+		}
+	};
 
-        raceReference.update({
-            [note]: previousNotes ? [...this.props.race[this.state.noteType], this.state.addNoteInputValue] : [this.state.addNoteInputValue]
-        })
-        .then(function() {
-            console.log("Document successfully updated!");
-        })
-        .catch(function(error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-        });
+	const onAddSummary = () => {
+		if (!addSummaryMode) {
+			setAddSummaryMode(true);
+			setNoteType('summary');
+			setAddNoteInputValue('');
+			setAddPracticeNoteMode(false);
+			setAddQualiNoteMode(false);
+			setAddRaceNoteMode(false);
+		} else {
+			setAddSummaryMode(false);
+			setNoteType('');
+			setAddNoteInputValue('');
+		}
+	};
 
-        this.setState({
-            noteType: '',
-            addPracticeNoteMode: false,
-            addQualiNoteMode: false,
-            addRaceNoteMode: false,
-            addSummaryMode: false,
-            addNoteInputValue: '',
-        });
-    };
+	const inputValuesChange = (event) => {
+		setAddNoteInputValue(event.target.value);
+	};
 
-    render() {
-        const tableRows = RaceBlueprint.map((elem, index) => {
-            return (
-                <tr key={index}>
-                    <th scope="row">{elem.name}</th>
-                    <td>{this.props.race[elem.db]}</td>
-                </tr>
-            )
-        });
+	const onAddNote = () => {
+		if (!addNoteInputValue) {
+			return;
+		}
 
-        /* Pole Position */
-        let poleDriver = '';
-        if (this.props.race.pole) {
-            poleDriver = this.props.drivers.find(driver=> {
-                return driver.id === this.props.race.pole;
-            });
-        }
+		const raceReference = fire.firestore().collection("races").doc(race.id);
+		const note = noteType;
+		const previousNotes = race[noteType] || null;
 
-        const polePosition = (
-            <tr>
-                <th scope="row">Pole position</th>
-                <td>{poleDriver.name}</td>
-            </tr>
-        );
+		raceReference.update({
+			[note]: previousNotes ? [...race[noteType], addNoteInputValue] : [addNoteInputValue]
+		})
+			.then(function () {
+				console.log("Document successfully updated!");
 
-        /* Fastest Lap */
-        let lapDriver = '';
-        if (this.props.race.lap) {
-            lapDriver = this.props.drivers.find(driver=> {
-                return driver.id === this.props.race.lap;
-            });
-        }
+			})
+			.catch(function (error) {
+				// The document probably doesn't exist.
+				console.error("Error updating document: ", error);
+			});
 
-        const fastestLap = (
-            <tr>
-                <th scope="row">Fastest lap</th>
-                <td>{lapDriver.name}</td>
-            </tr>
-        );
+		setNoteType('');
+		setAddPracticeNoteMode(false);
+		setAddQualiNoteMode(false);
+		setAddRaceNoteMode(false);
+		setAddSummaryMode(false);
+		setAddNoteInputValue('');
+	};
 
-        /* All Race Data */
-        const raceDataToDisplay = (
-            <InformationTable className="table">
-                <tbody>
-                {tableRows}
-                {this.props.race.pole ? polePosition : null}
-                {this.props.race.lap ? fastestLap : null}
-                </tbody>
-            </InformationTable>
-        );
+	const tableRows = RaceBlueprint.map((elem, index) => {
+		return (
+			<tr key={index}>
+				<th scope="row">{elem.name}</th>
+				<td>{race[elem.db]}</td>
+			</tr>
+		)
+	});
 
-        let practiceNotes;
-        if (this.props.race.practiceNotes) {
-            practiceNotes = this.props.race.practiceNotes.map((elem, index) => {
-                return (
-                    <p key={index}>
-                        {elem}
-                    </p>
-                )
-            });
-        }
+	/* Pole Position */
+	let poleDriver = '';
+	if (race.pole) {
+		poleDriver = drivers.find(driver => {
+			return driver.id === race.pole;
+		});
+	}
 
-        let qualiNotes;
-        if (this.props.race.qualiNotes) {
-            qualiNotes = this.props.race.qualiNotes.map((elem, index) => {
-                return (
-                    <p key={index}>
-                        {elem}
-                    </p>
-                )
-            });
-        }
+	const polePosition = (
+		<tr>
+			<th scope="row">Pole position</th>
+			<td>{poleDriver.name}</td>
+		</tr>
+	);
 
-        let raceNotes;
-        if (this.props.race.raceNotes) {
-            raceNotes = this.props.race.raceNotes.map((elem, index) => {
-                return (
-                    <p key={index}>
-                        {elem}
-                    </p>
-                )
-            });
-        }
+	/* Fastest Lap */
+	let lapDriver = '';
+	if (race.lap) {
+		lapDriver = drivers.find(driver => {
+			return driver.id === race.lap;
+		});
+	}
 
-        let summary;
-        if (this.props.race.summary) {
-            summary = this.props.race.summary.map((elem, index) => {
-                return (
-                    <SummaryElement key={index}>
-                        {elem}
-                    </SummaryElement>
-                )
-            });
-        }
+	const fastestLap = (
+		<tr>
+			<th scope="row">Fastest lap</th>
+			<td>{lapDriver.name}</td>
+		</tr>
+	);
 
-        const addNoteForm = (
-            <>
-                <NoteTextarea
-                    className="form-control"
-                    placeholder={''}
-                    type="text"
-                    rows="3"
-                    value={this.state.addNoteInputValue}
-                    onChange={this.inputValuesChange}
-                    required>
-                </NoteTextarea>
-                <ActionButton
-                    className="btn btn-warning"
-                    onClick={this.onAddNote}>
-                    {"Add note"}
-                </ActionButton>
-            </>
-        );
+	/* All Race Data */
+	const raceDataToDisplay = (
+		<InformationTable className="table">
+			<tbody>
+			{tableRows}
+			{race.pole ? polePosition : null}
+			{race.lap ? fastestLap : null}
+			</tbody>
+		</InformationTable>
+	);
 
-        const notes = (
-            <NotesWrapper>
-                <Notes>
-                    <H4>Practice:</H4>
-                    {practiceNotes}
-                    <ActionButton
-                        className="btn btn-warning"
-                        onClick={this.onAddPracticeNote}>
-                        {!this.state.addPracticeNoteMode ? "Add Practice Note" : "Hide"}
-                    </ActionButton>
-                    {!this.state.addPracticeNoteMode ? "" : addNoteForm}
-                    <H4>Qualification:</H4>
-                    {qualiNotes}
-                    <ActionButton
-                        className="btn btn-warning"
-                        onClick={this.onAddQualiNote}>
-                        {!this.state.addQualiNoteMode ? "Add Qualification Note" : "Hide"}
-                    </ActionButton>
-                    {!this.state.addQualiNoteMode ? "" : addNoteForm}
-                    <H4>Race:</H4>
-                    {raceNotes}
-                    <ActionButton
-                        className="btn btn-warning"
-                        onClick={this.onAddRaceNote}>
-                        {!this.state.addRaceNoteMode ? "Add Race Note" : "Hide"}
-                    </ActionButton>
-                    {!this.state.addRaceNoteMode ? "" : addNoteForm}
-                    <H4>Summary:</H4>
-                    {summary}
-                    <ActionButton
-                        className="btn btn-warning"
-                        onClick={this.onAddSummary}>
-                        {!this.state.addSummaryMode ? "Add Summary" : "Hide"}
-                    </ActionButton>
-                    {!this.state.addSummaryMode ? "" : addNoteForm}
-                </Notes>
-            </NotesWrapper>
-        );
+	let practiceNotes;
+	if (race.practiceNotes) {
+		practiceNotes = race.practiceNotes.map((elem, index) => {
+			return (
+				<p key={index}>
+					{elem}
+				</p>
+			)
+		});
+	}
 
-        return (
-            <>
-                <NavigationPanel />
-                <ComponentRestricted>
-                    <NavLink to={`/seasons/${this.props.match.params.season_id}`}>
-                        <Wrapper>
-                            <ActionButton
-                                className="btn btn-warning">
-                                {`Back to ${this.props.season.name}`}
-                            </ActionButton>
-                        </Wrapper>
-                    </NavLink>
-                    <ActionButton
-                        className="btn btn-warning"
-                        onClick={this.onEditRace}>
-                        {!this.state.editRaceMode ? "Edit Grand Prix" : "Hide"}
-                    </ActionButton>
-                    <br/>
-                    {this.state.editRaceMode ?
-                        <ManageRaceForm
-                            raceId={this.props.match.params.race_id}
-                            seasonId={this.props.match.params.season_id}
-                            mode={'edit'}
-                        /> : raceDataToDisplay}
-                    {notes}
-                </ComponentRestricted>
-            </>
-        )
-    }
-}
+	let qualiNotes;
+	if (race.qualiNotes) {
+		qualiNotes = race.qualiNotes.map((elem, index) => {
+			return (
+				<p key={index}>
+					{elem}
+				</p>
+			)
+		});
+	}
 
-const mapStateToProps = (state = {}, props) => {
-    return {
-        race: state.races.find(race => {
-            return race.id === props.match.params.race_id
-        }),
-        season: state.seasons.find(season => {
-            return season.id === props.match.params.season_id
-        }),
-        drivers: state.drivers
-    }
+	let raceNotes;
+	if (race.raceNotes) {
+		raceNotes = race.raceNotes.map((elem, index) => {
+			return (
+				<p key={index}>
+					{elem}
+				</p>
+			)
+		});
+	}
+
+	let summary;
+	if (race.summary) {
+		summary = race.summary.map((elem, index) => {
+			return (
+				<SummaryElement key={index}>
+					{elem}
+				</SummaryElement>
+			)
+		});
+	}
+
+	const addNoteForm = (
+		<>
+			<NoteTextarea
+				className="form-control"
+				placeholder={''}
+				type="text"
+				rows="3"
+				value={addNoteInputValue}
+				onChange={inputValuesChange}
+				required>
+			</NoteTextarea>
+			<ActionButton
+				className="btn btn-warning"
+				onClick={onAddNote}>
+				{"Add note"}
+			</ActionButton>
+		</>
+	);
+
+	const notes = (
+		<NotesWrapper>
+			<Notes>
+				<H4>Practice:</H4>
+				{practiceNotes}
+				<ActionButton
+					className="btn btn-warning"
+					onClick={onAddPracticeNote}>
+					{!addPracticeNoteMode ? "Add Practice Note" : "Hide"}
+				</ActionButton>
+				{!addPracticeNoteMode ? "" : addNoteForm}
+				<H4>Qualification:</H4>
+				{qualiNotes}
+				<ActionButton
+					className="btn btn-warning"
+					onClick={onAddQualiNote}>
+					{!addQualiNoteMode ? "Add Qualification Note" : "Hide"}
+				</ActionButton>
+				{!addQualiNoteMode ? "" : addNoteForm}
+				<H4>Race:</H4>
+				{raceNotes}
+				<ActionButton
+					className="btn btn-warning"
+					onClick={onAddRaceNote}>
+					{!addRaceNoteMode ? "Add Race Note" : "Hide"}
+				</ActionButton>
+				{!addRaceNoteMode ? "" : addNoteForm}
+				<H4>Summary:</H4>
+				{summary}
+				<ActionButton
+					className="btn btn-warning"
+					onClick={onAddSummary}>
+					{!addSummaryMode ? "Add Summary" : "Hide"}
+				</ActionButton>
+				{!addSummaryMode ? "" : addNoteForm}
+			</Notes>
+		</NotesWrapper>
+	);
+
+	return (
+		<>
+			<NavigationPanel/>
+			<ComponentRestricted>
+				<NavLink to={`/seasons/${otherProps.match.params.season_id}`}>
+					<Wrapper>
+						<ActionButton
+							className="btn btn-warning">
+							{`Back to ${season.name}`}
+						</ActionButton>
+					</Wrapper>
+				</NavLink>
+				<ActionButton
+					className="btn btn-warning"
+					onClick={onEditRace}>
+					{!editRaceMode ? "Edit Grand Prix" : "Hide"}
+				</ActionButton>
+				<br/>
+				{editRaceMode ?
+					<ManageRaceForm
+						raceId={otherProps.match.params.race_id}
+						seasonId={otherProps.match.params.season_id}
+						mode={'edit'}
+					/> : raceDataToDisplay}
+				{notes}
+			</ComponentRestricted>
+		</>
+	)
 };
 
-const RacePageConnected = connect(mapStateToProps, null)(RacePage);
-
-export default RacePageConnected;
+export default RacePage;

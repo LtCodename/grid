@@ -1,67 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ActionButton, ComponentRestricted, Item, Wrapper} from "../SharedStyles";
-import {NavLink} from "react-router-dom";
-import {connect} from "react-redux";
+import { ActionButton, ComponentRestricted, Item, Wrapper } from "../SharedStyles";
+import { NavLink } from "react-router-dom";
+import { useStore } from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 
-class Seasons extends React.Component {
-    constructor(props) {
-        super(props);
+const Seasons = () => {
+	const [addSeasonMode, changeAddSeasonMode] = useState(false);
 
-        this.state = {
-            addSeasonMode: false
-        };
-    }
+	const store = useStore();
+	const storeState = store.getState();
 
-    addSeason = () => {
-        if (!this.state.addSeasonMode) {
-            this.setState({
-                addSeasonMode: true
-            })
-        }else {
-            this.setState({
-                addSeasonMode: false
-            })
-        }
-    };
+	const seasons = storeState.seasons;
 
-    render() {
-        const seasonsToDisplay = (
-            this.props.seasons.map((season, index) => {
-                return (
-                    <NavLink key={index} to={`/seasons/${season.id}`}>
-                        <Item className="btn">{season.name}</Item>
-                    </NavLink>
-                )
-            })
-        );
+	const addSeason = () => {
+		changeAddSeasonMode(!addSeasonMode);
+	};
 
-        return (
-            <>
-                <NavigationPanel />
-                <ComponentRestricted>
-                    <Wrapper>
-                        <ActionButton
-                            className="btn btn-warning"
-                            onClick={this.addSeason}>
-                            {!this.state.addSeasonMode ? "Add Season" : "Hide"}
-                        </ActionButton>
-                    </Wrapper>
-                    {this.state.addSeasonMode ? <ManageSeasonForm mode={'add'}/> : ""}
-                    {seasonsToDisplay}
-                </ComponentRestricted>
-            </>
-        )
-    }
-}
+	const seasonsToDisplay = (
+		seasons.map((season, index) => {
+			return (
+				<NavLink key={index} to={`/seasons/${season.id}`}>
+					<Item className="btn">{season.name}</Item>
+				</NavLink>
+			)
+		})
+	);
 
-const mapStateToProps = (state = {}) => {
-    return {
-        seasons: state.seasons
-    }
+	return (
+		<>
+			<NavigationPanel/>
+			<ComponentRestricted>
+				<Wrapper>
+					<ActionButton
+						className="btn btn-warning"
+						onClick={addSeason}>
+						{!addSeasonMode ? "Add Season" : "Hide"}
+					</ActionButton>
+				</Wrapper>
+				{addSeasonMode ? <ManageSeasonForm mode={'add'}/> : ""}
+				{seasonsToDisplay}
+			</ComponentRestricted>
+		</>
+	)
 };
 
-const SeasonsConnected = connect(mapStateToProps, null)(Seasons);
-
-export default SeasonsConnected;
+export default Seasons;

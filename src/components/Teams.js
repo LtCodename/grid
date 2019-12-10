@@ -1,67 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {connect} from "react-redux";
-import {NavLink} from "react-router-dom";
+import { useStore } from "react-redux";
+import { NavLink } from "react-router-dom";
 import ManageTeamForm from "./ManageTeamForm";
-import {ActionButton, ComponentRestricted, Item, Wrapper} from "../SharedStyles";
+import { ActionButton, ComponentRestricted, Item, Wrapper } from "../SharedStyles";
 
-class Teams extends React.Component {
-    constructor(props) {
-        super(props);
+const Teams = () => {
+	const [addTeamMode, changeAddTeamMode] = useState(false);
 
-        this.state = {
-            addTeamMode: false
-        };
-    }
+	const store = useStore();
+	const storeState = store.getState();
 
-    addTeam = () => {
-        if (!this.state.addTeamMode) {
-            this.setState({
-                addTeamMode: true
-            })
-        }else {
-            this.setState({
-                addTeamMode: false
-            })
-        }
-    };
+	const teams = storeState.teams;
 
-    render() {
-        const teamsToDisplay = (
-            this.props.teams.map((team, index) => {
-                return (
-                    <NavLink key={index} to={`/teams/${team.id}`}>
-                        <Item className="btn">{team.name}</Item>
-                    </NavLink>
-                )
-            })
-        );
+	const addTeam = () => {
+		changeAddTeamMode(!addTeamMode);
+	};
 
-        return (
-            <>
-                <NavigationPanel />
-                <ComponentRestricted>
-                    <Wrapper>
-                        <ActionButton
-                            className="btn btn-warning"
-                            onClick={this.addTeam}>
-                            {!this.state.addTeamMode ? "Add Team" : "Hide"}
-                        </ActionButton>
-                    </Wrapper>
-                    {this.state.addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
-                    {teamsToDisplay}
-                </ComponentRestricted>
-            </>
-        )
-    }
-}
+	const teamsToDisplay = (
+		teams.map((team, index) => {
+			return (
+				<NavLink key={index} to={`/teams/${team.id}`}>
+					<Item className="btn">{team.name}</Item>
+				</NavLink>
+			)
+		})
+	);
 
-const mapStateToProps = (state = {}) => {
-    return {
-        teams: state.teams
-    }
+	return (
+		<>
+			<NavigationPanel/>
+			<ComponentRestricted>
+				<Wrapper>
+					<ActionButton
+						className="btn btn-warning"
+						onClick={addTeam}>
+						{!addTeamMode ? "Add Team" : "Hide"}
+					</ActionButton>
+				</Wrapper>
+				{addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
+				{teamsToDisplay}
+			</ComponentRestricted>
+		</>
+	)
 };
 
-const TeamsConnected = connect(mapStateToProps, null)(Teams);
-
-export default TeamsConnected;
+export default Teams;
