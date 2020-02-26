@@ -20,17 +20,19 @@ const TabsWrapper = styled.ul`
 `;
 
 const Tab = styled.button`
-    border: 2px solid ${props => {
-	return ((props.id === props.pageIndex) ? props.theme.borderColor : "transparent")
-}};
-    
+    border: 5px solid ${props => {
+		return ((props.id === props.pageIndex) ? props.theme.borderColor : "transparent")
+	}};
+	font-weight: ${props => {
+		return ((props.id === props.pageIndex) ? 800 : 500)
+	}};
     background: ${props => props.theme.backGround};
     color: ${props => props.theme.foreGround};
-  
     margin: 0;
     padding: 10px;
     cursor: pointer;
-    margin: 5px;
+	margin: 5px;
+	outline: none;
 `;
 
 const theme = {
@@ -49,17 +51,17 @@ const NavigationPanel = ({...otherProps}) => {
 				<TabsWrapper className="navigationTabs">
 					<li>
 						<NavLink to="/seasons">
-							<Tab className="btn navigationButton" pageIndex={pageIndex} id={"seasons"}>Seasons</Tab>
+							<Tab className="navigationButton" pageIndex={pageIndex} id={"seasons"}>Seasons</Tab>
 						</NavLink>
 					</li>
 					<li>
 						<NavLink to="/drivers">
-							<Tab className="btn navigationButton" pageIndex={pageIndex} id={"drivers"}>Drivers</Tab>
+							<Tab className="navigationButton" pageIndex={pageIndex} id={"drivers"}>Drivers</Tab>
 						</NavLink>
 					</li>
 					<li>
 						<NavLink to="/teams">
-							<Tab className="btn navigationButton" pageIndex={pageIndex} id={"teams"}>Teams</Tab>
+							<Tab className="navigationButton" pageIndex={pageIndex} id={"teams"}>Teams</Tab>
 						</NavLink>
 					</li>
 				</TabsWrapper>

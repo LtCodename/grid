@@ -18,7 +18,7 @@ const ManageRaceForm = ({...otherProps}) => {
 
 	const drivers = storeState.drivers;
 
-	const [raceData, changeRaceData] = useState(race);
+	const [raceData, changeRaceData] = useState(race || {});
 
 	useEffect(() => {
 		changeRaceData(raceData);

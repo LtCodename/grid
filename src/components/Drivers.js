@@ -4,6 +4,48 @@ import { ActionButton, ComponentRestricted, Item, Wrapper } from "../SharedStyle
 import { useStore } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ManageDriverForm from "./ManageDriverForm";
+import styled from "styled-components";
+
+const DriverImage = styled.img`
+	width: 100%;
+`;
+
+const DriverName = styled.span`
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	left: 50%;
+	opacity: 0;
+	color: #784d2b;
+	background: #fff9de;
+	font-size: 25px;
+	font-weight: 800;
+	padding: 0 10px;
+	text-align: center;
+	transition: opacity .2s ease-in-out;
+	a:hover > & {
+		opacity: 1;
+	}
+`;
+
+const DriversWrapper = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-gap: 20px;
+	margin-bottom: 20px;
+`;
+
+const DriverLink = styled(NavLink)`
+	position: relative;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	border: 10px solid #fde3a7;
+	transition: all .2s;
+	overflow: hidden;
+	:hover {
+		border: 0px solid #fde3a7;
+		box-shadow: 9px 9px 9px rgba(0, 0, 0, 0.5);
+	}
+`;
 
 const Drivers = () => {
 	const [addDriverMode, changeAddDriverMode] = useState(false);
@@ -20,9 +62,10 @@ const Drivers = () => {
 	const driversNode = (
 		drivers.map((driver, index) => {
 			return (
-				<NavLink key={index} to={`/drivers/${driver.id}`}>
-					<Item className="btn">{driver.name}</Item>
-				</NavLink>
+				<DriverLink key={index} to={`/drivers/${driver.id}`}>
+					<DriverImage src={driver.picture}></DriverImage>
+					<DriverName>{driver.name}</DriverName>
+				</DriverLink>
 			)
 		})
 	);
@@ -31,6 +74,9 @@ const Drivers = () => {
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
+				<DriversWrapper>
+					{driversNode}
+				</DriversWrapper>
 				<Wrapper>
 					<ActionButton
 						className="btn btn-warning"
@@ -39,7 +85,6 @@ const Drivers = () => {
 					</ActionButton>
 				</Wrapper>
 				{addDriverMode ? <ManageDriverForm mode={'add'}/> : ""}
-				{driversNode}
 			</ComponentRestricted>
 		</>
 	)

@@ -13,7 +13,7 @@ const ManageDriverForm = ({...otherProps}) => {
 	});
 	const teams = storeState.teams;
 
-	const [driverData, changeDriverData] = useState(driver);
+	const [driverData, changeDriverData] = useState(driver || {});
 
 	useEffect(() => {
 		changeDriverData(driverData);

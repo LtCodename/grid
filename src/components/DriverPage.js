@@ -4,6 +4,32 @@ import { ComponentRestricted, ActionButton, InformationTable } from "../SharedSt
 import { useStore } from "react-redux";
 import ManageDriverForm from "./ManageDriverForm";
 import DriverBlueprint from "../blueprints/DriverBlueprint";
+import styled from "styled-components";
+
+const AllInfo = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 20px;
+	margin-bottom: 20px;
+`;
+
+const PictureWrapper = styled.div`
+	height: 400px;
+	overflow: hidden;
+	border: 10px solid #fde3a7;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+`;
+
+const DriverPicture = styled.img`
+	width: 100%;
+`;
+
+const DriverTable = styled.table`
+    margin: 10px auto;
+    width: 50%;
+	color: #784d2b;
+	border: none;
+`;
 
 const DriverPage = ({...otherProps}) => {
 	const [editDriverMode, changeEditDriverMode] = useState(false);
@@ -41,24 +67,30 @@ const DriverPage = ({...otherProps}) => {
 	});
 
 	const driverDataToDisplay = (
-		<InformationTable className="table">
-			<tbody>
-			{tableRows}
-			</tbody>
-		</InformationTable>
+		<AllInfo>
+			<PictureWrapper>
+				<DriverPicture src={driver.picture}></DriverPicture>
+			</PictureWrapper>
+			<DriverTable>
+				<tbody>
+					{tableRows}
+				</tbody>
+			</DriverTable>
+		</AllInfo>
 	);
 
 	return (
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
+				{editDriverMode ?
+					<ManageDriverForm driverId={otherProps.match.params.driver_id} mode={'edit'}/> : driverDataToDisplay}
+
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onEditDriver}>
 					{!editDriverMode ? "Edit Driver" : "Hide"}
 				</ActionButton>
-				{editDriverMode ?
-					<ManageDriverForm driverId={otherProps.match.params.driver_id} mode={'edit'}/> : driverDataToDisplay}
 			</ComponentRestricted>
 		</>
 	)
