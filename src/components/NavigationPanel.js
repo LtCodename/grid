@@ -33,6 +33,9 @@ const Tab = styled.button`
     cursor: pointer;
 	margin: 5px;
 	outline: none;
+	:focus, :hover {
+		outline: none;
+	}
 `;
 
 const theme = {

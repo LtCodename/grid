@@ -25,8 +25,8 @@ const DriverPicture = styled.img`
 `;
 
 const DriverTable = styled.table`
-    margin: 10px auto;
-    width: 50%;
+    //margin: 10px auto;
+    //width: 50%;
 	color: #784d2b;
 	border: none;
 `;

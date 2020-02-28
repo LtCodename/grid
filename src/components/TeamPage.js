@@ -41,12 +41,12 @@ const TeamPage = ({...otherProps}) => {
     <>
       <NavigationPanel/>
       <ComponentRestricted>
+        {editTeamMode ? <ManageTeamForm teamId={otherProps.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
         <ActionButton
           className="btn btn-warning"
           onClick={onEditTeam}>
           {!editTeamMode ? "Edit Team" : "Hide"}
         </ActionButton>
-        {editTeamMode ? <ManageTeamForm teamId={otherProps.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
       </ComponentRestricted>
     </>
   )

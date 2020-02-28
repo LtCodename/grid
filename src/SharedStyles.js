@@ -21,8 +21,8 @@ export const Wrapper = styled.div`
 `;
 
 export const InformationTable = styled.table`
-    margin: 10px auto;
-    width: 50%;
+    margin: 10px 0;
+    //width: 50%;
     color: #784d2b;
 `;
 
