@@ -272,7 +272,7 @@ const RacePage = ({...otherProps}) => {
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onAddPracticeNote}>
-					{!addPracticeNoteMode ? "Add Practice Note" : "Hide"}
+					{!addPracticeNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addPracticeNoteMode ? "" : addNoteForm}
 				<H4>Qualification:</H4>
@@ -280,7 +280,7 @@ const RacePage = ({...otherProps}) => {
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onAddQualiNote}>
-					{!addQualiNoteMode ? "Add Qualification Note" : "Hide"}
+					{!addQualiNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addQualiNoteMode ? "" : addNoteForm}
 				<H4>Race:</H4>
@@ -288,7 +288,7 @@ const RacePage = ({...otherProps}) => {
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onAddRaceNote}>
-					{!addRaceNoteMode ? "Add Race Note" : "Hide"}
+					{!addRaceNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addRaceNoteMode ? "" : addNoteForm}
 				<H4>Summary:</H4>
@@ -311,7 +311,8 @@ const RacePage = ({...otherProps}) => {
 					<Wrapper>
 						<ActionButton
 							className="btn btn-warning">
-							{`Back to ${season.name}`}
+							{/* {`Back to ${season.name}`} */}
+							{`Back`}
 						</ActionButton>
 					</Wrapper>
 				</NavLink>

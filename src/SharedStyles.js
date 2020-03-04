@@ -12,7 +12,9 @@ export const ActionButton = styled.button`
     padding: 5px;
     cursor: pointer;
     margin: 0 5px 0 0;
+    border-radius: 0;
     color: #784d2b;
+    width: 120px;
 `;
 
 export const Wrapper = styled.div`

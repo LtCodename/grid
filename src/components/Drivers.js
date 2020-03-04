@@ -30,20 +30,20 @@ const DriverName = styled.span`
 
 const DriversWrapper = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-gap: 20px;
 	margin-bottom: 20px;
 `;
 
 const DriverLink = styled(NavLink)`
 	position: relative;
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	//box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 	border: 10px solid #fde3a7;
 	transition: all .2s;
 	overflow: hidden;
 	:hover {
 		border: 0px solid #fde3a7;
-		box-shadow: 9px 9px 9px rgba(0, 0, 0, 0.5);
+		//box-shadow: 9px 9px 9px rgba(0, 0, 0, 0.5);
 	}
 `;
 

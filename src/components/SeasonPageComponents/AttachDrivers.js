@@ -2,6 +2,21 @@ import React, { useState } from 'react';
 import { ActionButton, Label, Select, SmallItem, Wrapper } from "../../SharedStyles";
 import { useStore } from "react-redux";
 import fire from "../../fire";
+import styled from "styled-components";
+
+const DriverItem = styled.div`
+    padding: 10px;
+    background-color: #fde3a7;
+    color: #784d2b;
+    border-radius: 0;
+    text-align: center;
+`;
+
+const DriversGrid = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+`;
 
 const AttachDrivers = ({...otherProps}) => {
   const [driverSelectMode, changeDriverSelectMode] = useState(false);
@@ -61,13 +76,11 @@ const AttachDrivers = ({...otherProps}) => {
         onChange={inputValuesChange}>
         {driversToAttach}
       </Select>
-      <Wrapper>
-        <ActionButton
-          className="btn btn-warning"
-          onClick={onAttachDriverConfirm}>
-          Attach driver
-        </ActionButton>
-      </Wrapper>
+      <ActionButton
+        className="btn btn-warning"
+        onClick={onAttachDriverConfirm}>
+        Attach driver
+      </ActionButton>
     </div>
   );
 
@@ -75,9 +88,9 @@ const AttachDrivers = ({...otherProps}) => {
   if (season.drivers) {
     seasonDrivers = season.drivers.map((driver, index) => {
       return (
-        <span key={index}>
-                    <SmallItem className="btn">{drivers.find(dr => dr.id === driver).name}</SmallItem>
-                </span>
+        <DriverItem key={index}>
+          {drivers.find(dr => dr.id === driver).name}
+        </DriverItem>
       )
     })
   }
@@ -86,14 +99,16 @@ const AttachDrivers = ({...otherProps}) => {
     <>
       <Wrapper>
         <ActionButton
-          className="btn btn-warning"
-          onClick={onAttachDriver}>
-          {!driverSelectMode ? "Select driver" : "Hide"}
+            className="btn btn-warning"
+            onClick={onAttachDriver}>
+            {!driverSelectMode ? "Select driver" : "Hide"}
         </ActionButton>
       </Wrapper>
       {driverSelectMode ? attachForm : ""}
       <Wrapper>
-        {seasonDrivers}
+        <DriversGrid>
+          {seasonDrivers}
+        </DriversGrid>
       </Wrapper>
     </>
   )

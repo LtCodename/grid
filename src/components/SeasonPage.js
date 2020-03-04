@@ -19,10 +19,48 @@ const InformationBit = styled.div`
     text-align: center;
 `;
 
-const H2 = styled.h2`
+const SeasonTitle = styled.h2`
     width: 100%;
     text-align: center;
-    color: #784d2b;
+	color: #784d2b;
+	font-weight: 900;
+`;
+
+const RacesWrapper = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-gap: 5px;
+	margin-bottom: 8px;
+`;
+
+const RaceLink = styled(NavLink)`
+	border: 5px solid #fde3a7;
+	transition: all .2s;
+	color: #784d2b;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+	height: 45px;
+	:hover {
+		color: #784d2b;
+		text-decoration: none;
+		//border: 6px solid #fde3a7;
+	}
+`;
+
+const RacesBlocks = styled.div`
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    height: 100%;
+`;
+
+const RaceName = styled.span`
+`;
+
+const AddDriversWrapper = styled.div`
+    width: 100%;
+	margin-bottom: 10px;
 `;
 
 const SeasonPage = ({...otherProps}) => {
@@ -52,9 +90,11 @@ const SeasonPage = ({...otherProps}) => {
 			)
 		}).map((race, index) => {
 			return (
-				<NavLink key={index} to={`/races/${otherProps.match.params.season_id}/${race.id}`}>
-					<Item className="btn">{race.name}</Item>
-				</NavLink>
+				<RaceLink key={index} to={`/races/${otherProps.match.params.season_id}/${race.id}`}>
+					<RacesBlocks>
+						<RaceName>{race.name}</RaceName>
+					</RacesBlocks>
+				</RaceLink>
 			)
 		})
 	);
@@ -63,7 +103,11 @@ const SeasonPage = ({...otherProps}) => {
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
-				<H2>{season.name}</H2>
+				<SeasonTitle>{season.name}</SeasonTitle>
+				{/*Races*/}
+				<RacesWrapper>
+					{racesToDisplay}
+				</RacesWrapper>
 				{/*Add Grand Prix Button*/}
 				<Wrapper>
 					<ActionButton
@@ -73,10 +117,8 @@ const SeasonPage = ({...otherProps}) => {
 					</ActionButton>
 				</Wrapper>
 				{addRaceMode ? <ManageRaceForm seasonId={season.id} mode={'add'}/> : ""}
-				{/*Races*/}
-				<Wrapper>
-					{racesToDisplay}
-				</Wrapper>
+				{/*Attach Drivers To Current Season*/}
+				<AttachDrivers seasonId={otherProps.match.params.season_id}/>
 				{/*General Information*/}
 				<SeasonInformation>
 					<InformationBit>
@@ -105,10 +147,6 @@ const SeasonPage = ({...otherProps}) => {
 				</Wrapper>
 				{editSeasonMode ?
 					<ManageSeasonForm seasonId={otherProps.match.params.season_id} mode={'edit'}/> : ''}
-				{/*Attach Drivers To Current Season*/}
-				<Wrapper>
-					<AttachDrivers seasonId={otherProps.match.params.season_id}/>
-				</Wrapper>
 			</ComponentRestricted>
 		</>
 	)

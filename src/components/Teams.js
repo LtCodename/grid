@@ -14,14 +14,14 @@ const TeamsWrapper = styled.div`
 `;
 
 const TeamLink = styled(NavLink)`
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	//box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 	border: 10px solid #fde3a7;
 	transition: all .2s;
 	overflow: hidden;
 	height: 100px;
 	:hover {
 		text-decoration: none;
-		box-shadow: 9px 9px 9px rgba(0, 0, 0, 0.5);
+		//box-shadow: 9px 9px 9px rgba(0, 0, 0, 0.5);
 	}
 `;
 
@@ -34,7 +34,8 @@ const ColorBlock = styled.div` {
 	background: ${props => props.bg ? props.bg : 'transparent'}
 	padding: 0 15px;
 	height: 80px;
-	a:hover > & {
+	transition: padding .2s;
+	a:hover & {
 		padding: 0 20px;
 	}
 `;
@@ -42,8 +43,8 @@ const ColorBlock = styled.div` {
 const TeamName = styled.span`
 	color: #784d2b;
     margin-left: 10px;
-    font-size: 25px;
-    font-weight: 900;
+    font-size: 19px;
+    font-weight: 500;
 	text-align: center;
 	transition: opacity .2s ease-in-out;
 	a:hover > & {
@@ -69,7 +70,7 @@ const Teams = () => {
 				<TeamLink key={index} to={`/teams/${team.id}`}>
 					<ColorAndName>
 						<ColorBlock bg={team.color}></ColorBlock>
-						<TeamName>{team.name}</TeamName>
+						<TeamName>{team['name-full']}</TeamName>
 					</ColorAndName>
 				</TeamLink>
 			)
