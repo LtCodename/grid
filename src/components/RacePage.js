@@ -17,12 +17,32 @@ const Notes = styled.span`
     min-width: 400px;
 `;
 
-const SummaryElement = styled.p`
-    font-weight: 500;
-`;
-
 const NoteTextarea = styled(Textarea)`
     min-width: 400px;
+`;
+
+const NoteAreaTitle = styled.h4`
+    color: #784d2b;
+	text-align: center;
+	text-transform: uppercase;
+    font-weight: 800;
+`;
+
+const Paragraphs = styled.div`
+	border: 8px solid #fde3a6;
+	padding: 5px;
+	margin-bottom: 10px;
+`;
+
+const SummaryElement = styled.p`
+	font-weight: 600;
+	color: #774d2b;
+	margin-bottom: 0px;
+`;
+
+const Note = styled.p`
+	color: #774d2b;
+	margin-bottom: 0px;
 `;
 
 const RacePage = ({...otherProps}) => {
@@ -194,9 +214,9 @@ const RacePage = ({...otherProps}) => {
 	const raceDataToDisplay = (
 		<InformationTable className="table">
 			<tbody>
-			{tableRows}
-			{race.pole ? polePosition : null}
-			{race.lap ? fastestLap : null}
+				{tableRows}
+				{race.pole ? polePosition : null}
+				{race.lap ? fastestLap : null}
 			</tbody>
 		</InformationTable>
 	);
@@ -205,9 +225,9 @@ const RacePage = ({...otherProps}) => {
 	if (race.practiceNotes) {
 		practiceNotes = race.practiceNotes.map((elem, index) => {
 			return (
-				<p key={index}>
+				<Note key={index}>
 					{elem}
-				</p>
+				</Note>
 			)
 		});
 	}
@@ -216,9 +236,9 @@ const RacePage = ({...otherProps}) => {
 	if (race.qualiNotes) {
 		qualiNotes = race.qualiNotes.map((elem, index) => {
 			return (
-				<p key={index}>
+				<Note key={index}>
 					{elem}
-				</p>
+				</Note>
 			)
 		});
 	}
@@ -227,9 +247,9 @@ const RacePage = ({...otherProps}) => {
 	if (race.raceNotes) {
 		raceNotes = race.raceNotes.map((elem, index) => {
 			return (
-				<p key={index}>
+				<Note key={index}>
 					{elem}
-				</p>
+				</Note>
 			)
 		});
 	}
@@ -267,32 +287,32 @@ const RacePage = ({...otherProps}) => {
 	const notes = (
 		<NotesWrapper>
 			<Notes>
-				<H4>Practice:</H4>
-				{practiceNotes}
+				<NoteAreaTitle>Practice</NoteAreaTitle>
+				<Paragraphs>{practiceNotes}</Paragraphs>
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onAddPracticeNote}>
 					{!addPracticeNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addPracticeNoteMode ? "" : addNoteForm}
-				<H4>Qualification:</H4>
-				{qualiNotes}
+				<NoteAreaTitle>Qualification</NoteAreaTitle>
+				<Paragraphs>{qualiNotes}</Paragraphs>
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onAddQualiNote}>
 					{!addQualiNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addQualiNoteMode ? "" : addNoteForm}
-				<H4>Race:</H4>
-				{raceNotes}
+				<NoteAreaTitle>Race</NoteAreaTitle>
+				<Paragraphs>{raceNotes}</Paragraphs>
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onAddRaceNote}>
 					{!addRaceNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addRaceNoteMode ? "" : addNoteForm}
-				<H4>Summary:</H4>
-				{summary}
+				<NoteAreaTitle>Summary</NoteAreaTitle>
+				<Paragraphs>{summary}</Paragraphs>
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onAddSummary}>
