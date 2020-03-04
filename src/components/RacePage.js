@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ComponentRestricted, ActionButton, InformationTable, Wrapper, H4, Textarea } from "../SharedStyles";
+import { ComponentRestricted, ActionButton, InformationTable, Wrapper, Textarea } from "../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import { NavLink } from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
 import styled from "styled-components";
 import fire from "../fire";
+import Positions from './RacePageComponents/Positions';
 
 const NotesWrapper = styled.div`
     display: flex;
@@ -65,9 +66,9 @@ const RacePage = ({...otherProps}) => {
 		)
 	});
 
-	const season = storeState.seasons.find(season => {
-		return season.id === otherProps.match.params.season_id
-	});
+	// const season = storeState.seasons.find(season => {
+	// 	return season.id === otherProps.match.params.season_id
+	// });
 
 	const drivers = storeState.drivers;
 
@@ -342,12 +343,16 @@ const RacePage = ({...otherProps}) => {
 					{!editRaceMode ? "Edit Grand Prix" : "Hide"}
 				</ActionButton>
 				<br/>
+				<span>General Information</span>
 				{editRaceMode ?
 					<ManageRaceForm
 						raceId={otherProps.match.params.race_id}
 						seasonId={otherProps.match.params.season_id}
 						mode={'edit'}
 					/> : raceDataToDisplay}
+				<Positions raceId={otherProps.match.params.race_id}
+						seasonId={otherProps.match.params.season_id}>
+				</Positions>
 				{notes}
 			</ComponentRestricted>
 		</>

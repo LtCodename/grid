@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActionButton, Label, Select, SmallItem, Wrapper } from "../../SharedStyles";
+import { ActionButton, Label, Select, Wrapper } from "../../SharedStyles";
 import { useStore } from "react-redux";
 import fire from "../../fire";
 import styled from "styled-components";

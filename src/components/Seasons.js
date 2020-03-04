@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ActionButton, ComponentRestricted, Item, Wrapper } from "../SharedStyles";
+import { ActionButton, ComponentRestricted, Wrapper } from "../SharedStyles";
 import { NavLink } from "react-router-dom";
 import { useStore } from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
