@@ -7,7 +7,8 @@ import { NavLink } from "react-router-dom";
 import ManageRaceForm from "./ManageRaceForm";
 import styled from "styled-components";
 import fire from "../fire";
-import Positions from './RacePageComponents/Positions';
+import FillPositions from './RacePageComponents/FillPositions';
+import DisplayPositions from "./RacePageComponents/DisplayPositions";
 
 const NotesWrapper = styled.div`
     display: flex;
@@ -350,9 +351,10 @@ const RacePage = ({...otherProps}) => {
 						seasonId={otherProps.match.params.season_id}
 						mode={'edit'}
 					/> : raceDataToDisplay}
-				<Positions raceId={otherProps.match.params.race_id}
-						seasonId={otherProps.match.params.season_id}>
-				</Positions>
+				<DisplayPositions 	raceId={otherProps.match.params.race_id}
+									seasonId={otherProps.match.params.season_id}/>
+				<FillPositions raceId={otherProps.match.params.race_id}
+							   seasonId={otherProps.match.params.season_id}/>
 				{notes}
 			</ComponentRestricted>
 		</>
