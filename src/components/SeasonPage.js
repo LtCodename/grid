@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ActionButton, ComponentRestricted, H3, Item, Wrapper } from "../SharedStyles";
+import { ActionButton, ComponentRestricted, H3, Wrapper } from "../SharedStyles";
 import { useStore } from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import { NavLink } from "react-router-dom";
@@ -56,11 +56,6 @@ const RacesBlocks = styled.div`
 `;
 
 const RaceName = styled.span`
-`;
-
-const AddDriversWrapper = styled.div`
-    width: 100%;
-	margin-bottom: 10px;
 `;
 
 const SeasonPage = ({...otherProps}) => {

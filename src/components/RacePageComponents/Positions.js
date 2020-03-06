@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
 import { useStore } from "react-redux";
+import PositionsBlueprint from "../../blueprints/PositionsBlueprint";
 
 const Positions = ({...otherProps}) => {
-
     const store = useStore();
     const storeState = store.getState();
 
@@ -18,15 +17,29 @@ const Positions = ({...otherProps}) => {
 	};
 
     const [showAddPlace, setShowAddPlace] = useState(false);
-    const [selectedDriver, changeSelectedDriver] = useState('');
-    const [selectedTeam, changeSelectedTeam] = useState('');
+    const [positionsDrivers, changePositionsDrivers] = useState({});
+    const [positionsTeams, changePositionsTeams] = useState({});
+
+    useEffect(() => {
+        console.log(positionsDrivers);
+    }, [positionsDrivers]);
+
+    useEffect(() => {
+        console.log(positionsTeams);
+    }, [positionsTeams]);
     
     const driverInputValuesChange = (event) => {
-        changeSelectedDriver(event.target.value);
+        changePositionsDrivers({
+            ...positionsDrivers,
+            [event.target.id]: event.target.value
+        });
     };
 
     const teamInputValuesChange = (event) => {
-        changeSelectedTeam(event.target.value);
+        changePositionsTeams({
+            ...positionsTeams,
+            [event.target.id]: event.target.value
+        });
     };
 
     const driversForOptions = drivers.filter((driver) => {
@@ -47,36 +60,39 @@ const Positions = ({...otherProps}) => {
         );
     });
 
-	const addPlaceForm = (
-		<div>
-            <label htmlFor="driver">Select Driver</label>
-            <select
-                value={undefined}
-                id="driver"
-                onChange={driverInputValuesChange}>
-                {driversToAttach}
-            </select>
-            <label htmlFor="driver">Select Team</label>
-            <select
-                value={undefined}
-                id="team"
-                onChange={teamInputValuesChange}>
-                {teamsToAttach}
-            </select>
-        </div>
-    );
+    const addPlaceForm = PositionsBlueprint.map((elem, index) => {
+        return (
+            <div key={index}>
+                <span>{`${elem.name} (+${elem.points} Points)`}</span><br/>
+                <label htmlFor="driver">Driver:</label>
+                <select
+                    value={undefined}
+                    id={elem.points}
+                    onChange={driverInputValuesChange}>
+                    {driversToAttach}
+                </select>
+                <label htmlFor="driver">Team:</label>
+                <select
+                    value={undefined}
+                    id={elem.points}
+                    onChange={teamInputValuesChange}>
+                    {teamsToAttach}
+                </select>
+            </div>
+        )
+    });
 
-    console.log(otherProps);
+    //console.log(otherProps);
     
   return (
     <>
         <span>Positions</span>
         <div>
-            <button onClick={onAddPlaceForm}>Add Place</button>
+            <button onClick={onAddPlaceForm}>Fill Positions</button>
             {showAddPlace ? addPlaceForm: ""}
         </div>
         <div>
-            <button>Sumbit</button>
+            <button>Submit</button>
         </div>
     </>
   )
