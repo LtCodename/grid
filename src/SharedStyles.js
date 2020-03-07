@@ -73,16 +73,6 @@ export const Item = styled.button`
     color: #784d2b;
 `;
 
-export const SmallItem = styled.button`
-    margin: 0;
-    padding: 10px;
-    margin: 0 5px 5px 0;
-    background-color: #fde3a7;
-    color: #784d2b;
-    border-radius: .25rem;
-    cursor: default !important;
-`;
-
 export const Select = styled.select`
     margin: 5px 0;
 `;
@@ -91,9 +81,9 @@ export const H3 = styled.h3`
     color: #784d2b;
 `;
 
-export const H4 = styled.h4`
-    color: #784d2b;
-    text-align: center;
+export const Row = styled.div`
+    display: flex;
+    flex-flow: row;
 `;
 
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ActionButton, ComponentRestricted, H3, Wrapper } from "../SharedStyles";
+import {ActionButton, ComponentRestricted, H3, Row, Wrapper} from "../SharedStyles";
 import { useStore } from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import { NavLink } from "react-router-dom";
@@ -44,7 +44,6 @@ const RaceLink = styled(NavLink)`
 	:hover {
 		color: #784d2b;
 		text-decoration: none;
-		//border: 6px solid #fde3a7;
 	}
 `;
 
@@ -53,6 +52,10 @@ const RacesBlocks = styled.div`
 	justify-content: center;
     align-items: center;
     height: 100%;
+`;
+
+const StandingsRow = styled(Row)`
+	justify-content: space-around;
 `;
 
 const RaceName = styled.span`
@@ -119,18 +122,20 @@ const SeasonPage = ({...otherProps}) => {
 					<InformationBit>
 						<H3>Statistics</H3>
 						{season.drivers ?
-							<Statistics seasonDrivers={season.drivers}/> : 'No drivers selected'}
+							<Statistics seasonData={season}/> : 'No drivers selected'}
 					</InformationBit>
-					<InformationBit>
-						<H3>Drivers Standings</H3>
-						{season.drivers ?
-							<DriversStandings seasonDrivers={season.drivers}/> : 'No drivers selected'}
-					</InformationBit>
-					<InformationBit>
-						<H3>Constructors Standings</H3>
-						{season.drivers ?
-							<ConstructorsStandings seasonDrivers={season.drivers}/> : 'No drivers selected'}
-					</InformationBit>
+					<StandingsRow>
+						<InformationBit>
+							<H3>Drivers Standings</H3>
+							{season.drivers ?
+								<DriversStandings seasonData={season}/> : 'No drivers selected'}
+						</InformationBit>
+						<InformationBit>
+							<H3>Constructors Standings</H3>
+							{season.drivers ?
+								<ConstructorsStandings seasonData={season}/> : 'No drivers selected'}
+						</InformationBit>
+					</StandingsRow>
 				</SeasonInformation>
 				{/*Edit Season Button*/}
 				<Wrapper>

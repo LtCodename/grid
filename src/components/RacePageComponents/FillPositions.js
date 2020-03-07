@@ -125,13 +125,10 @@ const FillPositions = ({...otherProps}) => {
     );
     
   return (
-    <>
-        <span>Fill Positions</span>
-        <div>
-            <button onClick={onAddPlaceForm}>Fill Positions</button>
-            {showAddPlace ? addPlaceSection: ""}
-        </div>
-    </>
+      <div>
+          <button onClick={onAddPlaceForm}>Fill Positions</button>
+          {showAddPlace ? addPlaceSection: ""}
+      </div>
   )
 };
 
