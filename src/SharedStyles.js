@@ -3,18 +3,21 @@ import styled from "styled-components";
 export const ComponentRestricted = styled.div`
     max-width: 2000px;
     margin: 0 auto;
-    /*border: 1px solid black;*/
-    padding: 15px;
+    padding: 10px;
 `;
 
 export const ActionButton = styled.button`
     margin: 0;
     padding: 5px;
+    font-weight: 900;
     cursor: pointer;
-    margin: 0 5px 0 0;
+    margin: 0;
     border-radius: 0;
     color: #784d2b;
-    width: 120px;
+    width: 150px;
+    height: 50px;
+    border: none;
+    background: #fde3a7;
 `;
 
 export const Wrapper = styled.div`

@@ -9,22 +9,21 @@ import styled from "styled-components";
 const SeasonsWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-gap: 20px;
-	margin-bottom: 20px;
+	grid-gap: 10px;
+	margin-bottom: 10px;
 `;
 
 const SeasonLink = styled(NavLink)`
-	border: 10px solid #fde3a7;
 	transition: all .2s;
 	color: #784d2b;
-    font-size: 21px;
+    background: #fde3a7;
+    font-size: 24px;
     font-weight: 800;
-	height: 100px;
+	height: 200px;
 	text-align: center;
 	:hover {
 		color: #784d2b;
 		text-decoration: none;
-		border: 15px solid #fde3a7;
 	}
 `;
 
@@ -73,9 +72,8 @@ const Seasons = () => {
 				<SeasonsWrapper>{seasonsToDisplay}</SeasonsWrapper>
 				<Wrapper>
 					<ActionButton
-						className="btn btn-warning"
 						onClick={addSeason}>
-						{!addSeasonMode ? "Add Season" : "Hide"}
+						{!addSeasonMode ? "Add" : "Hide"}
 					</ActionButton>
 				</Wrapper>
 			</ComponentRestricted>

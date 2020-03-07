@@ -10,7 +10,7 @@ const AllInfo = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 `;
 
 const PictureWrapper = styled.div`
@@ -78,8 +78,6 @@ const DriverPage = ({...otherProps}) => {
 				}
 			}
 		});
-
-		console.log(counter);
 
 		counter += parseInt(driverData.podiums);
 		return counter;
