@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ComponentRestricted, ActionButton, InformationTable } from "../SharedStyles";
+import { ComponentRestricted, ActionButton } from "../SharedStyles";
 import { useStore } from "react-redux";
 import ManageDriverForm from "./ManageDriverForm";
 import DriverBlueprint from "../blueprints/DriverBlueprint";
@@ -25,8 +25,6 @@ const DriverPicture = styled.img`
 `;
 
 const DriverTable = styled.table`
-    //margin: 10px auto;
-    //width: 50%;
 	color: #784d2b;
 	border: none;
 `;
@@ -36,6 +34,56 @@ const DriverPage = ({...otherProps}) => {
 
 	const store = useStore();
 	const storeState = store.getState();
+	const races = storeState.races;
+
+	const calculateWins = (driverData) => {
+		let counter = 0;
+
+		races.forEach(race => {
+			if (race.places) {
+				for (let i = 1; i <= 1; i++) {
+					if (race.places[i].driver === driverData.id) {
+						counter += 1;
+					}
+				}
+			}
+		});
+
+		counter += parseInt(driverData.wins);
+		return counter;
+	};
+
+	const calculatePoles = (driverData) => {
+		let counter = 0;
+
+		races.forEach(race => {
+			if (race.pole === driverData.id) {
+				counter += 1;
+			}
+		});
+
+		counter += parseInt(driverData.poles);
+		return counter;
+	};
+
+	const calculatePodiums = (driverData) => {
+		let counter = 0;
+
+		races.forEach(race => {
+			if (race.places) {
+				for (let i = 1; i <= 3; i++) {
+					if (race.places[i].driver === driverData.id) {
+						counter += 1;
+					}
+				}
+			}
+		});
+
+		console.log(counter);
+
+		counter += parseInt(driverData.podiums);
+		return counter;
+	};
 
 	const driver = (() => {
 		const driverFromStore = storeState.drivers.find(driver => driver.id === otherProps.match.params.driver_id);
@@ -45,9 +93,16 @@ const DriverPage = ({...otherProps}) => {
 		const age = year - driverFromStore['date-of-birth'];
 		const inF1 = year - driverFromStore['debut'];
 
+		const wins = calculateWins(driverFromStore);
+		const poles = calculatePoles(driverFromStore);
+		const podiums = calculatePodiums(driverFromStore);
+
 		return {
 			...driverFromStore,
 			'team-name': team ? team.name : 'Not selected',
+			'wins': wins,
+			'poles': poles,
+			'podiums': podiums,
 			age,
 			inF1
 		};
@@ -69,7 +124,7 @@ const DriverPage = ({...otherProps}) => {
 	const driverDataToDisplay = (
 		<AllInfo>
 			<PictureWrapper>
-				<DriverPicture src={driver.picture}></DriverPicture>
+				<DriverPicture src={driver.picture}/>
 			</PictureWrapper>
 			<DriverTable>
 				<tbody>
@@ -85,7 +140,6 @@ const DriverPage = ({...otherProps}) => {
 			<ComponentRestricted>
 				{editDriverMode ?
 					<ManageDriverForm driverId={otherProps.match.params.driver_id} mode={'edit'}/> : driverDataToDisplay}
-
 				<ActionButton
 					className="btn btn-warning"
 					onClick={onEditDriver}>

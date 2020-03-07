@@ -47,11 +47,13 @@ const Statistics = ({...otherProps}) => {
         });
 
         seasonRaces.forEach(race => {
-            for (let i = 1; i <= 3; i++) {
-                if (hash[race.places[i].driver]) {
-                    hash[race.places[i].driver] += 1;
-                } else {
-                    hash[race.places[i].driver] = 1;
+            if (race.places) {
+                for (let i = 1; i <= 3; i++) {
+                    if (hash[race.places[i].driver]) {
+                        hash[race.places[i].driver] += 1;
+                    } else {
+                        hash[race.places[i].driver] = 1;
+                    }
                 }
             }
             return hash;
@@ -64,11 +66,13 @@ const Statistics = ({...otherProps}) => {
         let hash = {};
 
         seasonRaces.forEach(race => {
-            for (let i = 1; i <= 3; i++) {
-                if (hash[race.places[i].driver]) {
-                    hash[race.places[i].driver] += 1;
-                } else {
-                    hash[race.places[i].driver] = 1;
+            if (race.places) {
+                for (let i = 1; i <= 3; i++) {
+                    if (hash[race.places[i].driver]) {
+                        hash[race.places[i].driver] += 1;
+                    } else {
+                        hash[race.places[i].driver] = 1;
+                    }
                 }
             }
             return hash;
@@ -133,11 +137,13 @@ const Statistics = ({...otherProps}) => {
         });
 
         seasonRaces.forEach(race => {
-            for (let i = 1; i <= 1; i++) {
-                if (hash[race.places[i].driver]) {
-                    hash[race.places[i].driver] += 1;
-                } else {
-                    hash[race.places[i].driver] = 1;
+            if (race.places) {
+                for (let i = 1; i <= 1; i++) {
+                    if (hash[race.places[i].driver]) {
+                        hash[race.places[i].driver] += 1;
+                    } else {
+                        hash[race.places[i].driver] = 1;
+                    }
                 }
             }
             return hash;
@@ -150,11 +156,13 @@ const Statistics = ({...otherProps}) => {
         let hash = {};
 
         seasonRaces.forEach(race => {
-            for (let i = 1; i <= 1; i++) {
-                if (hash[race.places[i].driver]) {
-                    hash[race.places[i].driver] += 1;
-                } else {
-                    hash[race.places[i].driver] = 1;
+            if (race.places) {
+                for (let i = 1; i <= 1; i++) {
+                    if (hash[race.places[i].driver]) {
+                        hash[race.places[i].driver] += 1;
+                    } else {
+                        hash[race.places[i].driver] = 1;
+                    }
                 }
             }
             return hash;
