@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Label, Properties, Property, SubmitButton, Textarea } from "../SharedStyles";
+import { ActionButton, Form, Label, Properties, Property, Textarea } from "../SharedStyles";
 import { useStore } from "react-redux";
 import TeamEditBlueprint from "../blueprints/TeamEditBlueprint";
 import fire from "../fire";
@@ -72,7 +72,7 @@ const ManageTeamForm = ({...otherProps}) => {
 			<Properties>
 				{properties}
 			</Properties>
-			<SubmitButton className="btn">Submit</SubmitButton>
+			<ActionButton>Submit</ActionButton>
 		</Form>
 	)
 };

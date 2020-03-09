@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useStore } from "react-redux";
-import { InformationTable } from "../../SharedStyles";
+import {InformationTable, TD, TH, TR} from "../../SharedStyles";
 import PointsSystem from "../../blueprints/PointsSystem";
 
 const ConstructorsStandings = ({...otherProps}) => {
@@ -44,20 +44,20 @@ const ConstructorsStandings = ({...otherProps}) => {
         });
 
         return (
-            <tr key={index}>
-                <td>{team.name}</td>
-                <td>{standings[team.id]}</td>
-            </tr>
+            <TR key={index}>
+                <TD>{team.name}</TD>
+                <TD>{standings[team.id]}</TD>
+            </TR>
         )
     });
 
     const statistics = (
-        <InformationTable className="table">
+        <InformationTable>
             <tbody>
-            <tr>
-                <th>Driver</th>
-                <th>Points</th>
-            </tr>
+            <TR>
+                <TH>Driver</TH>
+                <TH>Points</TH>
+            </TR>
             {tableRows}
             </tbody>
         </InformationTable>

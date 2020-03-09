@@ -78,11 +78,10 @@ const Teams = () => {
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
-				{addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
 				<TeamsWrapper>{teamsToDisplay}</TeamsWrapper>
+				{addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
 				<Wrapper>
 					<ActionButton
-						className="btn btn-warning"
 						onClick={addTeam}>
 						{!addTeamMode ? "Add Team" : "Hide"}
 					</ActionButton>

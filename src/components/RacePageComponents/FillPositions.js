@@ -2,6 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { useStore } from "react-redux";
 import PositionsBlueprint from "../../blueprints/PositionsBlueprint";
 import fire from "../../fire";
+import { ActionButton, Col, Row } from "../../SharedStyles";
+import styled from "styled-components";
+
+const Column = styled(Col)`
+    align-items: center;
+    margin-top: 10px;
+`;
+
+const FormRow = styled(Row)`
+    color: #784d2b;
+`;
+
+const Place = styled.span`
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 5px;
+`;
+
+const PlaceColumn = styled(Col)`
+    border: 1px solid #784d2b;
+    padding: 10px;
+    margin-bottom: 10px;
+`;
+
+const Label = styled.label`
+    margin: 0 5px;
+`;
 
 const FillPositions = ({...otherProps}) => {
     const store = useStore();
@@ -83,23 +110,27 @@ const FillPositions = ({...otherProps}) => {
     const addPlaceForm = PositionsBlueprint.map((elem, index) => {
         if (Object.entries(sortedPositions).length === 0) return '';
         return (
-            <div key={index}>
-                <span>{`${elem.name} (+${elem.points} Points)`}</span><br/>
-                <label htmlFor="driver">Driver:</label>
-                <select
-                    value={sortedPositions[elem.place].driver}
-                    id={elem.place}
-                    onChange={driverInputValuesChange}>
-                    {driversToAttach}
-                </select>
-                <label htmlFor="driver">Team:</label>
-                <select
-                    value={sortedPositions[elem.place].team}
-                    id={elem.place}
-                    onChange={teamInputValuesChange}>
-                    {teamsToAttach}
-                </select>
-            </div>
+            <FormRow key={index}>
+                <PlaceColumn>
+                    <Place>{elem.name}</Place>
+                    <Row>
+                        <Label htmlFor="driver">Driver:</Label>
+                        <select
+                            value={sortedPositions[elem.place].driver}
+                            id={elem.place}
+                            onChange={driverInputValuesChange}>
+                            {driversToAttach}
+                        </select>
+                        <Label htmlFor="team">Team:</Label>
+                        <select
+                            value={sortedPositions[elem.place].team}
+                            id={elem.place}
+                            onChange={teamInputValuesChange}>
+                            {teamsToAttach}
+                        </select>
+                    </Row>
+                </PlaceColumn>
+            </FormRow>
         )
     });
 
@@ -116,19 +147,17 @@ const FillPositions = ({...otherProps}) => {
     };
 
     const addPlaceSection = (
-        <div>
+        <Column>
             {addPlaceForm}
-            <div>
-                <button onClick={submitPlaces}>Submit</button>
-            </div>
-        </div>
+            <ActionButton onClick={submitPlaces}>Submit</ActionButton>
+        </Column>
     );
     
   return (
-      <div>
-          <button onClick={onAddPlaceForm}>Fill Positions</button>
+      <Column>
+          <ActionButton onClick={onAddPlaceForm}>Fill Positions</ActionButton>
           {showAddPlace ? addPlaceSection: ""}
-      </div>
+      </Column>
   )
 };
 

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ComponentRestricted, ActionButton, InformationTable } from "../SharedStyles";
+import { ComponentRestricted, ActionButton, InformationTable, TR, TH, TD } from "../SharedStyles";
 import ManageTeamForm from "./ManageTeamForm";
 import TeamBlueprint from "../blueprints/TeamBlueprint";
 import { useStore } from 'react-redux';
 import { withRouter } from "react-router";
+import styled from "styled-components";
+
+const PageContent = styled.div`
+    margin-bottom: 10px;
+`;
 
 const TeamPage = ({...otherProps}) => {
     const [editTeamMode, changeEditTeamMode] = useState(false);
@@ -64,15 +69,15 @@ const TeamPage = ({...otherProps}) => {
 
     const tableRows = TeamBlueprint.map((elem, index) => {
         return (
-            <tr key={index}>
-                <th scope="row">{elem.name}</th>
-                <td>{team[elem.db]}</td>
-            </tr>
+            <TR key={index}>
+                <TH scope="row">{elem.name}</TH>
+                <TD>{team[elem.db]}</TD>
+            </TR>
         )
     });
 
     const teamDataToDisplay = (
-        <InformationTable className="table">
+        <InformationTable>
             <tbody>
             {tableRows}
             </tbody>
@@ -83,9 +88,10 @@ const TeamPage = ({...otherProps}) => {
         <>
             <NavigationPanel/>
             <ComponentRestricted>
-                {editTeamMode ? <ManageTeamForm teamId={otherProps.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
+                <PageContent>
+                    {editTeamMode ? <ManageTeamForm teamId={otherProps.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
+                </PageContent>
                 <ActionButton
-                    className="btn btn-warning"
                     onClick={onEditTeam}>
                     {!editTeamMode ? "Edit Team" : "Hide"}
                 </ActionButton>

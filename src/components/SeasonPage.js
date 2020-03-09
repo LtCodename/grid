@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ActionButton, ComponentRestricted, H3, Row, Wrapper} from "../SharedStyles";
+import {ActionButton, Col, ComponentRestricted, Row, Wrapper} from "../SharedStyles";
 import { useStore } from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import { NavLink } from "react-router-dom";
@@ -34,15 +34,13 @@ const RacesWrapper = styled.div`
 `;
 
 const RaceLink = styled(NavLink)`
-	border: 5px solid #fde3a7;
-	transition: all .2s;
-	color: #784d2b;
+    color: #784d2b;
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 800;
     text-align: center;
-	height: 45px;
+    background: #fde3a6;
+    padding: 5px 0;
 	:hover {
-		color: #784d2b;
 		text-decoration: none;
 	}
 `;
@@ -59,6 +57,20 @@ const StandingsRow = styled(Row)`
 `;
 
 const RaceName = styled.span`
+`;
+
+const TableHeader = styled.span`
+	color: #784d2b;
+    font-size: 20px;
+    background: #fde3a6;
+    padding: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+`;
+
+const StandingsWrapper = styled(Col)`
+	align-items: center;
 `;
 
 const SeasonPage = ({...otherProps}) => {
@@ -102,6 +114,14 @@ const SeasonPage = ({...otherProps}) => {
 			<NavigationPanel/>
 			<ComponentRestricted>
 				<SeasonTitle>{season.name}</SeasonTitle>
+				{/*Edit Season Name Button*/}
+				<Wrapper>
+					<ActionButton
+						className="btn btn-warning"
+						onClick={onEditSeason}>
+						{!editSeasonMode ? "Edit Name" : "Hide"}
+					</ActionButton>
+				</Wrapper>
 				{/*Races*/}
 				<RacesWrapper>
 					{racesToDisplay}
@@ -120,31 +140,22 @@ const SeasonPage = ({...otherProps}) => {
 				{/*General Information*/}
 				<SeasonInformation>
 					<InformationBit>
-						<H3>Statistics</H3>
 						{season.drivers ?
 							<Statistics seasonData={season}/> : 'No drivers selected'}
 					</InformationBit>
 					<StandingsRow>
-						<InformationBit>
-							<H3>Drivers Standings</H3>
+						<StandingsWrapper>
+							<TableHeader>Drivers Standings</TableHeader>
 							{season.drivers ?
 								<DriversStandings seasonData={season}/> : 'No drivers selected'}
-						</InformationBit>
-						<InformationBit>
-							<H3>Constructors Standings</H3>
+						</StandingsWrapper>
+						<StandingsWrapper>
+							<TableHeader>Constructors Standings</TableHeader>
 							{season.drivers ?
 								<ConstructorsStandings seasonData={season}/> : 'No drivers selected'}
-						</InformationBit>
+						</StandingsWrapper>
 					</StandingsRow>
 				</SeasonInformation>
-				{/*Edit Season Button*/}
-				<Wrapper>
-					<ActionButton
-						className="btn btn-warning"
-						onClick={onEditSeason}>
-						{!editSeasonMode ? "Edit Season" : "Hide"}
-					</ActionButton>
-				</Wrapper>
 				{editSeasonMode ?
 					<ManageSeasonForm seasonId={otherProps.match.params.season_id} mode={'edit'}/> : ''}
 			</ComponentRestricted>

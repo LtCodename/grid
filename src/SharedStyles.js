@@ -1,13 +1,23 @@
 import styled from "styled-components";
 
-export const ComponentRestricted = styled.div`
+export const Row = styled.div`
+    display: flex;
+    flex-flow: row;
+`;
+
+export const Col = styled.div`
+    display: flex;
+    flex-flow: column;
+`;
+
+export const ComponentRestricted = styled(Col)`
     max-width: 2000px;
     margin: 0 auto;
     padding: 10px;
 `;
 
 export const ActionButton = styled.button`
-    margin: 0;
+    margin-bottom: 0;
     padding: 5px;
     font-weight: 900;
     cursor: pointer;
@@ -18,6 +28,10 @@ export const ActionButton = styled.button`
     height: 50px;
     border: none;
     background: #fde3a7;
+    outline: none;
+    :focus, :hover {
+		outline: none;
+	}
 `;
 
 export const Wrapper = styled.div`
@@ -26,8 +40,6 @@ export const Wrapper = styled.div`
 `;
 
 export const InformationTable = styled.table`
-    margin: 10px 0;
-    //width: 50%;
     color: #784d2b;
 `;
 
@@ -84,9 +96,23 @@ export const H3 = styled.h3`
     color: #784d2b;
 `;
 
-export const Row = styled.div`
-    display: flex;
-    flex-flow: row;
+export const TR = styled.tr`
+    border: 1px solid #784d2b;
+`;
+
+export const TH = styled.th`
+    padding: 0px 5px;
+    text-transform: uppercase;
+`;
+
+export const TD = styled.td`
+    border-right: 1px solid #784d2b;
+    padding: 0 5px;
+`;
+
+export const StatisticsTable = styled.table`
+    margin: 10px auto;
+    color: #784d2b;
 `;
 
 

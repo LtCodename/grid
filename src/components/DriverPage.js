@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ComponentRestricted, ActionButton } from "../SharedStyles";
+import { ComponentRestricted, ActionButton, TR, TH, TD } from "../SharedStyles";
 import { useStore } from "react-redux";
 import ManageDriverForm from "./ManageDriverForm";
 import DriverBlueprint from "../blueprints/DriverBlueprint";
@@ -112,10 +112,10 @@ const DriverPage = ({...otherProps}) => {
 
 	const tableRows = DriverBlueprint.map((elem, index) => {
 		return (
-			<tr key={index}>
-				<th scope="row">{elem.name}</th>
-				<td>{driver[elem.db]}</td>
-			</tr>
+			<TR key={index}>
+				<TH scope="row">{elem.name}</TH>
+				<TD>{driver[elem.db]}</TD>
+			</TR>
 		)
 	});
 
@@ -139,7 +139,6 @@ const DriverPage = ({...otherProps}) => {
 				{editDriverMode ?
 					<ManageDriverForm driverId={otherProps.match.params.driver_id} mode={'edit'}/> : driverDataToDisplay}
 				<ActionButton
-					className="btn btn-warning"
 					onClick={onEditDriver}>
 					{!editDriverMode ? "Edit Driver" : "Hide"}
 				</ActionButton>

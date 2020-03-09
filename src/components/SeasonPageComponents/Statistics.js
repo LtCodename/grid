@@ -1,11 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useStore } from "react-redux";
-import styled from "styled-components";
-
-export const StatisticsTable = styled.table`
-    margin: 10px auto;
-    color: #784d2b;
-`;
+import { TR, TD, TH, StatisticsTable } from "../../SharedStyles";
 
 const Statistics = ({...otherProps}) => {
     const store = useStore();
@@ -177,31 +172,31 @@ const Statistics = ({...otherProps}) => {
         });
 
         return (
-            <tr key={index}>
-                <td>{seasonDriver.name}</td>
-                <td>{podiums[seasonDriver.id]}</td>
-                <td>{podiumsThisSeason[seasonDriver.id]}</td>
-                <td>{poles[seasonDriver.id]}</td>
-                <td>{polesThisSeason[seasonDriver.id]}</td>
-                <td>{wins[seasonDriver.id]}</td>
-                <td>{winsThisSeason[seasonDriver.id]}</td>
-                <td>{seasonDriver.championships}</td>
-            </tr>
+            <TR key={index}>
+                <TD>{seasonDriver.name}</TD>
+                <TD>{podiums[seasonDriver.id]}</TD>
+                <TD>{podiumsThisSeason[seasonDriver.id]}</TD>
+                <TD>{poles[seasonDriver.id]}</TD>
+                <TD>{polesThisSeason[seasonDriver.id]}</TD>
+                <TD>{wins[seasonDriver.id]}</TD>
+                <TD>{winsThisSeason[seasonDriver.id]}</TD>
+                <TD>{seasonDriver.championships}</TD>
+            </TR>
         )
     });
 
     const statistics = (
-        <StatisticsTable className="table">
+        <StatisticsTable>
             <tbody>
             <tr>
-                <th>Driver</th>
-                <th>Podiums</th>
-                <th>Podiums this season</th>
-                <th>Poles</th>
-                <th>Poles this season</th>
-                <th>Wins</th>
-                <th>Wins this season</th>
-                <th>World Championships</th>
+                <TH>Driver</TH>
+                <TH>Podiums</TH>
+                <TH>Podiums this season</TH>
+                <TH>Poles</TH>
+                <TH>Poles this season</TH>
+                <TH>Wins</TH>
+                <TH>Wins this season</TH>
+                <TH>World Championships</TH>
             </tr>
             {tableRows}
             </tbody>

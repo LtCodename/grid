@@ -5,7 +5,7 @@ import fire from "../../fire";
 import styled from "styled-components";
 
 const DriverItem = styled.div`
-    padding: 10px;
+    padding: 5px 0;
     background-color: #fde3a7;
     color: #784d2b;
     border-radius: 0;
@@ -95,20 +95,23 @@ const AttachDrivers = ({...otherProps}) => {
     })
   }
 
-  return (
-    <>
-      <Wrapper>
-        <ActionButton
-            className="btn btn-warning"
-            onClick={onAttachDriver}>
-            {!driverSelectMode ? "Select driver" : "Hide"}
-        </ActionButton>
-      </Wrapper>
-      {driverSelectMode ? attachForm : ""}
+  const seasonDriversToShow = (
       <Wrapper>
         <DriversGrid>
           {seasonDrivers}
         </DriversGrid>
+      </Wrapper>
+  );
+
+  return (
+    <>
+      {driverSelectMode ? attachForm : seasonDriversToShow}
+      <Wrapper>
+        <ActionButton
+            className="btn btn-warning"
+            onClick={onAttachDriver}>
+          {!driverSelectMode ? "Select driver" : "Hide"}
+        </ActionButton>
       </Wrapper>
     </>
   )

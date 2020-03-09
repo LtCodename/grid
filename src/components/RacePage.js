@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ComponentRestricted, ActionButton, InformationTable, Wrapper, Textarea } from "../SharedStyles";
+import {ComponentRestricted, ActionButton, InformationTable, Wrapper, Textarea, TR, TH, TD, Col} from "../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import { NavLink } from "react-router-dom";
@@ -10,20 +10,23 @@ import fire from "../fire";
 import FillPositions from './RacePageComponents/FillPositions';
 import DisplayPositions from "./RacePageComponents/DisplayPositions";
 
-const NotesWrapper = styled.div`
-    display: flex;
-    justify-content: center;
+const NotesWrapper = styled(Col)`
+	background: #FFFFFF;
+	margin-top: 10px;
+	padding: 0 20px 10px 20px;
+	max-width: 400px;
 `;
 
-const Notes = styled.span`
-    min-width: 400px;
+const NoteArea = styled(Col)`
+    align-items: center;
+	margin-top: 10px;
 `;
 
 const NoteTextarea = styled(Textarea)`
-    min-width: 400px;
+	font-size: 20px;
 `;
 
-const NoteAreaTitle = styled.h4`
+const NoteAreaTitle = styled.span`
     color: #784d2b;
 	text-align: center;
 	text-transform: uppercase;
@@ -31,13 +34,14 @@ const NoteAreaTitle = styled.h4`
 `;
 
 const Paragraphs = styled.div`
-	border: 8px solid #fde3a6;
+	border-bottom: 8px solid #fde3a6;
 	padding: 5px;
 	margin-bottom: 10px;
+	width: 100%;
 `;
 
 const SummaryElement = styled.p`
-	font-weight: 600;
+	font-weight: 800;
 	color: #774d2b;
 	margin-bottom: 0px;
 `;
@@ -45,6 +49,11 @@ const SummaryElement = styled.p`
 const Note = styled.p`
 	color: #774d2b;
 	margin-bottom: 0px;
+`;
+
+const RaceData = styled(Col)`
+	margin: 10px 0;
+	align-items: center;
 `;
 
 const RacePage = ({...otherProps}) => {
@@ -66,10 +75,6 @@ const RacePage = ({...otherProps}) => {
 			})
 		)
 	});
-
-	// const season = storeState.seasons.find(season => {
-	// 	return season.id === otherProps.match.params.season_id
-	// });
 
 	const drivers = storeState.drivers;
 
@@ -175,10 +180,10 @@ const RacePage = ({...otherProps}) => {
 
 	const tableRows = RaceBlueprint.map((elem, index) => {
 		return (
-			<tr key={index}>
-				<th scope="row">{elem.name}</th>
-				<td>{race[elem.db]}</td>
-			</tr>
+			<TR key={index}>
+				<TH scope="row">{elem.name}</TH>
+				<TD>{race[elem.db]}</TD>
+			</TR>
 		)
 	});
 
@@ -191,10 +196,10 @@ const RacePage = ({...otherProps}) => {
 	}
 
 	const polePosition = (
-		<tr>
-			<th scope="row">Pole position</th>
-			<td>{poleDriver.name}</td>
-		</tr>
+		<TR>
+			<TH scope="row">Pole position</TH>
+			<TD>{poleDriver.name}</TD>
+		</TR>
 	);
 
 	/* Fastest Lap */
@@ -206,15 +211,15 @@ const RacePage = ({...otherProps}) => {
 	}
 
 	const fastestLap = (
-		<tr>
-			<th scope="row">Fastest lap</th>
-			<td>{lapDriver.name}</td>
-		</tr>
+		<TR>
+			<TH scope="row">Fastest lap</TH>
+			<TD>{lapDriver.name}</TD>
+		</TR>
 	);
 
 	/* All Race Data */
 	const raceDataToDisplay = (
-		<InformationTable className="table">
+		<InformationTable>
 			<tbody>
 				{tableRows}
 				{race.pole ? polePosition : null}
@@ -279,7 +284,6 @@ const RacePage = ({...otherProps}) => {
 				required>
 			</NoteTextarea>
 			<ActionButton
-				className="btn btn-warning"
 				onClick={onAddNote}>
 				{"Add note"}
 			</ActionButton>
@@ -288,40 +292,50 @@ const RacePage = ({...otherProps}) => {
 
 	const notes = (
 		<NotesWrapper>
-			<Notes>
+			<NoteArea>
 				<NoteAreaTitle>Practice</NoteAreaTitle>
-				<Paragraphs>{practiceNotes}</Paragraphs>
+				<Paragraphs>
+					{(race.practiceNotes && race.practiceNotes.length) ? practiceNotes : <Note>{'No Data'}</Note>}
+				</Paragraphs>
 				<ActionButton
-					className="btn btn-warning"
 					onClick={onAddPracticeNote}>
 					{!addPracticeNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addPracticeNoteMode ? "" : addNoteForm}
+			</NoteArea>
+			<NoteArea>
 				<NoteAreaTitle>Qualification</NoteAreaTitle>
-				<Paragraphs>{qualiNotes}</Paragraphs>
+				<Paragraphs>
+					{(race.qualiNotes && race.qualiNotes.length) ? qualiNotes : <Note>{'No Data'}</Note>}
+				</Paragraphs>
 				<ActionButton
-					className="btn btn-warning"
 					onClick={onAddQualiNote}>
 					{!addQualiNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addQualiNoteMode ? "" : addNoteForm}
+			</NoteArea>
+			<NoteArea>
 				<NoteAreaTitle>Race</NoteAreaTitle>
-				<Paragraphs>{raceNotes}</Paragraphs>
+				<Paragraphs>
+					{(race.raceNotes && race.raceNotes.length) ? raceNotes : <Note>{'No Data'}</Note>}
+				</Paragraphs>
 				<ActionButton
-					className="btn btn-warning"
 					onClick={onAddRaceNote}>
 					{!addRaceNoteMode ? "Add Note" : "Hide"}
 				</ActionButton>
 				{!addRaceNoteMode ? "" : addNoteForm}
+			</NoteArea>
+			<NoteArea>
 				<NoteAreaTitle>Summary</NoteAreaTitle>
-				<Paragraphs>{summary}</Paragraphs>
+				<Paragraphs>
+					{(race.summary && race.summary.length) ? summary : <Note>{'No Data'}</Note>}
+				</Paragraphs>
 				<ActionButton
-					className="btn btn-warning"
 					onClick={onAddSummary}>
 					{!addSummaryMode ? "Add Summary" : "Hide"}
 				</ActionButton>
 				{!addSummaryMode ? "" : addNoteForm}
-			</Notes>
+			</NoteArea>
 		</NotesWrapper>
 	);
 
@@ -331,31 +345,28 @@ const RacePage = ({...otherProps}) => {
 			<ComponentRestricted>
 				<NavLink to={`/seasons/${otherProps.match.params.season_id}`}>
 					<Wrapper>
-						<ActionButton
-							className="btn btn-warning">
-							{/* {`Back to ${season.name}`} */}
+						<ActionButton>
 							{`Back`}
 						</ActionButton>
 					</Wrapper>
 				</NavLink>
 				<ActionButton
-					className="btn btn-warning"
 					onClick={onEditRace}>
 					{!editRaceMode ? "Edit Grand Prix" : "Hide"}
 				</ActionButton>
-				<br/>
-				<span>General Information</span>
-				{editRaceMode ?
-					<ManageRaceForm
-						raceId={otherProps.match.params.race_id}
-						seasonId={otherProps.match.params.season_id}
-						mode={'edit'}
-					/> : raceDataToDisplay}
-				<DisplayPositions 	raceId={otherProps.match.params.race_id}
-									seasonId={otherProps.match.params.season_id}/>
-				<FillPositions raceId={otherProps.match.params.race_id}
-							   seasonId={otherProps.match.params.season_id}/>
-				{notes}
+				<RaceData>
+					{editRaceMode ?
+						<ManageRaceForm
+							raceId={otherProps.match.params.race_id}
+							seasonId={otherProps.match.params.season_id}
+							mode={'edit'}
+						/> : raceDataToDisplay}
+					<DisplayPositions 	raceId={otherProps.match.params.race_id}
+										 seasonId={otherProps.match.params.season_id}/>
+					<FillPositions raceId={otherProps.match.params.race_id}
+								   seasonId={otherProps.match.params.season_id}/>
+					{notes}
+				</RaceData>
 			</ComponentRestricted>
 		</>
 	)

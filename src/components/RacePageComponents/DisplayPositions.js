@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from "react-redux";
 import PositionsBlueprint from "../../blueprints/PositionsBlueprint";
-import {InformationTable} from "../../SharedStyles";
+import { Col, InformationTable, TD, TR } from "../../SharedStyles";
+import styled from "styled-components";
+
+const ResultsHeader = styled.span`
+    text-align: center;
+    color: #774d2b;
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 800;
+`;
 
 const DisplayPositions = ({...otherProps}) => {
     const store = useStore();
@@ -43,16 +52,16 @@ const DisplayPositions = ({...otherProps}) => {
     const tableRows = PositionsBlueprint.map((elem, index) => {
         if (race.places === undefined) return <tr key={index}/>;
         return (
-            <tr key={index}>
-                <th scope="row">{driversTable[race.places[elem.place].driver]}</th>
-                <td>{teamsTable[race.places[elem.place].team]}</td>
-                <td>{`${elem.points} points`}</td>
-            </tr>
+            <TR key={index}>
+                <TD scope="row">{driversTable[race.places[elem.place].driver]}</TD>
+                <TD>{teamsTable[race.places[elem.place].team]}</TD>
+                <TD>{`${elem.points} points`}</TD>
+            </TR>
         )
     });
 
     const places = (
-        <InformationTable className="table">
+        <InformationTable>
             <tbody>
             {tableRows}
             </tbody>
@@ -60,10 +69,10 @@ const DisplayPositions = ({...otherProps}) => {
     );
 
     return (
-        <div>
-            <span>Display Positions</span>
+        <Col>
+            <ResultsHeader>Race Results</ResultsHeader>
             {places}
-        </div>
+        </Col>
     )
 };
 
