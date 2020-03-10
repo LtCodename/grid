@@ -180,13 +180,13 @@ const Statistics = ({...otherProps}) => {
         return (
             <TR key={index}>
                 <TD>{seasonDriver.name}</TD>
-                <TD>{podiums[seasonDriver.id]}</TD>
+                <TD>{(podiums[seasonDriver.id] === 0) ? '' : podiums[seasonDriver.id]}</TD>
                 <TD>{podiumsThisSeason[seasonDriver.id]}</TD>
-                <TD>{poles[seasonDriver.id]}</TD>
+                <TD>{(poles[seasonDriver.id] === 0) ? '' : poles[seasonDriver.id]}</TD>
                 <TD>{polesThisSeason[seasonDriver.id]}</TD>
-                <TD>{wins[seasonDriver.id]}</TD>
+                <TD>{(wins[seasonDriver.id] === 0) ? '' : wins[seasonDriver.id]}</TD>
                 <TD>{winsThisSeason[seasonDriver.id]}</TD>
-                <TD>{seasonDriver.championships}</TD>
+                <TD>{(seasonDriver.championships === '0') ? '' : seasonDriver.championships}</TD>
             </TR>
         )
     });

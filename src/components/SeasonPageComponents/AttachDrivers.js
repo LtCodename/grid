@@ -3,13 +3,25 @@ import { ActionButton, Label } from "../../SharedStyles";
 import { useStore } from "react-redux";
 import fire from "../../fire";
 import styled from "styled-components";
+import {NavLink} from "react-router-dom";
 
-const DriverItem = styled.div`
+// const DriverItem = styled.div`
+//     padding: 5px 0;
+//     background-color: #fde3a7;
+//     color: #784d2b;
+//     border-radius: 0;
+//     text-align: center;
+// `;
+
+const DriverItem = styled(NavLink)`
     padding: 5px 0;
     background-color: #fde3a7;
     color: #784d2b;
     border-radius: 0;
     text-align: center;
+	:hover {
+		text-decoration: none;
+	}
 `;
 
 const DriversGrid = styled.div`
@@ -90,9 +102,10 @@ const AttachDrivers = ({...otherProps}) => {
   let seasonDrivers = "";
   if (season.drivers) {
     seasonDrivers = season.drivers.map((driver, index) => {
+      let driverToDisplay = drivers.find(dr => dr.id === driver);
       return (
-        <DriverItem key={index}>
-          {drivers.find(dr => dr.id === driver).name}
+        <DriverItem key={index} to={`/drivers/${driverToDisplay.id }`}>
+          {driverToDisplay.name}
         </DriverItem>
       )
     })
