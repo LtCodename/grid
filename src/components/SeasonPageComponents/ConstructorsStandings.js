@@ -2,6 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { useStore } from "react-redux";
 import {InformationTable, TD, TH, TR} from "../../SharedStyles";
 import PointsSystem from "../../blueprints/PointsSystem";
+import styled from "styled-components";
+
+const Name = styled.span`
+    font-weight: 900;
+`;
 
 const ConstructorsStandings = ({...otherProps}) => {
     const store = useStore();
@@ -55,7 +60,7 @@ const ConstructorsStandings = ({...otherProps}) => {
             teamsDisplayed.push(team.name);
             return (
                 <TR key={index}>
-                    <TD>{team.name}</TD>
+                    <TD><Name>{team.name}</Name></TD>
                     <TD>{standings[team.id]}</TD>
                 </TR>
             )

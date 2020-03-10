@@ -14,6 +14,7 @@ const NotesWrapper = styled(Col)`
 	background: #FFFFFF;
 	padding: 10px 20px 0 20px;
 	max-width: 400px;
+	min-width: 400px;
 `;
 
 const NoteArea = styled(Col)`
@@ -21,7 +22,7 @@ const NoteArea = styled(Col)`
 `;
 
 const NoteTextarea = styled(Textarea)`
-	font-size: 20px;
+	color: #784d2b;
 `;
 
 const NoteAreaTitle = styled.span`
@@ -81,7 +82,7 @@ const RacePage = ({...otherProps}) => {
 	});
 
 	const drivers = storeState.drivers;
-	const teams = storeState.teams;
+	//const teams = storeState.teams;
 
 	useEffect(() => {
 	},[store]);
@@ -215,21 +216,30 @@ const RacePage = ({...otherProps}) => {
 		});
 	}
 
-	let driversTeam = teams.find(tm => tm.id === lapDriver['team-id']);
+	// let lapTeam = '';
+	// if (race['lap-team']) {
+	// 	lapTeam = teams.find(team => {
+	// 		return team.id === race['lap-team'];
+	// 	});
+	// }
 
-	const fastestLap = (
-		<TR>
-			<TH scope="row">Fastest Lap</TH>
-			<TD>{lapDriver.name}</TD>
-		</TR>
-	);
+	let fastestLap = '';
+	if (lapDriver) {
+		fastestLap = (
+			<TR>
+				<TH scope="row">Fastest Lap</TH>
+				<TD>{lapDriver.name}</TD>
+			</TR>
+		);
+	}
 
-	const fastestLapTeam = (
-		<TR>
-			<TH scope="row">Fastest Team</TH>
-			<TD>{driversTeam.name}</TD>
-		</TR>
-	);
+
+	// const fastestLapTeam = (
+	// 	<TR>
+	// 		<TH scope="row">Fastest Team</TH>
+	// 		<TD>{lapTeam.name}</TD>
+	// 	</TR>
+	// );
 
 	/* All Race Data */
 	const raceDataToDisplay = (
@@ -238,7 +248,7 @@ const RacePage = ({...otherProps}) => {
 				{tableRows}
 				{race.pole ? polePosition : null}
 				{race.lap ? fastestLap : null}
-				{race['lap-team'] ? fastestLapTeam : null}
+				{/*{race['lap-team'] ? fastestLapTeam : null}*/}
 			</tbody>
 		</InformationTable>
 	);
@@ -281,7 +291,7 @@ const RacePage = ({...otherProps}) => {
 		summary = race.summary.map((elem, index) => {
 			return (
 				<SummaryElement key={index}>
-					{elem}
+					{`- ${elem}`}
 				</SummaryElement>
 			)
 		});

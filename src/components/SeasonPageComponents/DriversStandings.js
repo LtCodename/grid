@@ -2,6 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { useStore } from "react-redux";
 import { InformationTable, TD, TH, TR } from "../../SharedStyles";
 import PointsSystem from "../../blueprints/PointsSystem";
+import styled from "styled-components";
+
+const Name = styled.span`
+    font-weight: 900;
+`;
 
 const DriversStandings = ({...otherProps}) => {
     const store = useStore();
@@ -44,9 +49,13 @@ const DriversStandings = ({...otherProps}) => {
             return driver.id === elem;
         });
 
+        const nameToArray = seasonDriver['name'].split(' ');
+        const lastName = nameToArray[1];
+        const shortName = lastName.slice(0, 3).toUpperCase();
+
         return (
             <TR key={index}>
-                <TD>{seasonDriver.name}</TD>
+                <TD><Name>{shortName}</Name></TD>
                 <TD>{standings[seasonDriver.id]}</TD>
             </TR>
         )

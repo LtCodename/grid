@@ -18,13 +18,13 @@ export const ComponentRestricted = styled(Col)`
 
 export const ActionButton = styled.button`
     margin: 10px 0;
-    padding: 5px;
-    font-weight: 900;
+    padding: 0px;
+    font-weight: 500;
     cursor: pointer;
     border-radius: 0;
     color: #784d2b;
-    width: 150px;
-    height: 50px;
+    width: 120px;
+    height: 30px;
     border: none;
     background: #fde3a7;
     outline: none;
@@ -61,8 +61,7 @@ export const TR = styled.tr`
 `;
 
 export const TH = styled.th`
-    padding: 0px 5px;
-    text-transform: uppercase;
+    padding: 0px 10px;
 `;
 
 export const TD = styled.td`

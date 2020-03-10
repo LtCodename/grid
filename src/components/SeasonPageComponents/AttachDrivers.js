@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 
 const DriverItem = styled(NavLink)`
     background-color: #fde3a7;
+    font-weight: 700;
     color: #784d2b;
     border-radius: 0;
     text-align: center;
@@ -19,21 +20,21 @@ const DriverItem = styled(NavLink)`
 
 const ColorBlock = styled.div` {
 	background: ${props => props.bg ? props.bg : 'transparent'}
-	padding: 0 15px;
+	padding: 0 5px;
 	height: 34px;
 	margin-right: 10px;
 `;
 
 const Name = styled.span` {
 	:hover {
-		color: ${props => props.clr ? props.clr : '#000000'}
+		//color: ${props => props.clr ? props.clr : '#000000'}
 	}
 `;
 
 const DriversGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 10px;
+    grid-gap: 5px;
 `;
 
 const AttachButton = styled(ActionButton)`

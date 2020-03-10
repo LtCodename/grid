@@ -31,12 +31,12 @@ const RacesWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 5px;
+	margin-bottom: 10px;
 `;
 
 const RaceLink = styled(NavLink)`
     color: #784d2b;
-    font-size: 20px;
-    font-weight: 800;
+    font-weight: 700;
     text-align: center;
     background: #fde3a6;
     padding: 5px 0;
@@ -57,6 +57,7 @@ const StandingsRow = styled(Row)`
 `;
 
 const RaceName = styled.span`
+	padding: 0 5px;
 `;
 
 const TableHeader = styled.span`
@@ -67,10 +68,15 @@ const TableHeader = styled.span`
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 10px;
+    text-align: center;
 `;
 
 const StandingsWrapper = styled(Col)`
 	align-items: center;
+`;
+
+const AddGrandPrix = styled(ActionButton)`
+	margin: 0 0 10px 0;
 `;
 
 const SeasonPage = ({...otherProps}) => {
@@ -109,6 +115,12 @@ const SeasonPage = ({...otherProps}) => {
 		})
 	);
 
+	const racesNode = (
+		<RacesWrapper>
+			{racesToDisplay}
+		</RacesWrapper>
+	);
+
 	return (
 		<>
 			<NavigationPanel/>
@@ -121,24 +133,25 @@ const SeasonPage = ({...otherProps}) => {
 				</ActionButton>
 				{editSeasonMode ?
 					<ManageSeasonForm seasonId={otherProps.match.params.season_id} mode={'edit'}/> : ''}
-				{/*Races*/}
-				<RacesWrapper>
-					{racesToDisplay}
-				</RacesWrapper>
 				{/*Add Grand Prix Button*/}
-				<ActionButton
+				<TableHeader>Season Races</TableHeader>
+				{addRaceMode ? <ManageRaceForm seasonId={season.id} mode={'add'}/> : racesNode}
+				<AddGrandPrix
 					onClick={addRace}>
 					{!addRaceMode ? "Add Grand Prix" : "Hide"}
-				</ActionButton>
-				{addRaceMode ? <ManageRaceForm seasonId={season.id} mode={'add'}/> : ""}
+				</AddGrandPrix>
 				{/*Attach Drivers To Current Season*/}
-				<AttachDrivers seasonId={otherProps.match.params.season_id}/>
+					<TableHeader>Season Drivers</TableHeader>
+					<AttachDrivers seasonId={otherProps.match.params.season_id}/>
 				{/*General Information*/}
 				<SeasonInformation>
-					<InformationBit>
-						{season.drivers ?
-							<Statistics seasonData={season}/> : 'No drivers selected'}
-					</InformationBit>
+					<StandingsWrapper>
+						<TableHeader>Statistics</TableHeader>
+						<InformationBit>
+							{season.drivers ?
+								<Statistics seasonData={season}/> : 'No drivers selected'}
+						</InformationBit>
+					</StandingsWrapper>
 					<StandingsRow>
 						<StandingsWrapper>
 							<TableHeader>Drivers Standings</TableHeader>

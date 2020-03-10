@@ -4,8 +4,12 @@ import { TR, TD, TH } from "../../SharedStyles";
 import styled from "styled-components";
 
 const StatisticsTable = styled.table`
-    margin: 10px auto;
+    margin: 0 auto 10px auto;
     color: #784d2b;
+`;
+
+const Name = styled.span`
+    font-weight: 900;
 `;
 
 const Statistics = ({...otherProps}) => {
@@ -47,7 +51,7 @@ const Statistics = ({...otherProps}) => {
             return hash;
         });
 
-        seasonRaces.forEach(race => {
+        races.forEach(race => {
             if (race.places) {
                 for (let i = 1; i <= 3; i++) {
                     if (hash[race.places[i].driver]) {
@@ -95,7 +99,7 @@ const Statistics = ({...otherProps}) => {
             return hash;
         });
 
-        seasonRaces.forEach(race => {
+        races.forEach(race => {
             if (hash[race.pole]) {
                 hash[race.pole] += 1;
             } else {
@@ -137,7 +141,7 @@ const Statistics = ({...otherProps}) => {
             return hash;
         });
 
-        seasonRaces.forEach(race => {
+        races.forEach(race => {
             if (race.places) {
                 for (let i = 1; i <= 1; i++) {
                     if (hash[race.places[i].driver]) {
@@ -177,9 +181,13 @@ const Statistics = ({...otherProps}) => {
             return driver.id === elem;
         });
 
+        const nameToArray = seasonDriver['name'].split(' ');
+        const lastName = nameToArray[1];
+        const shortName = lastName.slice(0, 3).toUpperCase();
+
         return (
             <TR key={index}>
-                <TD>{seasonDriver.name}</TD>
+                <TD><Name>{shortName}</Name></TD>
                 <TD>{(podiums[seasonDriver.id] === 0) ? '' : podiums[seasonDriver.id]}</TD>
                 <TD>{podiumsThisSeason[seasonDriver.id]}</TD>
                 <TD>{(poles[seasonDriver.id] === 0) ? '' : poles[seasonDriver.id]}</TD>
@@ -194,16 +202,16 @@ const Statistics = ({...otherProps}) => {
     const statistics = (
         <StatisticsTable>
             <tbody>
-            <tr>
+            <TR>
                 <TH>Driver</TH>
                 <TH>Podiums</TH>
-                <TH>Podiums this season</TH>
+                <TH>Season</TH>
                 <TH>Poles</TH>
-                <TH>Poles this season</TH>
+                <TH>Season</TH>
                 <TH>Wins</TH>
-                <TH>Wins this season</TH>
-                <TH>World Championships</TH>
-            </tr>
+                <TH>Season</TH>
+                <TH>Champ</TH>
+            </TR>
             {tableRows}
             </tbody>
         </StatisticsTable>
