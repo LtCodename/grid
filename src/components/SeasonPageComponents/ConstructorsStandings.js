@@ -31,9 +31,8 @@ const ConstructorsStandings = ({...otherProps}) => {
                 }
             }
 
-            if (race.lap) {
-                let fastestDriver = drivers.find(driver => driver.id === race.lap);
-                standingsHash[fastestDriver['team-id']] ++;
+            if (race['lap-team']) {
+                standingsHash[race['lap-team']] ++;
             }
 
             return standingsHash;

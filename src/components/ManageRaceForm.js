@@ -17,6 +17,7 @@ const ManageRaceForm = ({...otherProps}) => {
 	});
 
 	const drivers = storeState.drivers;
+	const teams = storeState.teams;
 
 	const [raceData, changeRaceData] = useState(race || {});
 
@@ -136,12 +137,33 @@ const ManageRaceForm = ({...otherProps}) => {
 		</div>
 	);
 
+	/* Fastest Lap Team Select */
+	const teamOptions = [{name: "Not selected", value: null}, ...teams].map((team, index) => {
+		return (
+			<option key={index} value={team.id}>{team.name}</option>
+		);
+	});
+
+	const fastestLapTeam = (
+		<div>
+			<Label htmlFor="lap">Fastest Team</Label>
+			<select
+				value={raceData['lap-team']}
+				id="lap-team"
+				className="custom-select"
+				onChange={inputValuesChange}>
+				{teamOptions}
+			</select>
+		</div>
+	);
+
 	return (
 		<Form onSubmit={submitRace}>
 			<Properties>
 				{properties}
 				{season.drivers ? pole : ''}
 				{season.drivers ? fastestLap : ''}
+				{season.drivers ? fastestLapTeam : ''}
 			</Properties>
 			<ActionButton>Submit</ActionButton>
 		</Form>

@@ -81,6 +81,7 @@ const RacePage = ({...otherProps}) => {
 	});
 
 	const drivers = storeState.drivers;
+	const teams = storeState.teams;
 
 	useEffect(() => {
 	},[store]);
@@ -214,10 +215,19 @@ const RacePage = ({...otherProps}) => {
 		});
 	}
 
+	let driversTeam = teams.find(tm => tm.id === lapDriver['team-id']);
+
 	const fastestLap = (
 		<TR>
-			<TH scope="row">Fastest lap</TH>
+			<TH scope="row">Fastest Lap</TH>
 			<TD>{lapDriver.name}</TD>
+		</TR>
+	);
+
+	const fastestLapTeam = (
+		<TR>
+			<TH scope="row">Fastest Team</TH>
+			<TD>{driversTeam.name}</TD>
 		</TR>
 	);
 
@@ -228,6 +238,7 @@ const RacePage = ({...otherProps}) => {
 				{tableRows}
 				{race.pole ? polePosition : null}
 				{race.lap ? fastestLap : null}
+				{race['lap-team'] ? fastestLapTeam : null}
 			</tbody>
 		</InformationTable>
 	);
