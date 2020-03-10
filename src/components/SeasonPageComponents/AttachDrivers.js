@@ -3,31 +3,37 @@ import { ActionButton, Label } from "../../SharedStyles";
 import { useStore } from "react-redux";
 import fire from "../../fire";
 import styled from "styled-components";
-import {NavLink} from "react-router-dom";
-
-// const DriverItem = styled.div`
-//     padding: 5px 0;
-//     background-color: #fde3a7;
-//     color: #784d2b;
-//     border-radius: 0;
-//     text-align: center;
-// `;
+import { NavLink } from "react-router-dom";
 
 const DriverItem = styled(NavLink)`
-    padding: 5px 0;
     background-color: #fde3a7;
     color: #784d2b;
     border-radius: 0;
     text-align: center;
+    display: flex;
+    align-items: center;
 	:hover {
 		text-decoration: none;
+	}
+`;
+
+const ColorBlock = styled.div` {
+	background: ${props => props.bg ? props.bg : 'transparent'}
+	padding: 0 15px;
+	height: 34px;
+	margin-right: 10px;
+`;
+
+const Name = styled.span` {
+	:hover {
+		color: ${props => props.clr ? props.clr : '#000000'}
 	}
 `;
 
 const DriversGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 5px;
+    grid-gap: 10px;
 `;
 
 const AttachButton = styled(ActionButton)`
@@ -42,6 +48,7 @@ const AttachDrivers = ({...otherProps}) => {
   const storeState = store.getState();
 
   const drivers = storeState.drivers;
+  const teams = storeState.teams;
   const season = storeState.seasons.find(season => {
     return season.id === otherProps.seasonId
   });
@@ -103,9 +110,11 @@ const AttachDrivers = ({...otherProps}) => {
   if (season.drivers) {
     seasonDrivers = season.drivers.map((driver, index) => {
       let driverToDisplay = drivers.find(dr => dr.id === driver);
+      let driversTeam = teams.find(tm => tm.id === driverToDisplay['team-id']);
       return (
         <DriverItem key={index} to={`/drivers/${driverToDisplay.id }`}>
-          {driverToDisplay.name}
+          <ColorBlock bg={driversTeam.color}/>
+          <Name clr={driversTeam.color}>{driverToDisplay.name}</Name>
         </DriverItem>
       )
     })
