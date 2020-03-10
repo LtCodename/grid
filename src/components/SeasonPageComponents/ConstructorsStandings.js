@@ -41,20 +41,26 @@ const ConstructorsStandings = ({...otherProps}) => {
         setStandings(standingsHash);
     };
 
+    let teamsDisplayed = [];
+
     const tableRows = otherProps.seasonData.drivers.map((elem, index) => {
         let seasonDriver = drivers.find(driver => {
             return driver.id === elem;
         });
+
         let team = teams.find(team => {
             return team.id === seasonDriver['team-id'];
         });
 
-        return (
-            <TR key={index}>
-                <TD>{team.name}</TD>
-                <TD>{standings[team.id]}</TD>
-            </TR>
-        )
+        if (teamsDisplayed.indexOf(team.name) === -1) {
+            teamsDisplayed.push(team.name);
+            return (
+                <TR key={index}>
+                    <TD>{team.name}</TD>
+                    <TD>{standings[team.id]}</TD>
+                </TR>
+            )
+        }
     });
 
     const statistics = (
