@@ -30,6 +30,12 @@ const ConstructorsStandings = ({...otherProps}) => {
                     }
                 }
             }
+
+            if (race.lap) {
+                let fastestDriver = drivers.find(driver => driver.id === race.lap);
+                standingsHash[fastestDriver['team-id']] ++;
+            }
+
             return standingsHash;
         });
         setStandings(standingsHash);

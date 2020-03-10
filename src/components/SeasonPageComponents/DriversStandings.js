@@ -29,6 +29,11 @@ const DriversStandings = ({...otherProps}) => {
                     }
                 }
             }
+
+            if (race.lap) {
+                standingsHash[race.lap] ++;
+            }
+
             return standingsHash;
         });
         setStandings(standingsHash);
