@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { useStore } from "react-redux";
-import { TR, TD, TH, StatisticsTable } from "../../SharedStyles";
+import { TR, TD, TH } from "../../SharedStyles";
+import styled from "styled-components";
+
+const StatisticsTable = styled.table`
+    margin: 10px auto;
+    color: #784d2b;
+`;
 
 const Statistics = ({...otherProps}) => {
     const store = useStore();

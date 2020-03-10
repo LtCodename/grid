@@ -5,11 +5,6 @@ import ManageTeamForm from "./ManageTeamForm";
 import TeamBlueprint from "../blueprints/TeamBlueprint";
 import { useStore } from 'react-redux';
 import { withRouter } from "react-router";
-import styled from "styled-components";
-
-const PageContent = styled.div`
-    margin-bottom: 10px;
-`;
 
 const TeamPage = ({...otherProps}) => {
     const [editTeamMode, changeEditTeamMode] = useState(false);
@@ -88,9 +83,9 @@ const TeamPage = ({...otherProps}) => {
         <>
             <NavigationPanel/>
             <ComponentRestricted>
-                <PageContent>
+                <div>
                     {editTeamMode ? <ManageTeamForm teamId={otherProps.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
-                </PageContent>
+                </div>
                 <ActionButton
                     onClick={onEditTeam}>
                     {!editTeamMode ? "Edit Team" : "Hide"}

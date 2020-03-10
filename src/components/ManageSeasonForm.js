@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Label, Properties, Property, SubmitButton, Textarea } from "../SharedStyles";
+import {ActionButton, Form, Label, Textarea} from "../SharedStyles";
 import { useStore } from "react-redux";
 import SeasonBlueprint from "../blueprints/SeasonBlueprint";
 import fire from "../fire";
@@ -51,7 +51,7 @@ const ManageSeasonForm = ({...otherProps}) => {
 
 	const properties = SeasonBlueprint.map((elem, index) => {
 		return (
-			<Property key={index}>
+			<div key={index}>
 				<Label htmlFor={elem.db}>{elem.name}</Label>
 				<Textarea
 					className="form-control"
@@ -63,16 +63,14 @@ const ManageSeasonForm = ({...otherProps}) => {
 					onChange={inputValuesChange}
 					required>
 				</Textarea>
-			</Property>
+			</div>
 		)
 	});
 
 	return (
 		<Form onSubmit={submitSeason}>
-			<Properties>
-				{properties}
-			</Properties>
-			<SubmitButton className="btn">Submit</SubmitButton>
+			{properties}
+			<ActionButton>Submit</ActionButton>
 		</Form>
 	)
 };

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Label, Properties, Property, Select, SubmitButton, Textarea } from "../SharedStyles";
+import { ActionButton, Form, Label, Properties, Textarea } from "../SharedStyles";
 import { useStore } from "react-redux";
 import DriverEditBlueprint from "../blueprints/DriverEditBlueprint";
 import fire from "../fire";
+import styled from "styled-components";
+
+const SubmitButton = styled(ActionButton)`
+    margin: 10px 0 0 0;
+`;
 
 const ManageDriverForm = ({...otherProps}) => {
 	const store = useStore();
@@ -62,7 +67,7 @@ const ManageDriverForm = ({...otherProps}) => {
 
 	const properties = DriverEditBlueprint.map((elem, index) => {
 		return (
-			<Property key={index}>
+			<div key={index}>
 				<Label htmlFor={elem.db}>{elem.name}</Label>
 				<Textarea
 					className="form-control"
@@ -74,35 +79,31 @@ const ManageDriverForm = ({...otherProps}) => {
 					onChange={inputValuesChange}
 					required>
 				</Textarea>
-			</Property>
+			</div>
 		)
 	});
 
 	const team = (
-		<>
-			<Property>
-				<Label htmlFor="team-id">Team</Label>
-				<Select
-					value={driverData['team-id']}
-					id="team-id"
-					className="custom-select"
-					onChange={inputValuesChange}>
-					{teamOptions}
-				</Select>
-			</Property>
-		</>
+		<div>
+			<Label htmlFor="team-id">Team</Label>
+			<select
+				value={driverData['team-id']}
+				id="team-id"
+				className="custom-select"
+				onChange={inputValuesChange}>
+				{teamOptions}
+			</select>
+		</div>
 	);
 
 	return (
-		<>
-			<Form onSubmit={submitDriver}>
-				<Properties>
-					{properties}
-					{team}
-				</Properties>
-				<SubmitButton className="btn">Submit</SubmitButton>
-			</Form>
-		</>
+		<Form onSubmit={submitDriver}>
+			<Properties>
+				{properties}
+				{team}
+			</Properties>
+			<SubmitButton>Submit</SubmitButton>
+		</Form>
 	)
 };
 

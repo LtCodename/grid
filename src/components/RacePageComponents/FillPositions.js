@@ -7,7 +7,6 @@ import styled from "styled-components";
 
 const Column = styled(Col)`
     align-items: center;
-    margin-top: 10px;
 `;
 
 const FormRow = styled(Row)`
@@ -28,6 +27,10 @@ const PlaceColumn = styled(Col)`
 
 const Label = styled.label`
     margin: 0 5px;
+`;
+
+const SubmitButton = styled(ActionButton)`
+    margin: 0 0 10px 0;
 `;
 
 const FillPositions = ({...otherProps}) => {
@@ -149,7 +152,7 @@ const FillPositions = ({...otherProps}) => {
     const addPlaceSection = (
         <Column>
             {addPlaceForm}
-            <ActionButton onClick={submitPlaces}>Submit</ActionButton>
+            <SubmitButton onClick={submitPlaces}>Submit</SubmitButton>
         </Column>
     );
     

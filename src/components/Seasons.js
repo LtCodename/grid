@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ActionButton, ComponentRestricted, Wrapper } from "../SharedStyles";
+import { ActionButton, ComponentRestricted } from "../SharedStyles";
 import { NavLink } from "react-router-dom";
 import { useStore } from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
@@ -10,7 +10,6 @@ const SeasonsWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 10px;
-	margin-bottom: 10px;
 `;
 
 const SeasonLink = styled(NavLink)`
@@ -68,14 +67,12 @@ const Seasons = () => {
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
-				{addSeasonMode ? <ManageSeasonForm mode={'add'}/> : ""}
 				<SeasonsWrapper>{seasonsToDisplay}</SeasonsWrapper>
-				<Wrapper>
-					<ActionButton
-						onClick={addSeason}>
-						{!addSeasonMode ? "Add" : "Hide"}
-					</ActionButton>
-				</Wrapper>
+				<ActionButton
+					onClick={addSeason}>
+					{!addSeasonMode ? "Add" : "Hide"}
+				</ActionButton>
+				{addSeasonMode ? <ManageSeasonForm mode={'add'}/> : ""}
 			</ComponentRestricted>
 		</>
 	)

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { ActionButton, Form, Label, Properties, Property, Textarea } from "../SharedStyles";
+import { ActionButton, Form, Label, Properties, Textarea } from "../SharedStyles";
 import { useStore } from "react-redux";
 import TeamEditBlueprint from "../blueprints/TeamEditBlueprint";
 import fire from "../fire";
+import styled from "styled-components";
+
+const SubmitButton = styled(ActionButton)`
+    margin: 10px 0 0 0;
+`;
 
 const ManageTeamForm = ({...otherProps}) => {
 	const store = useStore();
@@ -51,7 +56,7 @@ const ManageTeamForm = ({...otherProps}) => {
 
 	const properties = TeamEditBlueprint.map((elem, index) => {
 		return (
-			<Property key={index}>
+			<div key={index}>
 				<Label htmlFor={elem.db}>{elem.name}</Label>
 				<Textarea
 					className="form-control"
@@ -63,7 +68,7 @@ const ManageTeamForm = ({...otherProps}) => {
 					onChange={inputValuesChange}
 					required>
 				</Textarea>
-			</Property>
+			</div>
 		)
 	});
 
@@ -72,7 +77,7 @@ const ManageTeamForm = ({...otherProps}) => {
 			<Properties>
 				{properties}
 			</Properties>
-			<ActionButton>Submit</ActionButton>
+			<SubmitButton>Submit</SubmitButton>
 		</Form>
 	)
 };

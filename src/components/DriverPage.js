@@ -10,14 +10,12 @@ const AllInfo = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;
-	margin-bottom: 10px;
 `;
 
 const PictureWrapper = styled.div`
 	height: 400px;
 	overflow: hidden;
 	border: 10px solid #fde3a7;
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 `;
 
 const DriverPicture = styled.img`

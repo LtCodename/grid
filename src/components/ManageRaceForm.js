@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Label, Properties, Property, Select, SubmitButton, Textarea } from "../SharedStyles";
+import {ActionButton, Form, Label, Properties, Textarea} from "../SharedStyles";
 import { useStore } from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import fire from "../fire";
@@ -62,7 +62,7 @@ const ManageRaceForm = ({...otherProps}) => {
 
 	const properties = RaceBlueprint.map((elem, index) => {
 		return (
-			<Property key={index}>
+			<div key={index}>
 				<Label htmlFor={elem.db}>{elem.name}</Label>
 				<Textarea
 					className="form-control"
@@ -74,7 +74,7 @@ const ManageRaceForm = ({...otherProps}) => {
 					onChange={inputValuesChange}
 					required>
 				</Textarea>
-			</Property>
+			</div>
 		)
 	});
 
@@ -95,18 +95,16 @@ const ManageRaceForm = ({...otherProps}) => {
 	}
 
 	const pole = (
-		<>
-			<Property>
-				<Label htmlFor="pole">Pole position</Label>
-				<Select
-					value={raceData['pole']}
-					id="pole"
-					className="custom-select"
-					onChange={inputValuesChange}>
-					{poleOptions}
-				</Select>
-			</Property>
-		</>
+		<div>
+			<Label htmlFor="pole">Pole position</Label>
+			<select
+				value={raceData['pole']}
+				id="pole"
+				className="custom-select"
+				onChange={inputValuesChange}>
+				{poleOptions}
+			</select>
+		</div>
 	);
 
 	/* Fastest Lap Select */
@@ -126,18 +124,16 @@ const ManageRaceForm = ({...otherProps}) => {
 	}
 
 	const fastestLap = (
-		<>
-			<Property>
-				<Label htmlFor="lap">Fastest lap</Label>
-				<Select
-					value={raceData['lap']}
-					id="lap"
-					className="custom-select"
-					onChange={inputValuesChange}>
-					{fastestLapOptions}
-				</Select>
-			</Property>
-		</>
+		<div>
+			<Label htmlFor="lap">Fastest lap</Label>
+			<select
+				value={raceData['lap']}
+				id="lap"
+				className="custom-select"
+				onChange={inputValuesChange}>
+				{fastestLapOptions}
+			</select>
+		</div>
 	);
 
 	return (
@@ -147,7 +143,7 @@ const ManageRaceForm = ({...otherProps}) => {
 				{season.drivers ? pole : ''}
 				{season.drivers ? fastestLap : ''}
 			</Properties>
-			<SubmitButton className="btn">Submit</SubmitButton>
+			<ActionButton>Submit</ActionButton>
 		</Form>
 	)
 };

@@ -3,14 +3,13 @@ import NavigationPanel from "./NavigationPanel";
 import { useStore } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ManageTeamForm from "./ManageTeamForm";
-import { ActionButton, ComponentRestricted, Wrapper } from "../SharedStyles";
+import { ActionButton, ComponentRestricted } from "../SharedStyles";
 import styled from "styled-components";
 
 const TeamsWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 10px;
-	margin-bottom: 10px;
 `;
 
 const TeamLink = styled(NavLink)`
@@ -78,14 +77,11 @@ const Teams = () => {
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
-				<TeamsWrapper>{teamsToDisplay}</TeamsWrapper>
-				{addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
-				<Wrapper>
-					<ActionButton
-						onClick={addTeam}>
-						{!addTeamMode ? "Add Team" : "Hide"}
-					</ActionButton>
-				</Wrapper>
+				{addTeamMode ? <ManageTeamForm mode={'add'}/> : <TeamsWrapper>{teamsToDisplay}</TeamsWrapper>}
+				<ActionButton
+					onClick={addTeam}>
+					{!addTeamMode ? "Add Team" : "Hide"}
+				</ActionButton>
 			</ComponentRestricted>
 		</>
 	)

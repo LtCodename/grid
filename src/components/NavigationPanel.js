@@ -50,21 +50,21 @@ const NavigationPanel = ({...otherProps}) => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<NavigationWrapper className="navigationWrapper">
-				<TabsWrapper className="navigationTabs">
+			<NavigationWrapper>
+				<TabsWrapper>
 					<li>
 						<NavLink to="/seasons">
-							<Tab className="navigationButton" pageIndex={pageIndex} id={"seasons"}>Seasons</Tab>
+							<Tab pageIndex={pageIndex} id={"seasons"}>Seasons</Tab>
 						</NavLink>
 					</li>
 					<li>
 						<NavLink to="/drivers">
-							<Tab className="navigationButton" pageIndex={pageIndex} id={"drivers"}>Drivers</Tab>
+							<Tab pageIndex={pageIndex} id={"drivers"}>Drivers</Tab>
 						</NavLink>
 					</li>
 					<li>
 						<NavLink to="/teams">
-							<Tab className="navigationButton" pageIndex={pageIndex} id={"teams"}>Teams</Tab>
+							<Tab pageIndex={pageIndex} id={"teams"}>Teams</Tab>
 						</NavLink>
 					</li>
 				</TabsWrapper>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import { ActionButton, ComponentRestricted, Item, Wrapper } from "../SharedStyles";
+import { ActionButton, ComponentRestricted } from "../SharedStyles";
 import { useStore } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ManageDriverForm from "./ManageDriverForm";
@@ -32,7 +32,6 @@ const DriversWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 	grid-gap: 10px;
-	margin-bottom: 10px;
 `;
 
 const DriverLink = styled(NavLink)`
@@ -73,13 +72,10 @@ const Drivers = () => {
 			<NavigationPanel/>
 			<ComponentRestricted>
 				{addDriverMode ? <ManageDriverForm mode={'add'}/> : <DriversWrapper>{driversNode}</DriversWrapper>}
-				<Wrapper>
-					<ActionButton
-						className="btn btn-warning"
-						onClick={addDriver}>
-						{!addDriverMode ? "Add Driver" : "Hide"}
-					</ActionButton>
-				</Wrapper>
+				<ActionButton
+					onClick={addDriver}>
+					{!addDriverMode ? "Add Driver" : "Hide"}
+				</ActionButton>
 			</ComponentRestricted>
 		</>
 	)

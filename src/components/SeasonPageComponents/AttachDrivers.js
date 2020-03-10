@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActionButton, Label, Select, Wrapper } from "../../SharedStyles";
+import { ActionButton, Label } from "../../SharedStyles";
 import { useStore } from "react-redux";
 import fire from "../../fire";
 import styled from "styled-components";
@@ -16,6 +16,10 @@ const DriversGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 5px;
+`;
+
+const AttachButton = styled(ActionButton)`
+    margin: 10px 0 0 0;
 `;
 
 const AttachDrivers = ({...otherProps}) => {
@@ -69,18 +73,17 @@ const AttachDrivers = ({...otherProps}) => {
   const attachForm = (
     <div>
       <Label htmlFor="driver">Select driver</Label>
-      <Select
+      <select
         value={undefined}
         id="driver"
         className="custom-select"
         onChange={inputValuesChange}>
         {driversToAttach}
-      </Select>
-      <ActionButton
-        className="btn btn-warning"
+      </select>
+      <AttachButton
         onClick={onAttachDriverConfirm}>
-        Attach driver
-      </ActionButton>
+        Attach Driver
+      </AttachButton>
     </div>
   );
 
@@ -96,23 +99,18 @@ const AttachDrivers = ({...otherProps}) => {
   }
 
   const seasonDriversToShow = (
-      <Wrapper>
-        <DriversGrid>
-          {seasonDrivers}
-        </DriversGrid>
-      </Wrapper>
+      <DriversGrid>
+        {seasonDrivers}
+      </DriversGrid>
   );
 
   return (
     <>
       {driverSelectMode ? attachForm : seasonDriversToShow}
-      <Wrapper>
-        <ActionButton
-            className="btn btn-warning"
-            onClick={onAttachDriver}>
-          {!driverSelectMode ? "Select driver" : "Hide"}
-        </ActionButton>
-      </Wrapper>
+      <ActionButton
+          onClick={onAttachDriver}>
+        {!driverSelectMode ? "Select Driver" : "Hide"}
+      </ActionButton>
     </>
   )
 };

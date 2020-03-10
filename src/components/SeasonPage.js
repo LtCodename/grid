@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ActionButton, Col, ComponentRestricted, Row, Wrapper} from "../SharedStyles";
+import { ActionButton, Col, ComponentRestricted, Row } from "../SharedStyles";
 import { useStore } from "react-redux";
 import ManageSeasonForm from "./ManageSeasonForm";
 import { NavLink } from "react-router-dom";
@@ -19,18 +19,18 @@ const InformationBit = styled.div`
     text-align: center;
 `;
 
-const SeasonTitle = styled.h2`
+const SeasonTitle = styled.span`
     width: 100%;
     text-align: center;
 	color: #784d2b;
 	font-weight: 900;
+	font-size: 25px;
 `;
 
 const RacesWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 5px;
-	margin-bottom: 8px;
 `;
 
 const RaceLink = styled(NavLink)`
@@ -115,25 +115,21 @@ const SeasonPage = ({...otherProps}) => {
 			<ComponentRestricted>
 				<SeasonTitle>{season.name}</SeasonTitle>
 				{/*Edit Season Name Button*/}
-				<Wrapper>
-					<ActionButton
-						className="btn btn-warning"
-						onClick={onEditSeason}>
-						{!editSeasonMode ? "Edit Name" : "Hide"}
-					</ActionButton>
-				</Wrapper>
+				<ActionButton
+					onClick={onEditSeason}>
+					{!editSeasonMode ? "Edit Name" : "Hide"}
+				</ActionButton>
+				{editSeasonMode ?
+					<ManageSeasonForm seasonId={otherProps.match.params.season_id} mode={'edit'}/> : ''}
 				{/*Races*/}
 				<RacesWrapper>
 					{racesToDisplay}
 				</RacesWrapper>
 				{/*Add Grand Prix Button*/}
-				<Wrapper>
-					<ActionButton
-						className="btn btn-warning"
-						onClick={addRace}>
-						{!addRaceMode ? "Add Grand Prix" : "Hide"}
-					</ActionButton>
-				</Wrapper>
+				<ActionButton
+					onClick={addRace}>
+					{!addRaceMode ? "Add Grand Prix" : "Hide"}
+				</ActionButton>
 				{addRaceMode ? <ManageRaceForm seasonId={season.id} mode={'add'}/> : ""}
 				{/*Attach Drivers To Current Season*/}
 				<AttachDrivers seasonId={otherProps.match.params.season_id}/>
@@ -156,8 +152,6 @@ const SeasonPage = ({...otherProps}) => {
 						</StandingsWrapper>
 					</StandingsRow>
 				</SeasonInformation>
-				{editSeasonMode ?
-					<ManageSeasonForm seasonId={otherProps.match.params.season_id} mode={'edit'}/> : ''}
 			</ComponentRestricted>
 		</>
 	)

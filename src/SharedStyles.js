@@ -17,11 +17,10 @@ export const ComponentRestricted = styled(Col)`
 `;
 
 export const ActionButton = styled.button`
-    margin-bottom: 0;
+    margin: 10px 0;
     padding: 5px;
     font-weight: 900;
     cursor: pointer;
-    margin: 0;
     border-radius: 0;
     color: #784d2b;
     width: 150px;
@@ -31,12 +30,8 @@ export const ActionButton = styled.button`
     outline: none;
     :focus, :hover {
 		outline: none;
+		color: #0056b3;
 	}
-`;
-
-export const Wrapper = styled.div`
-    width: 100%;
-    margin-bottom: 10px;
 `;
 
 export const InformationTable = styled.table`
@@ -44,7 +39,6 @@ export const InformationTable = styled.table`
 `;
 
 export const Form = styled.form`
-    padding: 10px 0;
 `;
 
 export const Properties = styled.div`
@@ -53,46 +47,12 @@ export const Properties = styled.div`
     grid-gap: 10px;
 `;
 
-export const Property = styled.div`
-    
-`;
-
 export const Textarea = styled.textarea`
-    margin: 5px 0;
     resize: none;
 `;
 
 export const Label = styled.label`
-    margin: 0;
-    padding: 0;
-    color: rgba(120, 77, 43, 1);
-`;
-
-export const SubmitButton = styled.button`
-    margin: 5px auto;
-    color: #fff9de;
-    background-color: rgba(120, 77, 43, 1);
-    border-color: rgba(120, 77, 43, 1);
-    :hover {
-        background-color: rgba(120, 77, 43, 0.8);
-        border-color: rgba(120, 77, 43, 0.8);
-    }
-`;
-
-export const Item = styled.button`
-    margin: 0;
-    padding: 30px;
-    cursor: pointer;
-    margin: 0 5px 0 0;
-    background-color: #fde3a7;
-    color: #784d2b;
-`;
-
-export const Select = styled.select`
-    margin: 5px 0;
-`;
-
-export const H3 = styled.h3`
+    margin-bottom: 5px;;
     color: #784d2b;
 `;
 
@@ -108,11 +68,6 @@ export const TH = styled.th`
 export const TD = styled.td`
     border-right: 1px solid #784d2b;
     padding: 0 5px;
-`;
-
-export const StatisticsTable = styled.table`
-    margin: 10px auto;
-    color: #784d2b;
 `;
 
 

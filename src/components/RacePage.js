@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ComponentRestricted, ActionButton, InformationTable, Wrapper, Textarea, TR, TH, TD, Col} from "../SharedStyles";
+import {ComponentRestricted, ActionButton, InformationTable, Textarea, TR, TH, TD, Col} from "../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import RaceBlueprint from "../blueprints/RaceBlueprint";
 import { NavLink } from "react-router-dom";
@@ -12,14 +12,12 @@ import DisplayPositions from "./RacePageComponents/DisplayPositions";
 
 const NotesWrapper = styled(Col)`
 	background: #FFFFFF;
-	margin-top: 10px;
-	padding: 0 20px 10px 20px;
+	padding: 10px 20px 0 20px;
 	max-width: 400px;
 `;
 
 const NoteArea = styled(Col)`
     align-items: center;
-	margin-top: 10px;
 `;
 
 const NoteTextarea = styled(Textarea)`
@@ -34,9 +32,8 @@ const NoteAreaTitle = styled.span`
 `;
 
 const Paragraphs = styled.div`
-	border-bottom: 8px solid #fde3a6;
+	border-bottom: 10px solid #fde3a6;
 	padding: 5px;
-	margin-bottom: 10px;
 	width: 100%;
 `;
 
@@ -52,8 +49,15 @@ const Note = styled.p`
 `;
 
 const RaceData = styled(Col)`
-	margin: 10px 0;
 	align-items: center;
+`;
+
+const EditButton = styled(ActionButton)`
+    margin: 0 0 10px 0;
+`;
+
+const BackButton = styled(ActionButton)`
+    margin: 0 0 10px 0;
 `;
 
 const RacePage = ({...otherProps}) => {
@@ -344,16 +348,14 @@ const RacePage = ({...otherProps}) => {
 			<NavigationPanel/>
 			<ComponentRestricted>
 				<NavLink to={`/seasons/${otherProps.match.params.season_id}`}>
-					<Wrapper>
-						<ActionButton>
-							{`Back`}
-						</ActionButton>
-					</Wrapper>
+					<BackButton>
+						{`Back`}
+					</BackButton>
 				</NavLink>
-				<ActionButton
+				<EditButton
 					onClick={onEditRace}>
 					{!editRaceMode ? "Edit Grand Prix" : "Hide"}
-				</ActionButton>
+				</EditButton>
 				<RaceData>
 					{editRaceMode ?
 						<ManageRaceForm
