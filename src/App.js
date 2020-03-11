@@ -14,6 +14,7 @@ import SeasonPage from "./components/SeasonPage";
 import RacePage from "./components/RacePage";
 import fire from "./fire";
 import { useDispatch } from 'react-redux';
+import LoginPage from "./components/LoginPage";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -87,6 +88,7 @@ const App = () => {
     <>
       <Switch>
         <Route exact path="/teams" component={Teams}/>
+        <Route exact path="/admin" component={LoginPage}/>
         <Route path="/teams/:team_id" component={TeamPage}/>
         <Route exact path="/drivers" component={Drivers}/>
         <Route path="/drivers/:driver_id" component={DriverPage}/>
