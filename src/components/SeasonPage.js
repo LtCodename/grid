@@ -39,25 +39,52 @@ const RaceLink = styled(NavLink)`
     font-weight: 700;
     text-align: center;
     background: #fde3a6;
-    padding: 5px 0;
+    display: flex;
 	:hover {
 		text-decoration: none;
 	}
 `;
 
-const RacesBlocks = styled.div`
-	display: flex;
+const RaceName = styled.span`
+	padding: 0 5px;
+`;
+
+const RaceMainColumn = styled(Col)`
+	width: 100%;
+	border: 1px solid #784d2b;
+`;
+
+const PodiumsColumn = styled(Col)`
+	border-top: 1px solid #784d2b;
+`;
+
+const PoleRow = styled(Row)`
+	align-items: center;
 	justify-content: center;
-    align-items: center;
-    height: 100%;
+	border-top: 1px solid #784d2b;
+	border-right: 1px solid #784d2b;
+`;
+
+const PlacesRow = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+`;
+
+const ColorAndName = styled(Row)`
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+`;
+
+const ColorBlock = styled.div` {
+	background: ${props => props.bg ? props.bg : 'transparent'}
+	padding: 0 5px;
+	height: 15px;
+	margin-right: 3px;
 `;
 
 const StandingsRow = styled(Row)`
 	justify-content: space-around;
-`;
-
-const RaceName = styled.span`
-	padding: 0 5px;
 `;
 
 const TableHeader = styled.span`
@@ -79,6 +106,12 @@ const AddGrandPrix = styled(ActionButton)`
 	margin: 0 0 10px 0;
 `;
 
+const Name = styled.span`
+	text-align: left;
+	width: 60%;
+	font-weight: 900;
+`;
+
 const SeasonPage = ({...otherProps}) => {
 	const [editSeasonMode, changeEditSeasonMode] = useState(false);
 	const [addRaceMode, changeAddRaceMode] = useState(false);
@@ -87,6 +120,8 @@ const SeasonPage = ({...otherProps}) => {
 	const storeState = store.getState();
 
 	const races = storeState.races;
+	const drivers = storeState.drivers;
+	const teams = storeState.teams;
 	const season = storeState.seasons.find(season => {
 		return season.id === otherProps.match.params.season_id;
 	});
@@ -105,11 +140,68 @@ const SeasonPage = ({...otherProps}) => {
 				r['season-id'] === otherProps.match.params.season_id
 			)
 		}).map((race, index) => {
+			let poleShortName = undefined;
+			let poleTeam = undefined;
+			if (race.pole) {
+				const poleSitter = drivers.find(dr => dr.id === race.pole);
+				const poleArray = poleSitter['name'].split(' ');
+				const poleLastName = poleArray[1];
+				poleShortName = poleLastName.slice(0, 3).toUpperCase();
+				poleTeam = teams.find(tm => tm.id === poleSitter['team-id']);
+			}
+
+			let firstShortName = undefined;
+			let firstTeam = undefined;
+			let secondShortName = undefined;
+			let secondTeam = undefined;
+			let thirdShortName = undefined;
+			let thirdTeam = undefined;
+			if (race.places) {
+				const firstPlace = drivers.find(dr => dr.id === race.places[1].driver);
+				const firstArray = firstPlace['name'].split(' ');
+				const firstLastName = firstArray[1];
+				firstShortName = firstLastName.slice(0, 3).toUpperCase();
+				firstTeam = teams.find(tm => tm.id === firstPlace['team-id']);
+
+				const secondPlace = drivers.find(dr => dr.id === race.places[2].driver);
+				const secondArray = secondPlace['name'].split(' ');
+				const secondLastName = secondArray[1];
+				secondShortName = secondLastName.slice(0, 3).toUpperCase();
+				secondTeam = teams.find(tm => tm.id === secondPlace['team-id']);
+
+				const thirdPlace = drivers.find(dr => dr.id === race.places[3].driver);
+				const thirdArray = thirdPlace['name'].split(' ');
+				const thirdLastName = thirdArray[1];
+				thirdShortName = thirdLastName.slice(0, 3).toUpperCase();
+				thirdTeam = teams.find(tm => tm.id === thirdPlace['team-id']);
+			}
 			return (
 				<RaceLink key={index} to={`/races/${otherProps.match.params.season_id}/${race.id}`}>
-					<RacesBlocks>
+					<RaceMainColumn>
 						<RaceName>{race.name}</RaceName>
-					</RacesBlocks>
+						<PlacesRow>
+							<PoleRow>
+								<ColorAndName>
+									<ColorBlock bg={race.pole ? poleTeam.color : 'transparent'}/>
+									<Name>{race.pole ? poleShortName : ''}</Name>
+								</ColorAndName>
+							</PoleRow>
+							<PodiumsColumn>
+								<ColorAndName>
+									<ColorBlock bg={race.places ? firstTeam.color : 'transparent'}/>
+									<Name>{race.places ? firstShortName : ''}</Name>
+								</ColorAndName>
+								<ColorAndName>
+									<ColorBlock bg={race.places ? secondTeam.color : 'transparent'}/>
+									<Name>{race.places ? secondShortName : ''}</Name>
+								</ColorAndName>
+								<ColorAndName>
+									<ColorBlock bg={race.places ? thirdTeam.color : 'transparent'}/>
+									<Name>{race.places ? thirdShortName : ''}</Name>
+								</ColorAndName>
+							</PodiumsColumn>
+						</PlacesRow>
+					</RaceMainColumn>
 				</RaceLink>
 			)
 		})
