@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import NavigationPanel from "./NavigationPanel";
 import {ActionButton, Col, ComponentRestricted} from "../SharedStyles";
 import { withRouter } from "react-router";
@@ -24,6 +24,10 @@ const Input = styled.input`
     margin-bottom: 10px;
 `;
 
+const AuthPanel = styled(Col)`
+    align-items: center;
+`;
+
 const LoginButton = styled(ActionButton)`
     
 `;
@@ -35,12 +39,15 @@ const LogoutButton = styled(ActionButton)`
 const LoginPage = ({...otherProps}) => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    const [userData, setUserData] = useState('');
 
     const store = useStore();
     const storeState = store.getState();
     const user = storeState.user;
 
-    console.log(user);
+    useEffect(() => {
+        setUserData(user);
+    }, [user]);
 
     const inputValuesChange = (event) => {
         if (event.target.id === 'loginEmail') {
@@ -60,6 +67,7 @@ const LoginPage = ({...otherProps}) => {
         fire.auth().signInWithEmailAndPassword(userEmail, userPassword).then(credential => {
             setUserEmail('');
             setUserPassword('');
+            setUserData('user');
         }).catch(error => {
             console.log(error.message);
         });
@@ -68,40 +76,51 @@ const LoginPage = ({...otherProps}) => {
     const onLogout = (event) => {
         event.preventDefault();
         fire.auth().signOut().then(() => {
+            setUserData('');
         }).catch(error => {
             console.log(error.message);
         });
     };
+
+    const logoutButton = (
+        <LogoutButton onClick={onLogout}>Logout</LogoutButton>
+    );
+
+    const authPanel = (
+        <AuthPanel>
+            <InputWrapper>
+                <Label htmlFor="loginEmail">Email Address</Label>
+                <Input
+                    className="form-control"
+                    autoComplete="username email"
+                    placeholder="Enter email"
+                    type="email"
+                    id="loginEmail"
+                    value={userEmail}
+                    onChange={inputValuesChange} required/>
+            </InputWrapper>
+            <InputWrapper>
+                <Label htmlFor="loginPassword">Password</Label>
+                <Input
+                    className="form-control"
+                    autoComplete="current-password"
+                    placeholder="Enter password"
+                    type="password"
+                    id="loginPassword"
+                    value={userPassword}
+                    onChange={inputValuesChange} required/>
+            </InputWrapper>
+            <LoginButton onClick={onLogin}>Login</LoginButton>
+        </AuthPanel>
+    );
 
     return (
         <>
             <NavigationPanel/>
             <ComponentRestricted>
                 <MainWrapper>
-                    <InputWrapper>
-                        <Label htmlFor="loginEmail">Email Address</Label>
-                        <Input
-                            className="form-control"
-                            autoComplete="username email"
-                            placeholder="Enter email"
-                            type="email"
-                            id="loginEmail"
-                            value={userEmail}
-                            onChange={inputValuesChange} required/>
-                    </InputWrapper>
-                    <InputWrapper>
-                        <Label htmlFor="loginPassword">Password</Label>
-                        <Input
-                            className="form-control"
-                            autoComplete="current-password"
-                            placeholder="Enter password"
-                            type="password"
-                            id="loginPassword"
-                            value={userPassword}
-                            onChange={inputValuesChange} required/>
-                    </InputWrapper>
-                    <LoginButton onClick={onLogin}>Login</LoginButton>
-                    <LogoutButton onClick={onLogout}>Logout</LogoutButton>
+                    {userData.length === 0 ? authPanel : ""}
+                    {userData.length === 0 ? "" : logoutButton}
                 </MainWrapper>
             </ComponentRestricted>
         </>

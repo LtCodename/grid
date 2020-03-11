@@ -7,7 +7,6 @@ const UserReducer = (state = initState, action) => {
 
     switch (action.type) {
         case USER_FETCH:
-            //console.log(action.snapshot.uid)
             copy = action.snapshot.uid;
             return copy;
         default:

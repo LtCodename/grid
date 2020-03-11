@@ -44,11 +44,11 @@ const App = () => {
   },[]);
 
   const fetchEverything = () => {
+    fetchUser();
     fetchTeams();
     fetchDrivers();
     fetchSeasons();
     fetchRaces();
-    fetchUser();
   };
 
   const fetchUser = () => {
@@ -58,7 +58,7 @@ const App = () => {
         dispatch({type: userReducer.actions.USER_FETCH, snapshot: user});
         changeUserDataLoaded(true);
       }else {
-        console.log(user);
+        //console.log(user);
         changeUserDataLoaded(true);
       }
     })
