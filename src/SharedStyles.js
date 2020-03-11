@@ -36,6 +36,7 @@ export const ActionButton = styled.button`
 
 export const InformationTable = styled.table`
     color: #784d2b;
+    margin-bottom: 10px;
 `;
 
 export const Form = styled.form`

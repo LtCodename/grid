@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import NavigationPanel from "./NavigationPanel";
-import {ActionButton, Col, ComponentRestricted} from "../SharedStyles";
+import { ActionButton, Col, ComponentRestricted } from "../SharedStyles";
 import { withRouter } from "react-router";
 import styled from "styled-components";
 import fire from "../fire";
-import {useStore} from "react-redux";
+import { useDispatch, useStore } from "react-redux";
+import userReducer from "../redux/reducers/UserReducer";
 
 const MainWrapper = styled(Col)`
     align-items: center;
@@ -29,7 +30,7 @@ const AuthPanel = styled(Col)`
 `;
 
 const LoginButton = styled(ActionButton)`
-    
+    margin: 0 0 10px 0;
 `;
 
 const LogoutButton = styled(ActionButton)`
@@ -44,6 +45,8 @@ const LoginPage = ({...otherProps}) => {
     const store = useStore();
     const storeState = store.getState();
     const user = storeState.user;
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setUserData(user);
@@ -77,6 +80,7 @@ const LoginPage = ({...otherProps}) => {
         event.preventDefault();
         fire.auth().signOut().then(() => {
             setUserData('');
+            dispatch({type: userReducer.actions.USER_CLEAR});
         }).catch(error => {
             console.log(error.message);
         });

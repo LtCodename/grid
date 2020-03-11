@@ -5,6 +5,11 @@ import ManageTeamForm from "./ManageTeamForm";
 import TeamBlueprint from "../blueprints/TeamBlueprint";
 import { useStore } from 'react-redux';
 import { withRouter } from "react-router";
+import styled from "styled-components";
+
+const EditTeamButton = styled(ActionButton)`
+    margin: 0 0 10px 0;
+`;
 
 const TeamPage = ({...otherProps}) => {
     const [editTeamMode, changeEditTeamMode] = useState(false);
@@ -12,6 +17,7 @@ const TeamPage = ({...otherProps}) => {
     const store = useStore();
     const storeState = store.getState();
     const races = storeState.races;
+    const user = storeState.user;
 
     const calculateWins = (teamData) => {
         let counter = 0;
@@ -79,6 +85,13 @@ const TeamPage = ({...otherProps}) => {
         </InformationTable>
     );
 
+    const editTeamButton = (
+        <EditTeamButton
+            onClick={onEditTeam}>
+            {!editTeamMode ? "Edit Team" : "Hide"}
+        </EditTeamButton>
+    );
+
     return (
         <>
             <NavigationPanel/>
@@ -86,10 +99,7 @@ const TeamPage = ({...otherProps}) => {
                 <div>
                     {editTeamMode ? <ManageTeamForm teamId={otherProps.match.params.team_id} mode={'edit'}/> : teamDataToDisplay}
                 </div>
-                <ActionButton
-                    onClick={onEditTeam}>
-                    {!editTeamMode ? "Edit Team" : "Hide"}
-                </ActionButton>
+                {user.length === 0 ? "" : editTeamButton}
             </ComponentRestricted>
         </>
     )

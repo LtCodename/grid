@@ -37,10 +37,15 @@ const DriversGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 5px;
+    margin-bottom: 10px;
 `;
 
 const AttachButton = styled(ActionButton)`
     margin: 10px 0 0 0;
+`;
+
+const SelectDriverButton = styled(ActionButton)`
+    margin: 0;
 `;
 
 const AttachDrivers = ({...otherProps}) => {
@@ -52,6 +57,7 @@ const AttachDrivers = ({...otherProps}) => {
 
   const drivers = storeState.drivers;
   const teams = storeState.teams;
+  const user = storeState.user;
   const season = storeState.seasons.find(season => {
     return season.id === otherProps.seasonId
   });
@@ -144,13 +150,17 @@ const AttachDrivers = ({...otherProps}) => {
       </DriversGrid>
   );
 
+  const addDriverButton = (
+      <SelectDriverButton
+          onClick={onAttachDriver}>
+        {!driverSelectMode ? "Select Driver" : "Hide"}
+      </SelectDriverButton>
+  );
+
   return (
     <>
       {driverSelectMode ? attachForm : seasonDriversToShow}
-      <ActionButton
-          onClick={onAttachDriver}>
-        {!driverSelectMode ? "Select Driver" : "Hide"}
-      </ActionButton>
+      {user.length === 0 ? "" : addDriverButton}
     </>
   )
 };

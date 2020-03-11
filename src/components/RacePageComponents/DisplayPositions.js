@@ -7,7 +7,7 @@ import styled from "styled-components";
 const ResultsHeader = styled.span`
     text-align: center;
     color: #774d2b;
-    margin: 10px 0;
+    margin-bottom: 10px;
     font-size: 18px;
     font-weight: 800;
 `;

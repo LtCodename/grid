@@ -9,7 +9,7 @@ import styled from "styled-components";
 const AllInfo = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-gap: 20px;
+	grid-gap: 10px;
 `;
 
 const PictureWrapper = styled.div`
@@ -33,6 +33,7 @@ const DriverPage = ({...otherProps}) => {
 	const store = useStore();
 	const storeState = store.getState();
 	const races = storeState.races;
+	const user = storeState.user;
 
 	const calculateWins = (driverData) => {
 		let counter = 0;
@@ -130,16 +131,20 @@ const DriverPage = ({...otherProps}) => {
 		</AllInfo>
 	);
 
+	const editDriverButton = (
+		<ActionButton
+			onClick={onEditDriver}>
+			{!editDriverMode ? "Edit Driver" : "Hide"}
+		</ActionButton>
+	);
+
 	return (
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
 				{editDriverMode ?
 					<ManageDriverForm driverId={otherProps.match.params.driver_id} mode={'edit'}/> : driverDataToDisplay}
-				<ActionButton
-					onClick={onEditDriver}>
-					{!editDriverMode ? "Edit Driver" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : editDriverButton}
 			</ComponentRestricted>
 		</>
 	)

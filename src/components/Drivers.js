@@ -49,9 +49,9 @@ const Drivers = () => {
 
     const store = useStore();
     const storeState = store.getState();
-
     const drivers = storeState.drivers;
     const teams = storeState.teams;
+    const user = storeState.user;
 
 	const addDriver = () => {
 		changeAddDriverMode(!addDriverMode);
@@ -96,15 +96,19 @@ const Drivers = () => {
 		})
 	);
 
+	const addDriverButton = (
+		<ActionButton
+			onClick={addDriver}>
+			{!addDriverMode ? "Add Driver" : "Hide"}
+		</ActionButton>
+	);
+
 	return (
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
 				{addDriverMode ? <ManageDriverForm mode={'add'}/> : <DriversWrapper>{driversNode}</DriversWrapper>}
-				<ActionButton
-					onClick={addDriver}>
-					{!addDriverMode ? "Add Driver" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : addDriverButton}
 			</ComponentRestricted>
 		</>
 	)

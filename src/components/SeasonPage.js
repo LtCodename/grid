@@ -122,6 +122,7 @@ const SeasonPage = ({...otherProps}) => {
 	const races = storeState.races;
 	const drivers = storeState.drivers;
 	const teams = storeState.teams;
+	const user = storeState.user;
 	const season = storeState.seasons.find(season => {
 		return season.id === otherProps.match.params.season_id;
 	});
@@ -215,25 +216,33 @@ const SeasonPage = ({...otherProps}) => {
 		</RacesWrapper>
 	);
 
+	const editNameButton = (
+		<ActionButton
+			onClick={onEditSeason}>
+			{!editSeasonMode ? "Edit Name" : "Hide"}
+		</ActionButton>
+	);
+
+	const addGrandPrixButton = (
+		<AddGrandPrix
+			onClick={addRace}>
+			{!addRaceMode ? "Add Grand Prix" : "Hide"}
+		</AddGrandPrix>
+	);
+
 	return (
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
 				<SeasonTitle>{season.name}</SeasonTitle>
 				{/*Edit Season Name Button*/}
-				<ActionButton
-					onClick={onEditSeason}>
-					{!editSeasonMode ? "Edit Name" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : editNameButton}
 				{editSeasonMode ?
 					<ManageSeasonForm seasonId={otherProps.match.params.season_id} mode={'edit'}/> : ''}
 				{/*Add Grand Prix Button*/}
 				<TableHeader>Season Races</TableHeader>
 				{addRaceMode ? <ManageRaceForm seasonId={season.id} mode={'add'}/> : racesNode}
-				<AddGrandPrix
-					onClick={addRace}>
-					{!addRaceMode ? "Add Grand Prix" : "Hide"}
-				</AddGrandPrix>
+				{user.length === 0 ? "" : addGrandPrixButton}
 				{/*Attach Drivers To Current Season*/}
 					<TableHeader>Season Drivers</TableHeader>
 					<AttachDrivers seasonId={otherProps.match.params.season_id}/>

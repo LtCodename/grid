@@ -34,6 +34,7 @@ const NoteAreaTitle = styled.span`
 
 const Paragraphs = styled.div`
 	border-bottom: 10px solid #fde3a6;
+	margin-bottom: 10px;
 	padding: 5px;
 	width: 100%;
 `;
@@ -61,6 +62,10 @@ const BackButton = styled(ActionButton)`
     margin: 0 0 10px 0;
 `;
 
+const AddNoteButton = styled(ActionButton)`
+    margin: 0 0 10px 0;
+`;
+
 const RacePage = ({...otherProps}) => {
 	const [editRaceMode, setEditRaceMode] = useState(false);
 	const [addPracticeNoteMode, setAddPracticeNoteMode] = useState(false);
@@ -72,6 +77,8 @@ const RacePage = ({...otherProps}) => {
 
 	const store = useStore();
 	const storeState = store.getState();
+	const drivers = storeState.drivers;
+	const user = storeState.user;
 
 	const race = useSelector(storeState => {
 		return (
@@ -80,9 +87,6 @@ const RacePage = ({...otherProps}) => {
 			})
 		)
 	});
-
-	const drivers = storeState.drivers;
-	//const teams = storeState.teams;
 
 	useEffect(() => {
 	},[store]);
@@ -310,9 +314,37 @@ const RacePage = ({...otherProps}) => {
 			</NoteTextarea>
 			<ActionButton
 				onClick={onAddNote}>
-				{"Add note"}
+				{"Add"}
 			</ActionButton>
 		</>
+	);
+
+	const addPracticeNoteButton = (
+		<AddNoteButton
+			onClick={onAddPracticeNote}>
+			{!addPracticeNoteMode ? "Add Note" : "Hide"}
+		</AddNoteButton>
+	);
+
+	const addQualiNoteButton = (
+		<AddNoteButton
+			onClick={onAddQualiNote}>
+			{!addQualiNoteMode ? "Add Note" : "Hide"}
+		</AddNoteButton>
+	);
+
+	const addRaceNoteButton = (
+		<AddNoteButton
+			onClick={onAddRaceNote}>
+			{!addRaceNoteMode ? "Add Note" : "Hide"}
+		</AddNoteButton>
+	);
+
+	const addSummaryButton = (
+		<AddNoteButton
+			onClick={onAddSummary}>
+			{!addSummaryMode ? "Add Summary" : "Hide"}
+		</AddNoteButton>
 	);
 
 	const notes = (
@@ -322,10 +354,7 @@ const RacePage = ({...otherProps}) => {
 				<Paragraphs>
 					{(race.practiceNotes && race.practiceNotes.length) ? practiceNotes : <Note>{'No Data'}</Note>}
 				</Paragraphs>
-				<ActionButton
-					onClick={onAddPracticeNote}>
-					{!addPracticeNoteMode ? "Add Note" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : addPracticeNoteButton}
 				{!addPracticeNoteMode ? "" : addNoteForm}
 			</NoteArea>
 			<NoteArea>
@@ -333,10 +362,7 @@ const RacePage = ({...otherProps}) => {
 				<Paragraphs>
 					{(race.qualiNotes && race.qualiNotes.length) ? qualiNotes : <Note>{'No Data'}</Note>}
 				</Paragraphs>
-				<ActionButton
-					onClick={onAddQualiNote}>
-					{!addQualiNoteMode ? "Add Note" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : addQualiNoteButton}
 				{!addQualiNoteMode ? "" : addNoteForm}
 			</NoteArea>
 			<NoteArea>
@@ -344,10 +370,7 @@ const RacePage = ({...otherProps}) => {
 				<Paragraphs>
 					{(race.raceNotes && race.raceNotes.length) ? raceNotes : <Note>{'No Data'}</Note>}
 				</Paragraphs>
-				<ActionButton
-					onClick={onAddRaceNote}>
-					{!addRaceNoteMode ? "Add Note" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : addRaceNoteButton}
 				{!addRaceNoteMode ? "" : addNoteForm}
 			</NoteArea>
 			<NoteArea>
@@ -355,13 +378,17 @@ const RacePage = ({...otherProps}) => {
 				<Paragraphs>
 					{(race.summary && race.summary.length) ? summary : <Note>{'No Data'}</Note>}
 				</Paragraphs>
-				<ActionButton
-					onClick={onAddSummary}>
-					{!addSummaryMode ? "Add Summary" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : addSummaryButton}
 				{!addSummaryMode ? "" : addNoteForm}
 			</NoteArea>
 		</NotesWrapper>
+	);
+
+	const editGrandPrixButton = (
+		<EditButton
+			onClick={onEditRace}>
+			{!editRaceMode ? "Edit Grand Prix" : "Hide"}
+		</EditButton>
 	);
 
 	return (
@@ -373,10 +400,7 @@ const RacePage = ({...otherProps}) => {
 						{`Back`}
 					</BackButton>
 				</NavLink>
-				<EditButton
-					onClick={onEditRace}>
-					{!editRaceMode ? "Edit Grand Prix" : "Hide"}
-				</EditButton>
+				{user.length === 0 ? "" : editGrandPrixButton}
 				<RaceData>
 					{editRaceMode ?
 						<ManageRaceForm

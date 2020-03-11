@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useStore } from "react-redux";
+import React, {useState, useEffect} from 'react';
+import {useStore} from "react-redux";
 import PositionsBlueprint from "../../blueprints/PositionsBlueprint";
 import fire from "../../fire";
-import { ActionButton, Col, Row } from "../../SharedStyles";
+import {ActionButton, Col, Row} from "../../SharedStyles";
 import styled from "styled-components";
 
 const Column = styled(Col)`
@@ -33,12 +33,17 @@ const SubmitButton = styled(ActionButton)`
     margin: 0 0 10px 0;
 `;
 
+const FillButton = styled(ActionButton)`
+    margin: 0 0 10px 0;
+`;
+
 const FillPositions = ({...otherProps}) => {
     const store = useStore();
     const storeState = store.getState();
 
     const drivers = storeState.drivers;
     const teams = storeState.teams;
+    const user = storeState.user;
     const season = storeState.seasons.find(season => {
         return season.id === otherProps.seasonId
     });
@@ -47,8 +52,8 @@ const FillPositions = ({...otherProps}) => {
     });
 
     const onAddPlaceForm = () => {
-		setShowAddPlace(!showAddPlace);
-	};
+        setShowAddPlace(!showAddPlace);
+    };
 
     const [showAddPlace, setShowAddPlace] = useState(false);
     const [sortedPositions, changeSortedPositions] = useState({});
@@ -69,7 +74,7 @@ const FillPositions = ({...otherProps}) => {
         }
         changeSortedPositions(temporaryPlaces);
     }, [race]);
-    
+
     const driverInputValuesChange = (event) => {
         let clone = {};
 
@@ -166,13 +171,20 @@ const FillPositions = ({...otherProps}) => {
             <SubmitButton onClick={submitPlaces}>Submit</SubmitButton>
         </Column>
     );
-    
-  return (
-      <Column>
-          <ActionButton onClick={onAddPlaceForm}>Fill Positions</ActionButton>
-          {showAddPlace ? addPlaceSection: ""}
-      </Column>
-  )
+
+    const fillPositionsButton = (
+        <FillButton
+            onClick={onAddPlaceForm}>
+            Fill Positions
+        </FillButton>
+    );
+
+    return (
+        <Column>
+            {user.length === 0 ? "" : fillPositionsButton}
+            {showAddPlace ? addPlaceSection : ""}
+        </Column>
+    )
 };
 
 export default FillPositions;

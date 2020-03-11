@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import NavigationPanel from "./NavigationPanel";
 import { ActionButton, ComponentRestricted } from "../SharedStyles";
 import { NavLink } from "react-router-dom";
@@ -42,8 +42,8 @@ const Seasons = () => {
 
 	const store = useStore();
 	const storeState = store.getState();
-
 	const seasons = storeState.seasons;
+	const user = storeState.user;
 
 	const addSeason = () => {
 		changeAddSeasonMode(!addSeasonMode);
@@ -63,15 +63,19 @@ const Seasons = () => {
 		})
 	);
 
+	const addButton = (
+		<ActionButton
+			onClick={addSeason}>
+			{!addSeasonMode ? "Add" : "Hide"}
+		</ActionButton>
+	);
+
 	return (
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
 				<SeasonsWrapper>{seasonsToDisplay}</SeasonsWrapper>
-				<ActionButton
-					onClick={addSeason}>
-					{!addSeasonMode ? "Add" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : addButton}
 				{addSeasonMode ? <ManageSeasonForm mode={'add'}/> : ""}
 			</ComponentRestricted>
 		</>

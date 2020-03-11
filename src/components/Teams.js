@@ -53,8 +53,8 @@ const Teams = () => {
 
 	const store = useStore();
 	const storeState = store.getState();
-
 	const teams = storeState.teams;
+	const user = storeState.user;
 
 	const addTeam = () => {
 		changeAddTeamMode(!addTeamMode);
@@ -73,15 +73,19 @@ const Teams = () => {
 		})
 	);
 
+	const addTeamButton = (
+		<ActionButton
+			onClick={addTeam}>
+			{!addTeamMode ? "Add Team" : "Hide"}
+		</ActionButton>
+	);
+
 	return (
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
 				{addTeamMode ? <ManageTeamForm mode={'add'}/> : <TeamsWrapper>{teamsToDisplay}</TeamsWrapper>}
-				<ActionButton
-					onClick={addTeam}>
-					{!addTeamMode ? "Add Team" : "Hide"}
-				</ActionButton>
+				{user.length === 0 ? "" : addTeamButton}
 			</ComponentRestricted>
 		</>
 	)
