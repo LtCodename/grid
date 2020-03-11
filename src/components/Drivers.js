@@ -89,7 +89,7 @@ const Drivers = () => {
 		filteredDrivers.map((driver, index) => {
 			return (
 				<DriverLink key={index} to={`/drivers/${driver.id}`}>
-					<DriverImage src={driver.picture}/>
+					<DriverImage src={`${process.env.PUBLIC_URL}/assets/drivers/${driver.id}.jpg`}/>
 					<DriverName>{driver.name}</DriverName>
 				</DriverLink>
 			)

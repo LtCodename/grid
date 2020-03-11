@@ -120,7 +120,7 @@ const DriverPage = ({...otherProps}) => {
 	const driverDataToDisplay = (
 		<AllInfo>
 			<PictureWrapper>
-				<DriverPicture src={driver.picture}/>
+				<DriverPicture src={`${process.env.PUBLIC_URL}/assets/drivers/${driver.id}.jpg`}/>
 			</PictureWrapper>
 			<DriverTable>
 				<tbody>
