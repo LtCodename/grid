@@ -12,6 +12,7 @@ const DriverItem = styled(NavLink)`
     border-radius: 0;
     text-align: center;
     display: flex;
+    padding: 5px;
     align-items: center;
 	:hover {
 		text-decoration: none;
@@ -20,8 +21,9 @@ const DriverItem = styled(NavLink)`
 
 const ColorBlock = styled.div` {
 	background: ${props => props.bg ? props.bg : 'transparent'}
-	padding: 0 5px;
-	height: 34px;
+	padding: 0 14px;
+    height: 28px;
+    border-radius: 50%;
 	margin-right: 10px;
 `;
 
@@ -108,14 +110,29 @@ const AttachDrivers = ({...otherProps}) => {
   );
 
   let seasonDrivers = "";
+
   if (season.drivers) {
-    seasonDrivers = season.drivers.map((driver, index) => {
-      let driverToDisplay = drivers.find(dr => dr.id === driver);
-      let driversTeam = teams.find(tm => tm.id === driverToDisplay['team-id']);
+    const driversSorted = season.drivers.map((drv) => {
+      return drivers.find(dr => dr.id === drv);
+    }).sort((a, b) => {
+      const teamA = teams.find(tm => tm.id === a['team-id']);
+      const teamB = teams.find(tm => tm.id === b['team-id']);
+
+      if (teamA.name < teamB.name) {
+        return -1;
+      }
+      if (teamA.name > teamB.name) {
+        return 1;
+      }
+      return 0;
+    });
+
+    seasonDrivers = driversSorted.map((driver, index) => {
+      let driversTeam = teams.find(tm => tm.id === driver['team-id']);
       return (
-        <DriverItem key={index} to={`/drivers/${driverToDisplay.id }`}>
+        <DriverItem key={index} to={`/drivers/${driver.id }`}>
           <ColorBlock bg={driversTeam.color}/>
-          <Name clr={driversTeam.color}>{driverToDisplay.name}</Name>
+          <Name clr={driversTeam.color}>{driver.name}</Name>
         </DriverItem>
       )
     })

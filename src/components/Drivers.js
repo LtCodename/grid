@@ -51,13 +51,42 @@ const Drivers = () => {
     const storeState = store.getState();
 
     const drivers = storeState.drivers;
+    const teams = storeState.teams;
 
 	const addDriver = () => {
 		changeAddDriverMode(!addDriverMode);
 	};
 
+	let filteredDrivers = [];
+
+	drivers.forEach(element => {
+		const team = teams.find(tm => {
+			return tm.id === element['team-id']
+		});
+
+		filteredDrivers.push({
+			id: element.id,
+			picture: element.picture,
+			name: element.name,
+			teamName: team.name
+		})
+	});
+
+	filteredDrivers.sort((a, b) => {
+		const driverA = a.teamName;
+		const driverB = b.teamName;
+
+		if (driverA < driverB) {
+			return -1;
+		}
+		if (driverA > driverB) {
+			return 1;
+		}
+		return 0;
+	});
+
 	const driversNode = (
-		drivers.map((driver, index) => {
+		filteredDrivers.map((driver, index) => {
 			return (
 				<DriverLink key={index} to={`/drivers/${driver.id}`}>
 					<DriverImage src={driver.picture}/>

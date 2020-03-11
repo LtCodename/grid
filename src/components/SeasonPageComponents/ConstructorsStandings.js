@@ -12,11 +12,10 @@ const ConstructorsStandings = ({...otherProps}) => {
     const store = useStore();
     const storeState = store.getState();
 
-    const drivers = storeState.drivers;
     const teams = storeState.teams;
     const races = storeState.races;
 
-    const [standings, setStandings] = useState({});
+    const [standings, setStandings] = useState([]);
 
     useEffect(() => {
         calculateStandings();
@@ -25,6 +24,7 @@ const ConstructorsStandings = ({...otherProps}) => {
     const calculateStandings = () => {
         const seasonRaces = races.filter(race => race['season-id'] === otherProps.seasonData.id);
         let standingsHash = {};
+
         seasonRaces.forEach(race => {
             if (race.places) {
                 for (let place in race.places) {
@@ -36,35 +36,50 @@ const ConstructorsStandings = ({...otherProps}) => {
                 }
             }
 
-            if (race['lap-team']) {
+            if (race['lap-team'] && race['lap-team'] !== 'Not selected') {
                 standingsHash[race['lap-team']] ++;
             }
 
             return standingsHash;
         });
-        setStandings(standingsHash);
+
+        let filteredStandings = [];
+
+        for (let i in standingsHash) {
+            filteredStandings.push({
+                team: i,
+                points: standingsHash[i] || 0
+            })
+        }
+
+        filteredStandings.sort((a, b) => {
+            const pointsA = a.points;
+            const pointsB = b.points;
+
+            if (pointsA < pointsB) {
+                return 1;
+            }
+            if (pointsA > pointsB) {
+                return -1;
+            }
+            return 0;
+        });
+
+        setStandings(filteredStandings);
     };
 
-    let teamsDisplayed = [];
-
-    const tableRows = otherProps.seasonData.drivers.map((elem, index) => {
-        let seasonDriver = drivers.find(driver => {
-            return driver.id === elem;
-        });
+    const tableRows = standings.map((elem, index) => {
 
         let team = teams.find(team => {
-            return team.id === seasonDriver['team-id'];
+            return team.id === elem.team;
         });
 
-        if (teamsDisplayed.indexOf(team.name) === -1) {
-            teamsDisplayed.push(team.name);
-            return (
-                <TR key={index}>
-                    <TD><Name>{team.name}</Name></TD>
-                    <TD>{standings[team.id]}</TD>
-                </TR>
-            )
-        }
+        return (
+            <TR key={index}>
+                <TD><Name>{team.name}</Name></TD>
+                <TD>{elem.points}</TD>
+            </TR>
+        )
     });
 
     const statistics = (

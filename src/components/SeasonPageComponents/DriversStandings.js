@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from "react-redux";
 import { InformationTable, TD, TH, TR } from "../../SharedStyles";
 import PointsSystem from "../../blueprints/PointsSystem";
@@ -44,9 +44,31 @@ const DriversStandings = ({...otherProps}) => {
         setStandings(standingsHash);
     };
 
-    const tableRows = otherProps.seasonData.drivers.map((elem, index) => {
+    let filteredStandings = [];
+
+    otherProps.seasonData.drivers.forEach(element => {
+        filteredStandings.push({
+            driver: element,
+            points: standings[element] || 0
+        })
+    });
+
+    filteredStandings.sort((a, b) => {
+        const pointsA = a.points;
+        const pointsB = b.points;
+
+        if (pointsA < pointsB) {
+            return 1;
+        }
+        if (pointsA > pointsB) {
+            return -1;
+        }
+        return 0;
+    });
+
+    const tableRows = filteredStandings.map((elem, index) => {
         let seasonDriver = drivers.find(driver => {
-            return driver.id === elem;
+            return driver.id === elem.driver;
         });
 
         const nameToArray = seasonDriver['name'].split(' ');

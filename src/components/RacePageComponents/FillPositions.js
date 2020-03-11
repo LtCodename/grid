@@ -94,6 +94,17 @@ const FillPositions = ({...otherProps}) => {
 
     const driversForOptions = drivers.filter((driver) => {
         return season.drivers.indexOf(driver.id) !== -1;
+    }).sort((a, b) => {
+        const driverA = a.name;
+        const driverB = b.name;
+
+        if (driverA < driverB) {
+            return -1;
+        }
+        if (driverA > driverB) {
+            return 1;
+        }
+        return 0;
     });
 
     const teamsForOptions = teams;

@@ -7,6 +7,9 @@ const RaceBlueprint = [
   },
   {
     name: "Date", db: "date"
+  },
+  {
+    name: "Round", db: "round"
   }
 ];
 

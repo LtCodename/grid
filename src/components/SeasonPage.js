@@ -51,18 +51,17 @@ const RaceName = styled.span`
 
 const RaceMainColumn = styled(Col)`
 	width: 100%;
-	border: 1px solid #784d2b;
 `;
 
 const PodiumsColumn = styled(Col)`
-	border-top: 1px solid #784d2b;
+	border-top: 3px solid #fff9de;
 `;
 
 const PoleRow = styled(Row)`
 	align-items: center;
 	justify-content: center;
-	border-top: 1px solid #784d2b;
-	border-right: 1px solid #784d2b;
+	border-top: 3px solid #fff9de;
+	border-right: 3px solid #fff9de;
 `;
 
 const PlacesRow = styled.div`
@@ -78,8 +77,9 @@ const ColorAndName = styled(Row)`
 
 const ColorBlock = styled.div` {
 	background: ${props => props.bg ? props.bg : 'transparent'}
-	padding: 0 5px;
-	height: 15px;
+	padding: 0 6px;
+	height: 12px;
+	border-radius: 50%;
 	margin-right: 3px;
 `;
 
@@ -134,12 +134,14 @@ const SeasonPage = ({...otherProps}) => {
 		changeAddRaceMode(!addRaceMode);
 	};
 
+	let seasonRaces = races.filter(r => {
+		return (
+			r['season-id'] === otherProps.match.params.season_id
+		)
+	}).sort((a, b) => (parseInt(a.round) > parseInt(b.round)) ? 1 : -1);
+
 	const racesToDisplay = (
-		races.filter(r => {
-			return (
-				r['season-id'] === otherProps.match.params.season_id
-			)
-		}).map((race, index) => {
+		seasonRaces.map((race, index) => {
 			let poleShortName = undefined;
 			let poleTeam = undefined;
 			if (race.pole) {
