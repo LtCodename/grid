@@ -8,6 +8,7 @@ import teamsReducer from './redux/reducers/TeamsReducer';
 import driversReducer from "./redux/reducers/DriversReducer";
 import seasonsReducer from "./redux/reducers/SeasonsReducer";
 import racesReducer from "./redux/reducers/RacesReducer";
+import userReducer from "./redux/reducers/UserReducer";
 import TeamPage from "./components/TeamPage";
 import DriverPage from "./components/DriverPage";
 import SeasonPage from "./components/SeasonPage";
@@ -33,6 +34,7 @@ const App = () => {
   const [driversDataLoaded, changeDriversDataLoaded] = useState(false);
   const [racesDataLoaded, changeRacesDataLoaded] = useState(false);
   const [seasonsDataLoaded, changeSeasonsDataLoaded] = useState(false);
+  const [userDataLoaded, changeUserDataLoaded] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -46,6 +48,20 @@ const App = () => {
     fetchDrivers();
     fetchSeasons();
     fetchRaces();
+    fetchUser();
+  };
+
+  const fetchUser = () => {
+    fire.auth().onAuthStateChanged(user => {
+      if (user !== null) {
+        //console.log(user);
+        dispatch({type: userReducer.actions.USER_FETCH, snapshot: user});
+        changeUserDataLoaded(true);
+      }else {
+        console.log(user);
+        changeUserDataLoaded(true);
+      }
+    })
   };
 
   const fetchTeams = () => {
@@ -102,7 +118,7 @@ const App = () => {
 
   return (
     <>
-      {(teamsDataLoaded && driversDataLoaded && seasonsDataLoaded && racesDataLoaded) ? allContent : ""}
+      {(teamsDataLoaded && driversDataLoaded && seasonsDataLoaded && racesDataLoaded && userDataLoaded) ? allContent : ""}
       <GlobalStyles/>
     </>
   );
