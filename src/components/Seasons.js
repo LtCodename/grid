@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import NavigationPanel from "./NavigationPanel";
 import { ActionButton, ComponentRestricted } from "../SharedStyles";
 import { NavLink } from "react-router-dom";

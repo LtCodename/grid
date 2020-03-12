@@ -37,10 +37,18 @@ const LogoutButton = styled(ActionButton)`
     margin: 0;
 `;
 
+/*const AdminInput = styled.input`
+`;
+
+const AdminCol = styled(Col)`
+    align-items: center;
+`;*/
+
 const LoginPage = ({...otherProps}) => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [userData, setUserData] = useState('');
+    /*const [adminEmail, setAdminEmail] = useState('');*/
 
     const store = useStore();
     const storeState = store.getState();
@@ -118,11 +126,39 @@ const LoginPage = ({...otherProps}) => {
         </AuthPanel>
     );
 
+    /*const adminValueChange = (event) => {
+        setAdminEmail(event.target.value);
+    };
+
+    const onMakeAdmin = (event) => {
+        event.preventDefault();
+        const addAdminRole = fire.functions().httpsCallable('addAdminRole');
+        addAdminRole({ email: adminEmail }).then(result => {
+            console.log(result);
+        })
+    };*/
+
+    /*const makeAdmin = (
+        <form onSubmit={onMakeAdmin}>
+            <AdminCol>
+                <AdminInput
+                    className="form-control"
+                    autoComplete="username email"
+                    placeholder="Enter email"
+                    type="email"
+                    value={adminEmail}
+                    onChange={adminValueChange} required/>
+                <ActionButton>Make Admin</ActionButton>
+            </AdminCol>
+        </form>
+    );*/
+
     return (
         <>
             <NavigationPanel/>
             <ComponentRestricted>
                 <MainWrapper>
+                    {/*{makeAdmin}*/}
                     {userData.length === 0 ? authPanel : ""}
                     {userData.length === 0 ? "" : logoutButton}
                 </MainWrapper>
