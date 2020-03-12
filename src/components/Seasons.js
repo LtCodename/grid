@@ -21,7 +21,6 @@ const SeasonLink = styled(NavLink)`
 	height: 200px;
 	text-align: center;
 	:hover {
-		color: #784d2b;
 		text-decoration: none;
 	}
 `;
