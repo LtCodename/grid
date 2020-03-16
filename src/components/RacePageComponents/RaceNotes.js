@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActionButton, Col, Row, Textarea } from "../../SharedStyles";
+import { ActionButton, Col, Textarea } from "../../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import styled from "styled-components";
 import fire from "../../fire";
@@ -8,6 +8,7 @@ const Note = styled.p`
 	color: #774d2b;
 	margin-bottom: 0px;
 `;
+
 const NoteTextarea = styled(Textarea)`
 	color: #784d2b;
 `;
@@ -34,7 +35,7 @@ const Paragraphs = styled.div`
 	width: 100%;
 `;
 
-const PracticeNotes = ({...otherProps}) => {
+const RaceNotes = ({...otherProps}) => {
 
     const store = useStore();
     const storeState = store.getState();
@@ -48,27 +49,22 @@ const PracticeNotes = ({...otherProps}) => {
         )
     });
 
-    const [addPracticeNoteMode, setAddPracticeNoteMode] = useState(false);
+    const [addRaceNoteMode, setAddRaceNoteMode] = useState(false);
     const [addNoteInputValue, setAddNoteInputValue] = useState('');
-    const [editPracticeMode, setEditPracticeMode] = useState(false);
 
-    const inputValuesChange = (event) => {
-        setAddNoteInputValue(event.target.value);
-    };
-
-    const onAddPracticeNote = () => {
-        if (!addPracticeNoteMode) {
-            setAddPracticeNoteMode(true);
+    const onAddRaceNote = () => {
+        if (!addRaceNoteMode) {
+            setAddRaceNoteMode(true);
             setAddNoteInputValue('');
         } else {
-            setAddPracticeNoteMode(false);
+            setAddRaceNoteMode(false);
             setAddNoteInputValue('');
         }
     };
 
-    let practiceNotes;
-    if (race.practiceNotes) {
-        practiceNotes = race.practiceNotes.map((elem, index) => {
+    let raceNotes;
+    if (race.raceNotes) {
+        raceNotes = race.raceNotes.map((elem, index) => {
             return (
                 <Note key={index}>
                     {elem}
@@ -77,36 +73,16 @@ const PracticeNotes = ({...otherProps}) => {
         });
     }
 
-    let practiceNotesEditing;
-    if (race.practiceNotes) {
-        practiceNotesEditing = race.practiceNotes.map((elem, index) => {
-            return (
-                <textarea key={index} defaultValue={elem}/>
-            )
-        });
-    }
+    const addRaceNoteButton = (
+        <AddNoteButton
+            onClick={onAddRaceNote}>
+            {!addRaceNoteMode ? "Add Note" : "Hide"}
+        </AddNoteButton>
+    );
 
-    const onEditPracticeNote = () => {
-        setEditPracticeMode(!editPracticeMode);
+    const inputValuesChange = (event) => {
+        setAddNoteInputValue(event.target.value);
     };
-
-    const addPracticeNoteButton = (
-        <AddNoteButton
-            onClick={onAddPracticeNote}>
-            {!addPracticeNoteMode ? "Add Note" : "Hide"}
-        </AddNoteButton>
-    );
-
-    const addEditPracticeNoteButton = (
-        <AddNoteButton
-            onClick={onEditPracticeNote}>
-            {!editPracticeMode ? "Edit" : "Submit"}
-        </AddNoteButton>
-    );
-
-    const practiceNotesDisplayNode = (
-        (race.practiceNotes && race.practiceNotes.length) ? practiceNotes : <Note>{'No Data'}</Note>
-    );
 
     const onAddNote = () => {
         if (!addNoteInputValue) {
@@ -114,11 +90,11 @@ const PracticeNotes = ({...otherProps}) => {
         }
 
         const raceReference = fire.firestore().collection("races").doc(race.id);
-        const note = 'practiceNotes';
-        const previousNotes = race['practiceNotes'] || null;
+        const note = 'raceNotes';
+        const previousNotes = race['raceNotes'] || null;
 
         raceReference.update({
-            [note]: previousNotes ? [...race['practiceNotes'], addNoteInputValue] : [addNoteInputValue]
+            [note]: previousNotes ? [...race['raceNotes'], addNoteInputValue] : [addNoteInputValue]
         })
             .then(function () {
                 console.log("Document successfully updated!");
@@ -128,6 +104,7 @@ const PracticeNotes = ({...otherProps}) => {
                 // The document probably doesn't exist.
                 console.error("Error updating document: ", error);
             });
+
         setAddNoteInputValue('');
     };
 
@@ -151,17 +128,14 @@ const PracticeNotes = ({...otherProps}) => {
 
     return (
         <NoteArea>
-            <NoteAreaTitle>Practice</NoteAreaTitle>
+            <NoteAreaTitle>Race</NoteAreaTitle>
             <Paragraphs>
-                {editPracticeMode ? practiceNotesEditing : practiceNotesDisplayNode}
+                {(race.raceNotes && race.raceNotes.length) ? raceNotes : <Note>{'No Data'}</Note>}
             </Paragraphs>
-            <Row>
-                {user.length === 0 ? "" : addPracticeNoteButton}
-                {user.length === 0 ? "" : addEditPracticeNoteButton}
-            </Row>
-            {!addPracticeNoteMode ? "" : addNoteForm}
+            {user.length === 0 ? "" : addRaceNoteButton}
+            {!addRaceNoteMode ? "" : addNoteForm}
         </NoteArea>
     )
 };
 
-export default PracticeNotes;
+export default RaceNotes;
