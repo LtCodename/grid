@@ -87,12 +87,10 @@ const RaceNotes = ({...otherProps}) => {
     };
 
     const onConfirmDelete = () => {
-        console.log(deleteIndex);
         let array = notesData;
         array.splice(deleteIndex, 1);
         setNotesData(array);
-        console.log(notesData)
-        // submitNotesToDb(true);
+        submitNotesToDb(true);
         setDeleteIndex(999);
     };
 
