@@ -6,14 +6,19 @@ import fire from "../../fire";
 
 const Note = styled.p`
 	color: #774d2b;
-	margin-bottom: 0px;
+	margin-bottom: 5px;
 `;
 const NoteTextarea = styled(Textarea)`
 	color: #784d2b;
+	margin-top: 10px;
 `;
 
-const AddNoteButton = styled(ActionButton)`
+const SystemButton = styled(ActionButton)`
     margin: 0 10px 10px 0;
+`;
+
+const AddButton = styled(ActionButton)`
+    margin: 10px 0 5px 0;
 `;
 
 const NoteArea = styled(Col)`
@@ -32,6 +37,27 @@ const Paragraphs = styled.div`
 	margin-bottom: 10px;
 	padding: 5px;
 	width: 100%;
+`;
+
+const DeleteButton = styled(ActionButton)`
+	margin: 0 0 0 10px;
+	width: auto;
+	height: auto;
+	background: transparent;
+`;
+
+const NoteRow = styled(Row)`
+	align-items: center;
+	justify-content: space-between;
+`;
+
+const AddNoteColumn = styled(Col)`
+	align-items: center;
+`;
+
+const SVG = styled.svg`
+	height: 20px;
+	fill: #774d2b;
 `;
 
 const PracticeNotes = ({...otherProps}) => {
@@ -77,24 +103,40 @@ const PracticeNotes = ({...otherProps}) => {
         }
     };
 
+    const onDeleteNote = (event) => {
+        let array = notesData;
+        array.splice(event.target.id, 1);
+        setNotesData(array);
+        submitNotesToDb(true);
+    };
+
     let practiceNotes;
     if (race.practiceNotes) {
         practiceNotes = race.practiceNotes.map((elem, index) => {
             return (
-                <Note key={index}>
-                    {elem}
-                </Note>
+                <NoteRow key={index}>
+                    <Note>
+                        {elem}
+                    </Note>
+                    <DeleteButton id={index} onClick={onDeleteNote}>
+                        <SVG aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash"
+                             role="img" xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 448 512">
+                            <path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"/>
+                        </SVG>
+                    </DeleteButton>
+                </NoteRow>
             )
         });
     }
 
     let notesEditing;
     if (race.practiceNotes) {
-        notesEditing = race.practiceNotes.map((elem, index) => {
+        notesEditing = notesData.map((elem, index) => {
             return (
                 <EditNoteTextarea
-                    className={'form-control'}
                     key={index}
+                    className={'form-control'}
                     id={index}
                     defaultValue={elem}
                     onChange={editValueChange}/>
@@ -110,7 +152,7 @@ const PracticeNotes = ({...otherProps}) => {
         setEditMode(!editMode);
     };
 
-    const submitNotesToDb = () => {
+    const submitNotesToDb = (deleting = false) => {
         const raceToUpdate = fire.firestore().collection("races").doc(race.id);
         const note = 'practiceNotes';
 
@@ -119,7 +161,7 @@ const PracticeNotes = ({...otherProps}) => {
         })
             .then(function () {
                 console.log("Document successfully updated!");
-                setEditMode(!editMode);
+                if (!deleting) setEditMode(!editMode);
             })
             .catch(function (error) {
                 // The document probably doesn't exist.
@@ -128,17 +170,17 @@ const PracticeNotes = ({...otherProps}) => {
     };
 
     const addPracticeNoteButton = (
-        <AddNoteButton
+        <SystemButton
             onClick={onAddPracticeNote}>
             {!addPracticeNoteMode ? "Add Note" : "Hide"}
-        </AddNoteButton>
+        </SystemButton>
     );
 
     const addEditButton = (
-        <AddNoteButton
+        <SystemButton
             onClick={onEditNote}>
             {!editMode ? "Edit" : "Submit"}
-        </AddNoteButton>
+        </SystemButton>
     );
 
     const onAddNote = () => {
@@ -169,7 +211,7 @@ const PracticeNotes = ({...otherProps}) => {
     );
 
     const addNoteForm = (
-        <>
+        <AddNoteColumn>
             <NoteTextarea
                 className="form-control"
                 placeholder={''}
@@ -179,11 +221,11 @@ const PracticeNotes = ({...otherProps}) => {
                 onChange={inputValuesChange}
                 required>
             </NoteTextarea>
-            <ActionButton
+            <AddButton
                 onClick={onAddNote}>
                 {"Add"}
-            </ActionButton>
-        </>
+            </AddButton>
+        </AddNoteColumn>
     );
 
     return (
@@ -191,12 +233,13 @@ const PracticeNotes = ({...otherProps}) => {
             <NoteAreaTitle>Practice</NoteAreaTitle>
             <Paragraphs>
                 {editMode ? notesEditing : practiceNotesDisplayNode}
+
+                {!addPracticeNoteMode ? "" : addNoteForm}
             </Paragraphs>
             <Row>
                 {user.length === 0 ? "" : addPracticeNoteButton}
                 {user.length === 0 ? "" : addEditButton}
             </Row>
-            {!addPracticeNoteMode ? "" : addNoteForm}
         </NoteArea>
     )
 };

@@ -33,10 +33,6 @@ const SubmitButton = styled(ActionButton)`
     margin: 0 0 10px 0;
 `;
 
-const FillButton = styled(ActionButton)`
-    margin: 0 0 10px 0;
-`;
-
 const FillPositions = ({...otherProps}) => {
     const store = useStore();
     const storeState = store.getState();
@@ -173,10 +169,10 @@ const FillPositions = ({...otherProps}) => {
     );
 
     const fillPositionsButton = (
-        <FillButton
+        <ActionButton
             onClick={onAddPlaceForm}>
             Fill Positions
-        </FillButton>
+        </ActionButton>
     );
 
     return (

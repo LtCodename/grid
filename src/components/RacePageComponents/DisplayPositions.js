@@ -7,9 +7,18 @@ import styled from "styled-components";
 const ResultsHeader = styled.span`
     text-align: center;
     color: #774d2b;
-    margin-bottom: 10px;
     font-size: 18px;
     font-weight: 800;
+`;
+
+const Table = styled(InformationTable)`
+    margin: 10px 0 0 0;
+`;
+
+const NoData = styled.span`
+    color: #774d2b;
+    text-align: center;
+    margin-top: 5px;
 `;
 
 const DisplayPositions = ({...otherProps}) => {
@@ -61,17 +70,17 @@ const DisplayPositions = ({...otherProps}) => {
     });
 
     const places = (
-        <InformationTable>
+        <Table>
             <tbody>
             {tableRows}
             </tbody>
-        </InformationTable>
+        </Table>
     );
 
     return (
         <Col>
             <ResultsHeader>Race Results</ResultsHeader>
-            {places}
+            {race.places ? places : <NoData>No Data</NoData>}
         </Col>
     )
 };
