@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {
-    ActionButton,
+    ActionButton, AddNoteColumn,
     Col,
     DeleteButton,
     DeleteIcon,
     EditNoteTextarea,
-    NoteRow,
-    Row,
-    Textarea
+    NoteRow, NoteTextarea,
+    Row
 } from "../../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import styled from "styled-components";
@@ -16,11 +15,6 @@ import fire from "../../fire";
 const Note = styled.p`
 	color: #774d2b;
 	margin-bottom: 5px;
-`;
-
-const NoteTextarea = styled(Textarea)`
-	color: #784d2b;
-	margin-top: 10px;
 `;
 
 const SystemButton = styled(ActionButton)`
@@ -47,10 +41,6 @@ const Paragraphs = styled.div`
 	margin-bottom: 10px;
 	padding: 5px;
 	width: 100%;
-`;
-
-const AddNoteColumn = styled(Col)`
-	align-items: center;
 `;
 
 const PracticeNotes = ({...otherProps}) => {

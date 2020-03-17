@@ -91,4 +91,13 @@ export const DeleteIcon = styled.svg`
 	fill: #774d2b;
 `;
 
+export const AddNoteColumn = styled(Col)`
+	align-items: center;
+`;
+
+export const NoteTextarea = styled(Textarea)`
+	color: #784d2b;
+	margin-top: 10px;
+`;
+
 
