@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ActionButton, Col, Textarea } from "../../SharedStyles";
+import React, { useEffect, useState } from 'react';
+import { ActionButton, Col, EditNoteTextarea, Row, Textarea } from "../../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import styled from "styled-components";
 import fire from "../../fire";
@@ -47,6 +47,13 @@ const QualificationNotes = ({...otherProps}) => {
             })
         )
     });
+
+    const [editMode, setEditMode] = useState(false);
+    const [notesData, setNotesData] = useState([]);
+
+    useEffect(() => {
+        setNotesData(race.qualiNotes)
+    },[race]);
 
     const [addQualiNoteMode, setAddQualiNoteMode] = useState(false);
     const [addNoteInputValue, setAddNoteInputValue] = useState('');
@@ -123,13 +130,72 @@ const QualificationNotes = ({...otherProps}) => {
         </>
     );
 
+    const onEditNote = () => {
+        if (editMode) {
+            submitNotesToDb();
+            return;
+        }
+        setEditMode(!editMode);
+    };
+
+    const editValueChange = (event) => {
+        let notes = notesData;
+        notes[event.target.id] = event.target.value;
+        setNotesData(notes);
+    };
+
+    let notesEditing;
+    if (race.practiceNotes) {
+        notesEditing = race.qualiNotes.map((elem, index) => {
+            return (
+                <EditNoteTextarea
+                    className={'form-control'}
+                    key={index}
+                    id={index}
+                    defaultValue={elem}
+                    onChange={editValueChange}/>
+            )
+        });
+    }
+
+    const submitNotesToDb = () => {
+        const raceToUpdate = fire.firestore().collection("races").doc(race.id);
+        const note = 'qualiNotes';
+
+        raceToUpdate.update({
+            [note]: notesData
+        })
+            .then(function () {
+                console.log("Document successfully updated!");
+                setEditMode(!editMode);
+            })
+            .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+    };
+
+    const notesDisplayNode = (
+        (race.qualiNotes && race.qualiNotes.length) ? qualiNotes : <Note>{'No Data'}</Note>
+    );
+
+    const addEditButton = (
+        <AddNoteButton
+            onClick={onEditNote}>
+            {!editMode ? "Edit" : "Submit"}
+        </AddNoteButton>
+    );
+
     return (
         <NoteArea>
             <NoteAreaTitle>Qualification</NoteAreaTitle>
             <Paragraphs>
-                {(race.qualiNotes && race.qualiNotes.length) ? qualiNotes : <Note>{'No Data'}</Note>}
+                {editMode ? notesEditing : notesDisplayNode}
             </Paragraphs>
-            {user.length === 0 ? "" : addQualiNoteButton}
+            <Row>
+                {user.length === 0 ? "" : addQualiNoteButton}
+                {user.length === 0 ? "" : addEditButton}
+            </Row>
             {!addQualiNoteMode ? "" : addNoteForm}
         </NoteArea>
     )

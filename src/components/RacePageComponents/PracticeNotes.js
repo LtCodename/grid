@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ActionButton, Col, Row, Textarea } from "../../SharedStyles";
+import React, { useEffect, useState } from 'react';
+import { ActionButton, Col, EditNoteTextarea, Row, Textarea } from "../../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import styled from "styled-components";
 import fire from "../../fire";
@@ -50,10 +50,21 @@ const PracticeNotes = ({...otherProps}) => {
 
     const [addPracticeNoteMode, setAddPracticeNoteMode] = useState(false);
     const [addNoteInputValue, setAddNoteInputValue] = useState('');
-    const [editPracticeMode, setEditPracticeMode] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [notesData, setNotesData] = useState([]);
+
+    useEffect(() => {
+        setNotesData(race.practiceNotes)
+    },[race]);
 
     const inputValuesChange = (event) => {
         setAddNoteInputValue(event.target.value);
+    };
+
+    const editValueChange = (event) => {
+        let notes = notesData;
+        notes[event.target.id] = event.target.value;
+        setNotesData(notes);
     };
 
     const onAddPracticeNote = () => {
@@ -77,17 +88,43 @@ const PracticeNotes = ({...otherProps}) => {
         });
     }
 
-    let practiceNotesEditing;
+    let notesEditing;
     if (race.practiceNotes) {
-        practiceNotesEditing = race.practiceNotes.map((elem, index) => {
+        notesEditing = race.practiceNotes.map((elem, index) => {
             return (
-                <textarea key={index} defaultValue={elem}/>
+                <EditNoteTextarea
+                    className={'form-control'}
+                    key={index}
+                    id={index}
+                    defaultValue={elem}
+                    onChange={editValueChange}/>
             )
         });
     }
 
-    const onEditPracticeNote = () => {
-        setEditPracticeMode(!editPracticeMode);
+    const onEditNote = () => {
+        if (editMode) {
+            submitNotesToDb();
+            return;
+        }
+        setEditMode(!editMode);
+    };
+
+    const submitNotesToDb = () => {
+        const raceToUpdate = fire.firestore().collection("races").doc(race.id);
+        const note = 'practiceNotes';
+
+        raceToUpdate.update({
+            [note]: notesData
+        })
+            .then(function () {
+                console.log("Document successfully updated!");
+                setEditMode(!editMode);
+            })
+            .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
     };
 
     const addPracticeNoteButton = (
@@ -97,15 +134,11 @@ const PracticeNotes = ({...otherProps}) => {
         </AddNoteButton>
     );
 
-    const addEditPracticeNoteButton = (
+    const addEditButton = (
         <AddNoteButton
-            onClick={onEditPracticeNote}>
-            {!editPracticeMode ? "Edit" : "Submit"}
+            onClick={onEditNote}>
+            {!editMode ? "Edit" : "Submit"}
         </AddNoteButton>
-    );
-
-    const practiceNotesDisplayNode = (
-        (race.practiceNotes && race.practiceNotes.length) ? practiceNotes : <Note>{'No Data'}</Note>
     );
 
     const onAddNote = () => {
@@ -131,6 +164,10 @@ const PracticeNotes = ({...otherProps}) => {
         setAddNoteInputValue('');
     };
 
+    const practiceNotesDisplayNode = (
+        (race.practiceNotes && race.practiceNotes.length) ? practiceNotes : <Note>{'No Data'}</Note>
+    );
+
     const addNoteForm = (
         <>
             <NoteTextarea
@@ -153,11 +190,11 @@ const PracticeNotes = ({...otherProps}) => {
         <NoteArea>
             <NoteAreaTitle>Practice</NoteAreaTitle>
             <Paragraphs>
-                {editPracticeMode ? practiceNotesEditing : practiceNotesDisplayNode}
+                {editMode ? notesEditing : practiceNotesDisplayNode}
             </Paragraphs>
             <Row>
                 {user.length === 0 ? "" : addPracticeNoteButton}
-                {user.length === 0 ? "" : addEditPracticeNoteButton}
+                {user.length === 0 ? "" : addEditButton}
             </Row>
             {!addPracticeNoteMode ? "" : addNoteForm}
         </NoteArea>

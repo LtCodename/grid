@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ActionButton, Col, Textarea } from "../../SharedStyles";
+import React, { useEffect, useState } from 'react';
+import { ActionButton, Col, EditNoteTextarea, Row, Textarea } from "../../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import styled from "styled-components";
 import fire from "../../fire";
@@ -48,6 +48,13 @@ const RaceNotes = ({...otherProps}) => {
             })
         )
     });
+
+    const [editMode, setEditMode] = useState(false);
+    const [notesData, setNotesData] = useState([]);
+
+    useEffect(() => {
+        setNotesData(race.summary)
+    },[race]);
 
     const [addRaceNoteMode, setAddRaceNoteMode] = useState(false);
     const [addNoteInputValue, setAddNoteInputValue] = useState('');
@@ -126,13 +133,72 @@ const RaceNotes = ({...otherProps}) => {
         </>
     );
 
+    const onEditNote = () => {
+        if (editMode) {
+            submitNotesToDb();
+            return;
+        }
+        setEditMode(!editMode);
+    };
+
+    const editValueChange = (event) => {
+        let notes = notesData;
+        notes[event.target.id] = event.target.value;
+        setNotesData(notes);
+    };
+
+    let notesEditing;
+    if (race.raceNotes) {
+        notesEditing = race.raceNotes.map((elem, index) => {
+            return (
+                <EditNoteTextarea
+                    className={'form-control'}
+                    key={index}
+                    id={index}
+                    defaultValue={elem}
+                    onChange={editValueChange}/>
+            )
+        });
+    }
+
+    const submitNotesToDb = () => {
+        const raceToUpdate = fire.firestore().collection("races").doc(race.id);
+        const note = 'raceNotes';
+
+        raceToUpdate.update({
+            [note]: notesData
+        })
+            .then(function () {
+                console.log("Document successfully updated!");
+                setEditMode(!editMode);
+            })
+            .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+    };
+
+    const notesDisplayNode = (
+        (race.raceNotes && race.raceNotes.length) ? raceNotes : <Note>{'No Data'}</Note>
+    );
+
+    const addEditButton = (
+        <AddNoteButton
+            onClick={onEditNote}>
+            {!editMode ? "Edit" : "Submit"}
+        </AddNoteButton>
+    );
+
     return (
         <NoteArea>
             <NoteAreaTitle>Race</NoteAreaTitle>
             <Paragraphs>
-                {(race.raceNotes && race.raceNotes.length) ? raceNotes : <Note>{'No Data'}</Note>}
+                {editMode ? notesEditing : notesDisplayNode}
             </Paragraphs>
-            {user.length === 0 ? "" : addRaceNoteButton}
+            <Row>
+                {user.length === 0 ? "" : addRaceNoteButton}
+                {user.length === 0 ? "" : addEditButton}
+            </Row>
             {!addRaceNoteMode ? "" : addNoteForm}
         </NoteArea>
     )

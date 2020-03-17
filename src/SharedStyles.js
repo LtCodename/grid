@@ -70,4 +70,8 @@ export const TD = styled.td`
     padding: 0 5px;
 `;
 
+export const EditNoteTextarea = styled.textarea`
+	margin-bottom: 10px;
+`;
+
 
