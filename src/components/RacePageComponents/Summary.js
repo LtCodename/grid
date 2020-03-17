@@ -140,7 +140,7 @@ const Summary = ({...otherProps}) => {
                     <SummaryElement>
                         {`- ${elem}`}
                     </SummaryElement>
-                    {(deleting && index === deleteIndex) ? confirm : deleteButton}y
+                    {(deleting && index === deleteIndex) ? confirm : deleteButton}
                 </NoteRow>
             )
         });
