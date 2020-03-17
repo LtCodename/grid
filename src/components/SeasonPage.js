@@ -32,6 +32,9 @@ const RacesWrapper = styled.div`
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 5px;
 	margin-bottom: 10px;
+	@media (max-width: 736px) {
+		grid-template-columns: 1fr 1fr;
+	}
 `;
 
 const RaceLink = styled(NavLink)`

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from "react-redux";
 import { TR, TD, TH, Row, Col } from "../../SharedStyles";
 import styled from "styled-components";
@@ -25,6 +25,7 @@ const StatColumn = styled(Col)`
 
 const StatTH = styled(TH)`
     padding: 0;
+    background: #fde3a6;
     :not(:last-child) {
         border-right: 1px solid #784d2b;
     }
@@ -32,7 +33,7 @@ const StatTH = styled(TH)`
 
 const ButtonTH = styled.button`
     padding: 0 10px;
-    background: #fde3a6;
+    background: transparent;
     border: none;
     outline: none;
     cursor: pointer;
@@ -42,6 +43,10 @@ const ButtonTH = styled.button`
     }};
     :focus, :hover {
 		outline: none;
+	}
+	@media (max-width: 736px) {
+		padding: 0 2px;
+		font-size: 14px;
 	}
 `;
 

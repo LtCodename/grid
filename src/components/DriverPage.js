@@ -10,10 +10,12 @@ const AllInfo = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 10px;
+	@media (max-width: 736px) {
+		grid-template-columns: 1fr;
+	}
 `;
 
 const PictureWrapper = styled.div`
-	height: 400px;
 	overflow: hidden;
 	border: 10px solid #fde3a7;
 `;

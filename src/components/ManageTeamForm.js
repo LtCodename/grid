@@ -6,7 +6,7 @@ import fire from "../fire";
 import styled from "styled-components";
 
 const SubmitButton = styled(ActionButton)`
-    margin: 10px 0 0 0;
+    margin: 10px 0 10px 0;
 `;
 
 const ManageTeamForm = ({...otherProps}) => {

@@ -38,10 +38,13 @@ const DriversGrid = styled.div`
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 5px;
     margin-bottom: 10px;
+    @media (max-width: 736px) {
+		grid-template-columns: 1fr 1fr;
+	}
 `;
 
 const AttachButton = styled(ActionButton)`
-    margin: 10px 0 0 0;
+    margin: 10px 0 10px 0;
 `;
 
 const SelectDriverButton = styled(ActionButton)`
