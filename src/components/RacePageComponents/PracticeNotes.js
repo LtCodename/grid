@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ActionButton, Col, EditNoteTextarea, Row, Textarea } from "../../SharedStyles";
+import {
+    ActionButton,
+    Col,
+    DeleteButton,
+    DeleteIcon,
+    EditNoteTextarea,
+    NoteRow,
+    Row,
+    Textarea
+} from "../../SharedStyles";
 import { useSelector, useStore } from "react-redux";
 import styled from "styled-components";
 import fire from "../../fire";
@@ -8,6 +17,7 @@ const Note = styled.p`
 	color: #774d2b;
 	margin-bottom: 5px;
 `;
+
 const NoteTextarea = styled(Textarea)`
 	color: #784d2b;
 	margin-top: 10px;
@@ -39,25 +49,8 @@ const Paragraphs = styled.div`
 	width: 100%;
 `;
 
-const DeleteButton = styled(ActionButton)`
-	margin: 0 0 0 5px;
-	width: auto;
-	height: auto;
-	background: transparent;
-`;
-
-const NoteRow = styled(Row)`
-	align-items: center;
-	justify-content: space-between;
-`;
-
 const AddNoteColumn = styled(Col)`
 	align-items: center;
-`;
-
-const SVG = styled.svg`
-	height: 20px;
-	fill: #774d2b;
 `;
 
 const PracticeNotes = ({...otherProps}) => {
@@ -125,18 +118,18 @@ const PracticeNotes = ({...otherProps}) => {
     const confirm = (
         <Row>
             <DeleteButton onClick={onConfirmDelete}>
-                <SVG aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle"
+                <DeleteIcon aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle"
                      role="img" xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 512 512">
                     <path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/>
-                </SVG>
+                </DeleteIcon>
             </DeleteButton>
             <DeleteButton onClick={onAbortDelete}>
-                <SVG aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ban"
+                <DeleteIcon aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ban"
                      role="img" xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 512 512">
                     <path d="M256 8C119.034 8 8 119.033 8 256s111.034 248 248 248 248-111.034 248-248S392.967 8 256 8zm130.108 117.892c65.448 65.448 70 165.481 20.677 235.637L150.47 105.216c70.204-49.356 170.226-44.735 235.638 20.676zM125.892 386.108c-65.448-65.448-70-165.481-20.677-235.637L361.53 406.784c-70.203 49.356-170.226 44.736-235.638-20.676z"/>
-                </SVG>
+                </DeleteIcon>
             </DeleteButton>
         </Row>
     );
@@ -146,11 +139,11 @@ const PracticeNotes = ({...otherProps}) => {
         practiceNotes = race.practiceNotes.map((elem, index) => {
             const deleteButton = (
                 <DeleteButton onClick={() => onDeleteNote(index)}>
-                    <SVG aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash"
+                    <DeleteIcon aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash"
                          role="img" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 448 512">
                         <path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"/>
-                    </SVG>
+                    </DeleteIcon>
                 </DeleteButton>
             );
             return (

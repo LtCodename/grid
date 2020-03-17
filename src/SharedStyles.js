@@ -74,4 +74,21 @@ export const EditNoteTextarea = styled.textarea`
 	margin-bottom: 10px;
 `;
 
+export const DeleteButton = styled(ActionButton)`
+	margin: 0 0 0 5px;
+	width: auto;
+	height: auto;
+	background: transparent;
+`;
+
+export const NoteRow = styled(Row)`
+	align-items: center;
+	justify-content: space-between;
+`;
+
+export const DeleteIcon = styled.svg`
+	height: 20px;
+	fill: #774d2b;
+`;
+
 
