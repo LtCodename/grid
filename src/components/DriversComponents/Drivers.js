@@ -78,7 +78,8 @@ const Drivers = () => {
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
-				{addDriverMode ? <DriverEditForm mode={'add'}/> : <DriversWrapper>{driversNode}</DriversWrapper>}
+				<DriversWrapper>{driversNode}</DriversWrapper>
+				{addDriverMode ? <DriverEditForm mode={'add'}/> : ""}
 				{user.length === 0 ? "" : addDriverButton}
 			</ComponentRestricted>
 		</>
