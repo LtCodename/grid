@@ -53,7 +53,7 @@ const HiddenButton = styled.button`
 
 const BackButton = styled(ActionButton)`
     position: absolute;
-    bottom: -15%;
+    bottom: -13%;
     background: #784d2b;
     width: fit-content;
     border-radius: 50%;

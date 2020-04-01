@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NavigationPanel from "../NavigationPanel";
 import { ActionButton, ComponentRestricted } from "../../SharedStyles";
-import { useStore } from "react-redux";
+import { connect } from "react-redux";
 import DriverEditForm from "./DriverEditForm";
 import styled from "styled-components";
 import DriverBlock from "./DriverBlock";
@@ -18,72 +18,87 @@ const DriversWrapper = styled.div`
 	}
 `;
 
-const Drivers = () => {
-	const [addDriverMode, changeAddDriverMode] = useState(false);
+class Drivers extends React.Component  {
+	constructor(props) {
+		super(props);
 
-    const store = useStore();
-    const storeState = store.getState();
-    const drivers = storeState.drivers;
-    const teams = storeState.teams;
-    const user = storeState.user;
+		this.state = {
+			addDriverMode: false
+		};
+	}
 
-	const addDriver = () => {
-		changeAddDriverMode(!addDriverMode);
+	addDriver = () => {
+		this.setState({
+			addDriverMode: !this.state.addDriverMode
+		})
 	};
 
-	let filteredDrivers = [];
+	render () {
+		let filteredDrivers = [];
 
-	drivers.forEach(element => {
-		const team = teams.find(tm => {
-			return tm.id === element['team-id']
+		this.props.drivers.forEach(element => {
+			const team = this.props.teams.find(tm => {
+				return tm.id === element['team-id']
+			});
+
+			filteredDrivers.push({
+				id: element.id,
+				picture: element.picture,
+				name: element.name,
+				teamName: team.name
+			})
 		});
 
-		filteredDrivers.push({
-			id: element.id,
-			picture: element.picture,
-			name: element.name,
-			teamName: team.name
-		})
-	});
+		filteredDrivers.sort((a, b) => {
+			const driverA = a.teamName;
+			const driverB = b.teamName;
 
-	filteredDrivers.sort((a, b) => {
-		const driverA = a.teamName;
-		const driverB = b.teamName;
+			if (driverA < driverB) {
+				return -1;
+			}
+			if (driverA > driverB) {
+				return 1;
+			}
+			return 0;
+		});
 
-		if (driverA < driverB) {
-			return -1;
-		}
-		if (driverA > driverB) {
-			return 1;
-		}
-		return 0;
-	});
+		const driversNode = (
+			filteredDrivers.map((driver, index) => {
+				return (
+					<DriverBlock key={index} driverId={driver.id}/>
+				)
+			})
+		);
 
-	const driversNode = (
-		filteredDrivers.map((driver, index) => {
-			return (
-				<DriverBlock key={index} driverId={driver.id}/>
-			)
-		})
-	);
+		const addDriverButton = (
+			<ActionButton
+				onClick={this.addDriver}>
+				{!this.state.addDriverMode ? "Add Driver" : "Hide"}
+			</ActionButton>
+		);
 
-	const addDriverButton = (
-		<ActionButton
-			onClick={addDriver}>
-			{!addDriverMode ? "Add Driver" : "Hide"}
-		</ActionButton>
-	);
+		return (
+			<>
+				<NavigationPanel/>
+				<ComponentRestricted>
+					<DriversWrapper>{driversNode}</DriversWrapper>
+					{this.state.addDriverMode ? <DriverEditForm mode={'add'}/> : ""}
+					{this.props.user.length === 0 ? "" : addDriverButton}
+				</ComponentRestricted>
+			</>
+		)
 
-	return (
-		<>
-			<NavigationPanel/>
-			<ComponentRestricted>
-				<DriversWrapper>{driversNode}</DriversWrapper>
-				{addDriverMode ? <DriverEditForm mode={'add'}/> : ""}
-				{user.length === 0 ? "" : addDriverButton}
-			</ComponentRestricted>
-		</>
-	)
+	}
+}
+
+const stateToProps = (state) => {
+	return {
+		teams: state.teams,
+		drivers: state.drivers,
+		user: state.user,
+	}
 };
 
-export default Drivers;
+const DriversConnected = connect(stateToProps, null)(Drivers);
+
+export default DriversConnected;
