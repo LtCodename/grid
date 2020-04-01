@@ -1,52 +1,20 @@
 import React, { useState } from 'react';
 import NavigationPanel from "../NavigationPanel";
-import {ActionButton, Col, ComponentRestricted} from "../../SharedStyles";
+import { ActionButton, ComponentRestricted } from "../../SharedStyles";
 import { useStore } from "react-redux";
-import ManageDriverForm from "./ManageDriverForm";
+import DriverEditForm from "./DriverEditForm";
 import styled from "styled-components";
-import DriverInfo from "./DriverInfo";
-
-const DriverImage = styled.img`
-	width: 100%;
-`;
-
-const DriverData = styled(Col)`
-    display: flex;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    left: 50%;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
-    opacity: 0;
-    color: #784d2b;
-    background: #fff9de;
-    border: 10px solid #fde3a7;
-    transition: opacity .2s ease-in-out;
-    
-	align-items: center;
-    justify-content: center;
-	a:hover > & {
-		opacity: 1;
-	}
-`;
+import DriverBlock from "./DriverBlock";
 
 const DriversWrapper = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr
+	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 10px;
-	@media (max-width: 736px) {
+	@media (max-width: 1500px) {
 		grid-template-columns: 1fr 1fr;
 	}
-`;
-
-const DriverLink = styled.a`
-	position: relative;
-	border: 10px solid #fde3a7;
-	transition: all .2s;
-	overflow: hidden;
-	:hover {
-		border: 0px solid #fde3a7;
+	@media (max-width: 1000px) {
+		grid-template-columns: 1fr;
 	}
 `;
 
@@ -94,12 +62,7 @@ const Drivers = () => {
 	const driversNode = (
 		filteredDrivers.map((driver, index) => {
 			return (
-				<DriverLink key={index}>
-					<DriverImage src={`${process.env.PUBLIC_URL}/assets/drivers/${driver.id}.jpg`}/>
-					<DriverData>
-						<DriverInfo driverId={driver.id}/>
-					</DriverData>
-				</DriverLink>
+				<DriverBlock key={index} driverId={driver.id}/>
 			)
 		})
 	);
@@ -115,7 +78,7 @@ const Drivers = () => {
 		<>
 			<NavigationPanel/>
 			<ComponentRestricted>
-				{addDriverMode ? <ManageDriverForm mode={'add'}/> : <DriversWrapper>{driversNode}</DriversWrapper>}
+				{addDriverMode ? <DriverEditForm mode={'add'}/> : <DriversWrapper>{driversNode}</DriversWrapper>}
 				{user.length === 0 ? "" : addDriverButton}
 			</ComponentRestricted>
 		</>

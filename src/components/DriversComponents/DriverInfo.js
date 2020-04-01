@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { ActionButton, Col } from "../../SharedStyles";
+import React from 'react';
+import { Col } from "../../SharedStyles";
 import { useStore } from "react-redux";
-import ManageDriverForm from "./ManageDriverForm";
+import DriverEditForm from "./DriverEditForm";
 import DriverBlueprint from "../../blueprints/DriverBlueprint";
 import styled from "styled-components";
-
-const AllInfo = styled(Col)`
-`;
 
 const DriverTable = styled.table`
 	color: #784d2b;
@@ -30,13 +27,10 @@ const DriverName = styled.span`
 	transition: opacity .2s ease-in-out;
 `;
 
-const DriverInfo = ({driverId}) => {
-    const [editDriverMode, changeEditDriverMode] = useState(false);
-
+const DriverInfo = ({ driverId, editMode }) => {
     const store = useStore();
     const storeState = store.getState();
     const races = storeState.races;
-    const user = storeState.user;
     const drivers = storeState.drivers;
 
     const calculateWins = (driverData) => {
@@ -109,10 +103,6 @@ const DriverInfo = ({driverId}) => {
         };
     })();
 
-    const onEditDriver = () => {
-        changeEditDriverMode(!editDriverMode);
-    };
-
     const tableRows = DriverBlueprint.map((elem, index) => {
         if (elem.db !== 'name') {
             return (
@@ -126,28 +116,19 @@ const DriverInfo = ({driverId}) => {
     });
 
     const driverDataToDisplay = (
-        <AllInfo>
+        <Col>
             <DriverName>{drivers.find(driver => driver.id === driverId).name}</DriverName>
             <DriverTable>
                 <tbody>
                     {tableRows}
                 </tbody>
             </DriverTable>
-        </AllInfo>
-    );
-
-    const editDriverButton = (
-        <ActionButton
-            onClick={onEditDriver}>
-            {!editDriverMode ? "Edit Driver" : "Hide"}
-        </ActionButton>
+        </Col>
     );
 
     return (
         <>
-            {editDriverMode ?
-                <ManageDriverForm driverId={driverId} mode={'edit'}/> : driverDataToDisplay}
-            {user.length === 0 ? "" : editDriverButton}
+            {editMode ? <DriverEditForm driverId={driverId} mode={'edit'}/> : driverDataToDisplay}
         </>
     )
 };

@@ -6,7 +6,7 @@ const DriverEditBlueprint = [
     name: "Birth year", db: "date-of-birth"
   },
   {
-    name: "Debut year", db: "debut"
+    name: "Debut", db: "debut"
   },
   {
     name: "Nationality", db: "nationality"
@@ -15,16 +15,16 @@ const DriverEditBlueprint = [
     name: "Car number", db: "number"
   },
   {
-    name: "Grand Prix wins", db: "wins"
+    name: "Wins", db: "wins"
   },
   {
-    name: "Pole positions", db: "poles"
+    name: "Poles", db: "poles"
   },
   {
-    name: "Podium places", db: "podiums"
+    name: "Podiums", db: "podiums"
   },
   {
-    name: "Championships", db: "championships"
+    name: "DC", db: "championships"
   }
 ];
 
