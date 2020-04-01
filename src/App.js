@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Seasons from "./components/Seasons";
-import Teams from "./components/Teams";
+import Teams from "./components/TeamsComponents/Teams";
 import Drivers from "./components/Drivers";
 import teamsReducer from './redux/reducers/TeamsReducer';
 import driversReducer from "./redux/reducers/DriversReducer";
 import seasonsReducer from "./redux/reducers/SeasonsReducer";
 import racesReducer from "./redux/reducers/RacesReducer";
 import userReducer from "./redux/reducers/UserReducer";
-import TeamPage from "./components/TeamPage";
 import DriverPage from "./components/DriverPage";
 import SeasonPage from "./components/SeasonPage";
 import RacePage from "./components/RacePage";
@@ -105,7 +104,6 @@ const App = () => {
       <Switch>
         <Route exact path="/teams" component={Teams}/>
         <Route exact path="/admin" component={LoginPage}/>
-        <Route path="/teams/:team_id" component={TeamPage}/>
         <Route exact path="/drivers" component={Drivers}/>
         <Route path="/drivers/:driver_id" component={DriverPage}/>
         <Route exact path="/seasons" component={Seasons}/>

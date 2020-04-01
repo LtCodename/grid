@@ -1,30 +1,30 @@
 const TeamBlueprint = [
   {
-    name: "Team name", db: "name-full"
+    name: "Full Name", db: "name-full"
   },
   {
     name: "Country", db: "country"
   },
   {
-    name: "Debut year", db: "debut-year"
+    name: "Debut", db: "debut-year"
   },
   {
-    name: "Engine manufacturer", db: "engine"
+    name: "Engine", db: "engine"
   },
   {
-    name: "Team principal", db: "team-principal"
+    name: "Principal", db: "team-principal"
   },
   {
-    name: "Constructors championships", db: "constructors-championships"
+    name: "CC", db: "constructors-championships"
   },
   {
-    name: "Drivers championships", db: "drivers-championships"
+    name: "DC", db: "drivers-championships"
   },
   {
-    name: "Grand Prix wins", db: "wins"
+    name: "Wins", db: "wins"
   },
   {
-    name: "Pole positions", db: "poles"
+    name: "Poles", db: "poles"
   }
 ];
 

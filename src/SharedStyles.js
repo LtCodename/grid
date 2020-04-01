@@ -53,7 +53,7 @@ export const Textarea = styled.textarea`
 `;
 
 export const Label = styled.label`
-    margin-bottom: 5px;;
+    margin-bottom: 5px;
     color: #784d2b;
 `;
 
