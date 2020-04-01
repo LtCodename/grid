@@ -246,6 +246,8 @@ const QualificationNotes = ({...otherProps}) => {
         </SystemButton>
     );
 
+    const editButtonNode = (race.qualiNotes.length ? addEditButton : '');
+
     return (
         <NoteArea>
             <NoteAreaTitle>Qualification</NoteAreaTitle>
@@ -255,7 +257,7 @@ const QualificationNotes = ({...otherProps}) => {
             </Paragraphs>
             <Row>
                 {user.length === 0 ? "" : addQualiNoteButton}
-                {user.length === 0 ? "" : addEditButton}
+                {user.length === 0 ? "" : editButtonNode}
             </Row>
         </NoteArea>
     )

@@ -255,6 +255,8 @@ const Summary = ({...otherProps}) => {
         </SystemButton>
     );
 
+    const editButtonNode = (race.summary.length ? addEditButton : '');
+
     return (
         <NoteArea>
             <NoteAreaTitle>Summary</NoteAreaTitle>
@@ -264,7 +266,7 @@ const Summary = ({...otherProps}) => {
             </Paragraphs>
             <Row>
                 {user.length === 0 ? "" : addSummaryButton}
-                {user.length === 0 ? "" : addEditButton}
+                {user.length === 0 ? "" : editButtonNode}
             </Row>
         </NoteArea>
     )

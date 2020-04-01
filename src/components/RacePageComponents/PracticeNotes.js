@@ -245,6 +245,8 @@ const PracticeNotes = ({...otherProps}) => {
         </AddNoteColumn>
     );
 
+    const editButtonNode = (race.practiceNotes.length ? addEditButton : '');
+
     return (
         <NoteArea>
             <NoteAreaTitle>Practice</NoteAreaTitle>
@@ -254,7 +256,7 @@ const PracticeNotes = ({...otherProps}) => {
             </Paragraphs>
             <Row>
                 {user.length === 0 ? "" : addPracticeNoteButton}
-                {user.length === 0 ? "" : addEditButton}
+                {user.length === 0 ? "" : editButtonNode}
             </Row>
         </NoteArea>
     )

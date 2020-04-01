@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import { Col } from "../../SharedStyles";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 import PracticeNotes from "./PracticeNotes";
 import QualificationNotes from "./QualificationNotes";
 import RaceNotes from "./RaceNotes";
@@ -15,9 +15,6 @@ const NotesWrapper = styled(Col)`
 `;
 
 const Notes = ({...otherProps}) => {
-    const store = useStore();
-    const storeState = store.getState();
-
     const race = useSelector(storeState => {
         return (
             storeState.races.find(race => {
