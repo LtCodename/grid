@@ -1,56 +1,74 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NavigationPanel from "../NavigationPanel";
-import { useStore } from "react-redux";
 import ManageTeamForm from "./TeamEditForm";
 import { ActionButton, ComponentRestricted } from "../../SharedStyles";
 import styled from "styled-components";
 import TeamBlock from "./TeamBlock";
+import { connect } from "react-redux";
 
 const TeamsWrapper = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 10px;
-	@media (max-width: 736px) {
+	@media (max-width: 800px) {
 		grid-template-columns: 1fr 1fr;
+	}
+	@media (max-width: 500px) {
+		grid-template-columns: 1fr;
 	}
 `;
 
-const Teams = () => {
-	const [addTeamMode, changeAddTeamMode] = useState(false);
+class Teams extends React.Component  {
+	constructor(props) {
+		super(props);
 
-	const store = useStore();
-	const storeState = store.getState();
-	const teams = storeState.teams;
-	const user = storeState.user;
+		this.state = {
+			addTeamMode: false
+		};
+	}
 
-	const addTeam = () => {
-		changeAddTeamMode(!addTeamMode);
+	addTeam = () => {
+		this.setState({
+			addTeamMode: !this.state.addTeamMode
+		})
 	};
 
-	const teamsToDisplay = (
-		teams.map((team, index) => {
-			return (
-				<TeamBlock key={index} teamData={team}/>
-			)
-		})
-	);
+	render () {
+		const teamsToDisplay = (
+			this.props.teams.map((team, index) => {
+				return (
+					<TeamBlock key={index} teamData={team}/>
+				)
+			})
+		);
 
-	const addTeamButton = (
-		<ActionButton
-			onClick={addTeam}>
-			{!addTeamMode ? "Add Team" : "Hide"}
-		</ActionButton>
-	);
+		const addTeamButton = (
+			<ActionButton
+				onClick={this.addTeam}>
+				{!this.state.addTeamMode ? "Add Team" : "Hide"}
+			</ActionButton>
+		);
 
-	return (
-		<>
-			<NavigationPanel/>
-			<ComponentRestricted>
-				{addTeamMode ? <ManageTeamForm mode={'add'}/> : <TeamsWrapper>{teamsToDisplay}</TeamsWrapper>}
-				{user.length === 0 ? "" : addTeamButton}
-			</ComponentRestricted>
-		</>
-	)
+		return (
+			<>
+				<NavigationPanel/>
+				<ComponentRestricted>
+					<TeamsWrapper>{teamsToDisplay}</TeamsWrapper>
+					{this.state.addTeamMode ? <ManageTeamForm mode={'add'}/> : ""}
+					{this.props.user.length === 0 ? "" : addTeamButton}
+				</ComponentRestricted>
+			</>
+		)
+	}
+}
+
+const stateToProps = (state) => {
+	return {
+		teams: state.teams,
+		user: state.user,
+	}
 };
 
-export default Teams;
+const TeamsConnected = connect(stateToProps, null)(Teams);
+
+export default TeamsConnected;
