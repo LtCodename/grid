@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import NavigationPanel from "./NavigationPanel";
-import { ComponentRestricted, ActionButton, TR, TH, TD } from "../SharedStyles";
+import NavigationPanel from "../NavigationPanel";
+import { ComponentRestricted, ActionButton, TR, TH, TD } from "../../SharedStyles";
 import { useStore } from "react-redux";
 import ManageDriverForm from "./ManageDriverForm";
-import DriverBlueprint from "../blueprints/DriverBlueprint";
+import DriverBlueprint from "../../blueprints/DriverBlueprint";
 import styled from "styled-components";
 
 const AllInfo = styled.div`

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ActionButton, Form, Label, Properties, Textarea } from "../SharedStyles";
+import { ActionButton, Form, Label, Properties, Textarea } from "../../SharedStyles";
 import { useStore } from "react-redux";
-import DriverEditBlueprint from "../blueprints/DriverEditBlueprint";
-import fire from "../fire";
+import DriverEditBlueprint from "../../blueprints/DriverEditBlueprint";
+import fire from "../../fire";
 import styled from "styled-components";
 
 const SubmitButton = styled(ActionButton)`

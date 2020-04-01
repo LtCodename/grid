@@ -12,22 +12,22 @@ const DriverBlueprint = [
     name: "In F1", db: "inF1"
   },
   {
-    name: "Car number", db: "number"
+    name: "Car Number", db: "number"
   },
   {
     name: "Team", db: "team-name"
   },
   {
-    name: "Grand Prix wins", db: "wins"
+    name: "Wins", db: "wins"
   },
   {
-    name: "Pole positions", db: "poles"
+    name: "Poles", db: "poles"
   },
   {
-    name: "Podium places", db: "podiums"
+    name: "Podiums", db: "podiums"
   },
   {
-    name: "Championships", db: "championships"
+    name: "DC", db: "championships"
   }
 ];
 

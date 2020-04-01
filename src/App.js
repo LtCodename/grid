@@ -3,13 +3,12 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Seasons from "./components/Seasons";
 import Teams from "./components/TeamsComponents/Teams";
-import Drivers from "./components/Drivers";
+import Drivers from "./components/DriversComponents/Drivers";
 import teamsReducer from './redux/reducers/TeamsReducer';
 import driversReducer from "./redux/reducers/DriversReducer";
 import seasonsReducer from "./redux/reducers/SeasonsReducer";
 import racesReducer from "./redux/reducers/RacesReducer";
 import userReducer from "./redux/reducers/UserReducer";
-import DriverPage from "./components/DriverPage";
 import SeasonPage from "./components/SeasonPage";
 import RacePage from "./components/RacePage";
 import fire from "./fire";
@@ -105,7 +104,6 @@ const App = () => {
         <Route exact path="/teams" component={Teams}/>
         <Route exact path="/admin" component={LoginPage}/>
         <Route exact path="/drivers" component={Drivers}/>
-        <Route path="/drivers/:driver_id" component={DriverPage}/>
         <Route exact path="/seasons" component={Seasons}/>
         <Route path="/seasons/:season_id" component={SeasonPage}/>
         <Route path="/races/:season_id/:race_id" component={RacePage}/>
