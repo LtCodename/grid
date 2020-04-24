@@ -12,6 +12,7 @@ const NotesWrapper = styled(Col)`
 	padding: 10px 20px 0 20px;
 	max-width: 400px;
 	min-width: 400px;
+	margin-top: 10px;
 `;
 
 const Notes = ({...otherProps}) => {
